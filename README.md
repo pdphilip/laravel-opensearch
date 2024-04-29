@@ -1,8 +1,11 @@
 <img align="left" width="70" height="70" src="https://cdn.snipform.io/pdphilip/opensearch/laravel_opensearch.png">
+
 # Laravel-OpenSearch
 
+
 > **This package has been built off the back of the original [Elasticsearch version](https://github.com/pdphilip/laravel-elasticsearch) of this package**
-> ** The starting point of this package was forked from `v4.0.1` with over 2 years of development **
+> 
+> **The starting point of this package was forked from `v4.0.1` with over 2 years of development**
 
 ### An OpenSearch implementation of Laravel's Eloquent ORM
 
