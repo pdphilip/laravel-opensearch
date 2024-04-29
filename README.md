@@ -22,7 +22,7 @@ Note: This package will receive its own version of this documentation. In the me
 **Laravel 11.x (main):**
 
 ```bash
-composer require pdphilip/opensearch:dev-main
+composer require pdphilip/opensearch:dev-9
 ```
 
 ## Configuration
