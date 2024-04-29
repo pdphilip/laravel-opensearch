@@ -1,6 +1,8 @@
+<img align="left" width="70" height="70" src="https://cdn.snipform.io/pdphilip/opensearch/laravel_opensearch.png">
 # Laravel-OpenSearch
 
-**This package has been built off the back of the original [Elasticsearch version](https://github.com/pdphilip/laravel-elasticsearch) of this package since v3.11.0**
+> **This package has been built off the back of the original [Elasticsearch version](https://github.com/pdphilip/laravel-elasticsearch) of this package**
+> ** The starting point of this package was forked from `v4.0.1` with over 2 years of development **
 
 ### An OpenSearch implementation of Laravel's Eloquent ORM
 
@@ -11,19 +13,22 @@ powerful search and analytics capabilities of OpenSearch.
 $logs = UserLog::where('type', UserLogType::LOGIN)->where('created_at','>=',Carbon::now()->subDays(30))->get();
 ```
 
-### Read the [Documentation](https://elasticsearch.pdphilip.com/)
-
-Note: This package will receive its own version of this documentation. In the meantime, you can reference the Elasticsearch documentation and replace all namespaces  `PDPhilip\Elasticsearch\...` with `PDPhilip\OpenSearch\...`
+### Read the [Documentation](https://opensearch.pdphilip.com/)
 
 ---
 
 ## Installation
 
-**Laravel 11.x (main):**
+**Laravel 10 & 11 (main):**
 
 ```bash
-composer require pdphilip/opensearch:dev-main
+composer require pdphilip/opensearch
 ```
+
+| Laravel Version | Command                                       | Maintained |
+|-----------------|-----------------------------------------------|------------|
+| Laravel 10 & 11 | `composer require pdphilip/elasticsearch:~2 ` | ✅          |
+| Laravel 8 & 9   | `composer require pdphilip/elasticsearch:~1`  | ✅          |
 
 ## Configuration
 
@@ -53,7 +58,7 @@ OS_OPT_PORT_HOST_HEADERS=
 For multiple nodes, pass in as comma-separated:
 
 ```ini
-ES_HOSTS="http://opensearch-node1:9200,http://opensearch-node2:9200,http://opensearch-node3:9200"
+OS_HOSTS="http://opensearch-node1:9200,http://opensearch-node2:9200,http://opensearch-node3:9200"
 ```
 
 2. In `config/database.php`, add the opensearch connection:
@@ -124,35 +129,32 @@ Now, you're all set to use OpenSearch with Laravel as if it were native to the f
 
 ## Getting Started
 
-- [Installation](https://elasticsearch.pdphilip.com/#installation)
-- [Configuration](https://elasticsearch.pdphilip.com/#configuration)
+- [Installation](https://opensearch.pdphilip.com/#installation)
+- [Configuration](https://opensearch.pdphilip.com/#configuration)
 
 ## Eloquent
 
-- [The Base Model](https://elasticsearch.pdphilip.com/the-base-model)
-- [Querying Models](https://elasticsearch.pdphilip.com/querying-models)
-- [Saving Models](https://elasticsearch.pdphilip.com/saving-models)
-- [Deleting Models](https://elasticsearch.pdphilip.com/deleting-models)
-- [Ordering and Pagination](https://elasticsearch.pdphilip.com/ordering-and-pagination)
-- [Distinct and GroupBy](https://elasticsearch.pdphilip.com/distinct)
-- [Aggregations](https://elasticsearch.pdphilip.com/aggregation)
-- [Chunking](https://elasticsearch.pdphilip.com/chunking)
-- [Nested Queries](https://elasticsearch.pdphilip.com/nested-queries) **New in Version 3**
-- [Elasticsearch Specific Queries](https://elasticsearch.pdphilip.com/es-specific)
-- [Full-Text Search](https://elasticsearch.pdphilip.com/full-text-search)
-- [Dynamic Indices](https://elasticsearch.pdphilip.com/dynamic-indices)
+- [The Base Model](https://opensearch.pdphilip.com/the-base-model)
+- [Querying Models](https://opensearch.pdphilip.com/querying-models)
+- [Saving Models](https://opensearch.pdphilip.com/saving-models)
+- [Deleting Models](https://opensearch.pdphilip.com/deleting-models)
+- [Ordering and Pagination](https://opensearch.pdphilip.com/ordering-and-pagination)
+- [Distinct and GroupBy](https://opensearch.pdphilip.com/distinct)
+- [Aggregations](https://opensearch.pdphilip.com/aggregation)
+- [Chunking](https://opensearch.pdphilip.com/chunking)
+- [Nested Queries](https://opensearch.pdphilip.com/nested-queries)
+- [Elasticsearch Specific Queries](https://opensearch.pdphilip.com/es-specific)
+- [Full-Text Search](https://opensearch.pdphilip.com/full-text-search)
+- [Dynamic Indices](https://opensearch.pdphilip.com/dynamic-indices)
 
 ## Relationships
 
-- [Elasticsearch to Elasticsearch](https://elasticsearch.pdphilip.com/es-es)
-- [Elasticsearch to MySQL](https://elasticsearch.pdphilip.com/es-mysql)
+- [Elasticsearch to Elasticsearch](https://opensearch.pdphilip.com/es-es)
+- [Elasticsearch to MySQL](https://opensearch.pdphilip.com/es-mysql)
 
 ## Schema/Index
 
-- [Migrations](https://elasticsearch.pdphilip.com/migrations)
-- [Re-indexing Process](https://elasticsearch.pdphilip.com/re-indexing)
-
----
-
+- [Migrations](https://opensearch.pdphilip.com/migrations)
+- [Re-indexing Process](https://opensearch.pdphilip.com/re-indexing)
 
 ---
