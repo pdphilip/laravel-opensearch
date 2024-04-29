@@ -19,41 +19,43 @@ class Builder extends BaseEloquentBuilder
      * @var array
      */
     protected $passthru = [
-        
+        'aggregate',
         'average',
         'avg',
         'count',
         'dd',
-        'doesntexist',
+        'doesntExist',
+        'doesntExistOr',
         'dump',
         'exists',
-        'getbindings',
-        'getconnection',
-        'getgrammar',
+        'existsOr',
+        'explain',
+        'getBindings',
+        'getConnection',
+        'getGrammar',
+        'implode',
         'insert',
-        'insertgetid',
-        'insertorignore',
-        'insertusing',
+        'insertGetId',
+        'insertOrIgnore',
+        'insertUsing',
         'max',
         'min',
-        'pluck',
-        'pull',
-        'push',
         'raw',
+        'rawValue',
         'sum',
         'toSql',
         //ES only:
         'matrix',
         'query',
-        'rawsearch',
-        'rawaggregation',
-        'getindexsettings',
-        'getindexmappings',
-        'deleteindexifexists',
-        'deleteindex',
+        'rawSearch',
+        'rawAggregation',
+        'getIndexSettings',
+        'getIndexMappings',
+        'deleteIndexIfExists',
+        'deleteIndex',
         'truncate',
-        'indexexists',
-        'createindex',
+        'indexExists',
+        'createIndex',
         'search',
     ];
     
@@ -196,6 +198,8 @@ class Builder extends BaseEloquentBuilder
         
         if ($column === '_id') {
             //Use PIT
+            
+            
             return $this->_chunkByPit($count, $callback, $keepAlive);
         } else {
             $lastId = null;
@@ -230,14 +234,13 @@ class Builder extends BaseEloquentBuilder
         
         
     }
-//
-//
+
+
 //    public function chunk($count, callable $callback, $keepAlive = '5m')
 //    {
 //        //default to using PIT
 //        return $this->_chunkByPit($count, $callback, $keepAlive);
 //    }
-//
     
     
     //----------------------------------------------------------------------

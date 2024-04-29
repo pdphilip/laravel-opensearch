@@ -404,6 +404,40 @@ class Builder extends BaseBuilder
     }
     
     
+    // Adding whereNot() from Laravel 9 nas is as it's not native to Laravel 8
+    
+    /**
+     * @param $column
+     * @param $value
+     *
+     * @return Builder
+     */
+    public function whereNot($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        if (is_array($column)) {
+            return $this->whereNested(function ($query) use ($column, $operator, $value, $boolean) {
+                $query->where($column, $operator, $value, $boolean);
+            }, $boolean.' not');
+        }
+        
+        return $this->where($column, $operator, $value, $boolean.' not');
+    }
+    
+    /**
+     * Add an "or where not" clause to the query.
+     *
+     * @param    \Closure|string|array    $column
+     * @param    mixed    $operator
+     * @param    mixed    $value
+     *
+     * @return $this
+     */
+    public function orWhereNot($column, $operator = null, $value = null)
+    {
+        return $this->whereNot($column, $operator, $value, 'or');
+    }
+    
+    
     //----------------------------------------------------------------------
     //  Query Processing (Connection API)
     //----------------------------------------------------------------------

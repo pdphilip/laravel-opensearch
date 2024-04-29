@@ -1,4 +1,7 @@
 <?php
+/**
+ * @credit https://github.com/jenssegers/laravel-mongodb/
+ */
 
 namespace PDPhilip\OpenSearch\Eloquent;
 
