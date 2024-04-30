@@ -7,6 +7,8 @@
 > 
 > **The starting point of this package was forked from `v4.0.1` with over 2 years of development**
 
+[OpenSearch](https://opensearch.net/) is a distributed, community-driven, Apache 2.0-licensed, 100% open-source search and analytics suite used for a broad set of use cases like real-time application monitoring, log analytics, and website search.
+
 ### An OpenSearch implementation of Laravel's Eloquent ORM
 
 This package extends Laravel's Eloquent model and query builder with seamless integration of OpenSearch functionalities. Designed to feel native to Laravel, this package enables you to work with Eloquent models while leveraging the
