@@ -44,8 +44,8 @@ composer require pdphilip/opensearch
 
 | Laravel Version | Command                                       | Maintained |
 |-----------------|-----------------------------------------------|------------|
-| Laravel 10 & 11 | `composer require pdphilip/elasticsearch:~2 ` | ✅          |
-| Laravel 8 & 9   | `composer require pdphilip/elasticsearch:~1`  | ✅          |
+| Laravel 10 & 11 | `composer require pdphilip/opensearch:~2 ` | ✅          |
+| Laravel 8 & 9   | `composer require pdphilip/opensearch:~1`  | ✅          |
 
 ## Configuration
 
