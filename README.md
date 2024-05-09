@@ -160,14 +160,14 @@ Now, you're all set to use OpenSearch with Laravel as if it were native to the f
 - [Aggregations](https://opensearch.pdphilip.com/aggregation)
 - [Chunking](https://opensearch.pdphilip.com/chunking)
 - [Nested Queries](https://opensearch.pdphilip.com/nested-queries)
-- [Elasticsearch Specific Queries](https://opensearch.pdphilip.com/es-specific)
+- [OpenSearch Specific Queries](https://opensearch.pdphilip.com/os-specific)
 - [Full-Text Search](https://opensearch.pdphilip.com/full-text-search)
 - [Dynamic Indices](https://opensearch.pdphilip.com/dynamic-indices)
 
 ## Relationships
 
-- [Elasticsearch to Elasticsearch](https://opensearch.pdphilip.com/es-es)
-- [Elasticsearch to MySQL](https://opensearch.pdphilip.com/es-mysql)
+- [OpenSearch to OpenSearch](https://opensearch.pdphilip.com/os-os)
+- [OpenSearch to MySQL](https://opensearch.pdphilip.com/os-mysql)
 
 ## Schema/Index
 
