@@ -14,12 +14,24 @@
 This package extends Laravel's Eloquent model and query builder with seamless integration of OpenSearch functionalities. Designed to feel native to Laravel, this package enables you to work with Eloquent models while leveraging the
 powerful search and analytics capabilities of OpenSearch.
 
+Example:
 ```php
-$logs = UserLog::where('type', UserLogType::LOGIN)->where('created_at','>=',Carbon::now()->subDays(30))->get();
+$logs = UserLog::where('created_at','>=',Carbon::now()->subDays(30))->get();
 ```
-
-### Read the [Documentation](https://opensearch.pdphilip.com/)
-
+```php
+$updates = UserLog::where('status', 1)->update(['status' => 4]);
+```
+```php
+$profiles = UserProfile::whereIn('country_code',['US','CA'])->orderByDesc('last_login')->take(10)->get();
+```
+```php
+$deleted = UserProfile::where('state','unsubscribed')->where('updated_at','<=',Carbon::now()->subDays(90)->delete();
+```
+```php
+$search = UserProfile::term('loves espressos')->minShouldMatch(2)->highlight()->search();
+```
+---
+> ### Read the [Documentation](https://opensearch.pdphilip.com/)
 ---
 
 ## Installation
@@ -32,8 +44,8 @@ composer require pdphilip/opensearch
 
 | Laravel Version | Command                                       | Maintained |
 |-----------------|-----------------------------------------------|------------|
-| Laravel 10 & 11 | `composer require pdphilip/elasticsearch:~2 ` | ✅          |
-| Laravel 8 & 9   | `composer require pdphilip/elasticsearch:~1`  | ✅          |
+| Laravel 10 & 11 | `composer require pdphilip/opensearch:~2 ` | ✅          |
+| Laravel 8 & 9   | `composer require pdphilip/opensearch:~1`  | ✅          |
 
 ## Configuration
 
@@ -148,14 +160,14 @@ Now, you're all set to use OpenSearch with Laravel as if it were native to the f
 - [Aggregations](https://opensearch.pdphilip.com/aggregation)
 - [Chunking](https://opensearch.pdphilip.com/chunking)
 - [Nested Queries](https://opensearch.pdphilip.com/nested-queries)
-- [Elasticsearch Specific Queries](https://opensearch.pdphilip.com/es-specific)
+- [OpenSearch Specific Queries](https://opensearch.pdphilip.com/os-specific)
 - [Full-Text Search](https://opensearch.pdphilip.com/full-text-search)
 - [Dynamic Indices](https://opensearch.pdphilip.com/dynamic-indices)
 
 ## Relationships
 
-- [Elasticsearch to Elasticsearch](https://opensearch.pdphilip.com/es-es)
-- [Elasticsearch to MySQL](https://opensearch.pdphilip.com/es-mysql)
+- [OpenSearch to OpenSearch](https://opensearch.pdphilip.com/os-os)
+- [OpenSearch to MySQL](https://opensearch.pdphilip.com/os-mysql)
 
 ## Schema/Index
 
