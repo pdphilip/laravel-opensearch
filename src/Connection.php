@@ -191,6 +191,7 @@ class Connection extends BaseConnection
     {
         $hosts = config('database.connections.opensearch.hosts') ?? null;
         $builder = ClientBuilder::create()->setHosts($hosts);
+        $builder = $this->_buildOptions($builder);
         $builder = $this->_buildAuth($builder);
         $builder = $this->_buildSigV4($builder);
         $builder = $this->_buildSSL($builder);
@@ -248,13 +249,13 @@ class Connection extends BaseConnection
     protected function _buildOptions(ClientBuilder $builder): ClientBuilder
     {
         $builder->setSSLVerification($this->sslVerification);
-        if (isset($this->retires)) {
+        if (!empty($this->retires)) {
             $builder->setRetries($this->retires);
         }
-        if (isset($this->sniff)) {
+        if (!empty($this->sniff)) {
             $builder->setSniffOnStart($this->sniff);
         }
-        if (isset($this->portInHeaders)) {
+        if (!empty($this->portInHeaders)) {
             $builder->includePortInHostHeader($this->portInHeaders);
         }
         
