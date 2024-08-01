@@ -17,7 +17,7 @@ class HasMany extends BaseHasMany
     {
         return $this->foreignKey;
     }
-    
+
     /**
      * Get the key for comparing against the parent key in "has" query.
      *
@@ -27,18 +27,18 @@ class HasMany extends BaseHasMany
     {
         return $this->getForeignKeyName();
     }
-    
+
     /**
      * @inheritdoc
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
         $foreignKey = $this->getHasCompareKey();
-        
+
         return $query->select($foreignKey)->where($foreignKey, 'exists', true);
     }
-    
-    
+
+
     protected function whereInMethod(EloquentModel $model, $key)
     {
         return 'whereIn';

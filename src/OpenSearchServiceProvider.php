@@ -13,10 +13,9 @@ class OpenSearchServiceProvider extends ServiceProvider
     public function boot()
     {
         Model::setConnectionResolver($this->app['db']);
-        
         Model::setEventDispatcher($this->app['events']);
     }
-    
+
     /**
      * Register the service provider.
      */
@@ -26,10 +25,9 @@ class OpenSearchServiceProvider extends ServiceProvider
         $this->app->resolving('db', function ($db) {
             $db->extend('opensearch', function ($config, $name) {
                 $config['name'] = $name;
-                
+
                 return new Connection($config);
             });
         });
-        
     }
 }

@@ -14,7 +14,7 @@ use RuntimeException;
 
 class Connection extends BaseConnection
 {
-    
+
     protected $client;
     protected $index;
     protected $maxSize;
@@ -25,23 +25,23 @@ class Connection extends BaseConnection
     protected $portInHeaders = null;
     protected $rebuild = false;
     protected $allowIdSort = true;
-    
+
     public function __construct(array $config)
     {
         $this->config = $config;
-        
+
         $this->setOptions($config);
-        
+
         $this->client = $this->buildConnection();
-        
+
         $this->useDefaultPostProcessor();
-        
+
         $this->useDefaultSchemaGrammar();
-        
+
         $this->useDefaultQueryGrammar();
-        
+
     }
-    
+
     public function setOptions($config)
     {
         if (!empty($config['index_prefix'])) {
@@ -60,23 +60,23 @@ class Connection extends BaseConnection
             $this->portInHeaders = $config['options']['port_in_host_header'];
         }
     }
-    
+
     public function getIndexPrefix(): string|null
     {
         return $this->indexPrefix;
     }
-    
+
     public function setIndexPrefix($newPrefix): void
     {
         $this->indexPrefix = $newPrefix;
     }
-    
-    
+
+
     public function getTablePrefix(): string|null
     {
         return $this->getIndexPrefix();
     }
-    
+
     public function setIndex($index): string
     {
         $this->index = $index;
@@ -85,33 +85,33 @@ class Connection extends BaseConnection
                 $this->index = $this->indexPrefix.'_'.$index;
             }
         }
-        
+
         return $this->getIndex();
     }
-    
+
     public function getSchemaGrammar()
     {
         return new Schema\Grammar($this);
     }
-    
+
     public function getIndex(): string
     {
         return $this->index;
     }
-    
+
     public function setMaxSize($value)
     {
         $this->maxSize = $value;
     }
-    
-    
+
+
     public function table($table, $as = null)
     {
         $query = new Query\Builder($this, new Query\Processor());
-        
+
         return $query->from($table);
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -119,8 +119,8 @@ class Connection extends BaseConnection
     {
         return new Schema\Builder($this);
     }
-    
-    
+
+
     /**
      * @inheritdoc
      */
@@ -128,8 +128,8 @@ class Connection extends BaseConnection
     {
         unset($this->connection);
     }
-    
-    
+
+
     /**
      * @inheritdoc
      */
@@ -137,7 +137,7 @@ class Connection extends BaseConnection
     {
         return 'opensearch';
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -145,7 +145,7 @@ class Connection extends BaseConnection
     {
         return new Query\Processor();
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -153,7 +153,7 @@ class Connection extends BaseConnection
     {
         return new Query\Grammar();
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -161,58 +161,58 @@ class Connection extends BaseConnection
     {
         return new Schema\Grammar();
     }
-    
+
     public function rebuildConnection()
     {
         $this->rebuild = true;
     }
-    
+
     public function getClient()
     {
         return $this->client;
     }
-    
+
     public function getMaxSize()
     {
         return $this->maxSize;
     }
-    
+
     public function getAllowIdSort()
     {
         return $this->allowIdSort;
     }
-    
-    
+
+
     //----------------------------------------------------------------------
     // Connection Builder
     //----------------------------------------------------------------------
-    
+
     protected function buildConnection(): Client
     {
         $hosts = config('database.connections.opensearch.hosts') ?? null;
-        
+
         $builder = ClientBuilder::create()->setHosts($hosts);
         $builder = $this->_buildOptions($builder);
         $builder = $this->_buildAuth($builder);
         $builder = $this->_buildSigV4($builder);
         $builder = $this->_buildSSL($builder);
-        
+
         return $builder->build();
-        
+
     }
-    
+
     protected function _buildAuth(ClientBuilder $builder): ClientBuilder
     {
-        
+
         $username = config('database.connections.opensearch.basic_auth.username') ?? null;
         $pass = config('database.connections.opensearch.basic_auth.password') ?? null;
         if ($username && $pass) {
             $builder->setBasicAuthentication($username, $pass);
         }
-        
+
         return $builder;
     }
-    
+
     protected function _buildSigV4(ClientBuilder $builder): ClientBuilder
     {
         $provider = config('database.connections.opensearch.sig_v4.provider') ?? null;
@@ -227,10 +227,10 @@ class Connection extends BaseConnection
         if ($service) {
             $builder->setSigV4Service($service);
         }
-        
+
         return $builder;
     }
-    
+
     protected function _buildSSL(ClientBuilder $builder): ClientBuilder
     {
         $sslCert = config('database.connections.opensearch.ssl.cert') ?? null;
@@ -243,10 +243,10 @@ class Connection extends BaseConnection
         if ($sslKey) {
             $builder->setSSLKey($sslKey, $sslKeyPassword);
         }
-        
+
         return $builder;
     }
-    
+
     protected function _buildOptions(ClientBuilder $builder): ClientBuilder
     {
         $builder->setSSLVerification($this->sslVerification);
@@ -259,17 +259,17 @@ class Connection extends BaseConnection
         if (!empty($this->portInHeaders)) {
             $builder->includePortInHostHeader($this->portInHeaders);
         }
-        
+
         return $builder;
     }
-    
-    
-    
-    
+
+
+
+
     //----------------------------------------------------------------------
     // Dynamic call routing to DSL bridge
     //----------------------------------------------------------------------
-    
+
     public function __call($method, $parameters)
     {
         if (!$this->index) {
@@ -280,7 +280,7 @@ class Connection extends BaseConnection
             $this->rebuild = false;
         }
         $bridge = new Bridge($this);
-        
+
         return $bridge->{'process'.Str::studly($method)}(...$parameters);
     }
 }

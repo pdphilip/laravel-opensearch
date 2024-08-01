@@ -16,27 +16,27 @@ class MorphTo extends BaseMorphTo
             $this->query->where($this->getOwnerKey(), '=', $this->parent->{$this->foreignKey});
         }
     }
-    
+
     /**
      * @inheritdoc
      */
     protected function getResultsByType($type)
     {
         $instance = $this->createModelByType($type);
-        
+
         $key = $instance->getKeyName();
-        
+
         $query = $instance->newQuery();
-        
+
         return $query->whereIn($key, $this->gatherKeysByType($type, $instance->getKeyType()))->get();
     }
-    
-    
+
+
     public function getOwnerKey()
     {
         return property_exists($this, 'ownerKey') ? $this->ownerKey : $this->otherKey;
     }
-    
+
     protected function whereInMethod(EloquentModel $model, $key)
     {
         return 'whereIn';
