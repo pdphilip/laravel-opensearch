@@ -40,7 +40,7 @@ class Builder extends BaseEloquentBuilder
         'push',
         'raw',
         'sum',
-        'toSql',
+        'tosql',
         //ES only:
         'matrix',
         'query',
@@ -54,6 +54,8 @@ class Builder extends BaseEloquentBuilder
         'indexexists',
         'createindex',
         'search',
+        'todsl',
+        'agg',
     ];
 
 
@@ -388,6 +390,28 @@ class Builder extends BaseEloquentBuilder
     public function orRegEx(string $regEx, int $boostFactor = null)
     {
         $this->query->searchQuery($regEx, $boostFactor, 'OR', 'regex');
+
+        return $this;
+    }
+
+
+    public function phrase(string $term, int $boostFactor = null)
+    {
+        $this->query->searchQuery($term, $boostFactor, null, 'phrase');
+
+        return $this;
+    }
+
+    public function andPhrase(string $term, int $boostFactor = null)
+    {
+        $this->query->searchQuery($term, $boostFactor, 'AND', 'phrase');
+
+        return $this;
+    }
+
+    public function orPhrase(string $term, int $boostFactor = null)
+    {
+        $this->query->searchQuery($term, $boostFactor, 'OR', 'phrase');
 
         return $this;
     }

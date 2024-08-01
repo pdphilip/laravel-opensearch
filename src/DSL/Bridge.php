@@ -21,11 +21,9 @@ class Bridge
 
     protected Client $client;
 
-    protected mixed $queryLogger = false;
+    protected string|bool $errorLogger = false;
 
-    protected mixed $queryLoggerOnErrorOnly = true;
-
-    protected int|null $maxSize = 10; //ES default
+    protected int|null $maxSize = 10; //OS default
 
     private string|null $index;
 
@@ -38,11 +36,7 @@ class Bridge
         $this->index = $this->connection->getIndex();
         $this->maxSize = $this->connection->getMaxSize();
         $this->indexPrefix = $this->connection->getIndexPrefix();
-
-        if (!empty(config('database.connections.elasticsearch.logging.index'))) {
-            $this->queryLogger = config('database.connections.elasticsearch.logging.index');
-            $this->queryLoggerOnErrorOnly = config('database.connections.elasticsearch.logging.errorOnly');
-        }
+        $this->errorLogger = $this->connection->getErrorLoggingIndex();
 
     }
 
@@ -191,6 +185,20 @@ class Bridge
         }
     }
 
+    //----------------------------------------------------------------------
+    // To DSL
+    //----------------------------------------------------------------------
+
+    public function processToDsl($wheres, $options, $columns)
+    {
+        return $this->buildParams($this->index, $wheres, $options, $columns);
+    }
+
+    public function processToDslForSearch($searchParams, $searchOptions, $wheres, $opts, $fields, $cols)
+    {
+        return $this->buildSearchParams($this->index, $searchParams, $searchOptions, $wheres, $opts, $fields, $cols);
+    }
+
 
     //----------------------------------------------------------------------
     // Read Queries
@@ -314,7 +322,9 @@ class Bridge
         if (isset($data['_index'])) {
             unset($data['_index']);
         }
-
+        if (isset($data['_meta'])) {
+            unset($data['_meta']);
+        }
         $params = [
             'index' => $this->index,
             'body'  => $data,
@@ -664,6 +674,21 @@ class Bridge
     //----------------------------------------------------------------------
     // Aggregates
     //----------------------------------------------------------------------
+
+    public function processMultipleAggregate($functions, $wheres, $options, $column)
+    {
+        $params = $this->buildParams($this->index, $wheres, $options);
+        try {
+            $params['body']['aggs'] = ParameterBuilder::multipleAggregations($functions, $column);
+            $process = $this->client->search($params);
+
+            return $this->_return($process['aggregations'] ?? [], $process, $params, $this->_queryTag(__FUNCTION__));
+
+        } catch (Exception $e) {
+
+            $this->throwError($e, $params, $this->_queryTag(__FUNCTION__));
+        }
+    }
 
     /**
      *  Aggregate entry point
@@ -1193,9 +1218,6 @@ class Bridge
             $results = new Results($data, $meta, $params, $queryTag);
         }
 
-        if ($this->queryLogger && !$this->queryLoggerOnErrorOnly) {
-            $this->_logQuery($results);
-        }
 
         return $results;
     }
@@ -1213,9 +1235,7 @@ class Bridge
         $this->connection->rebuildConnection();
         $error = new Results([], [], $params, $queryTag);
         $error->setError($errorMsg, $errorCode);
-        if ($this->queryLogger) {
-            $this->_logQuery($error);
-        }
+
         $meta = $error->getMetaData();
         $details = [
             'error'     => $meta['error']['msg'],
@@ -1226,15 +1246,22 @@ class Bridge
             'params'    => $params,
             'original'  => $errorMsg,
         ];
+        if ($this->errorLogger) {
+            $this->_logQuery($error, $details);
+        }
         // For details catch $exception then $exception->getDetails()
         throw new QueryException($meta['error']['msg'], $errorCode, new $previous, $details);
     }
 
-    private function _logQuery($results)
+    private function _logQuery(Results $results, $details)
     {
+        $body = $results->getLogFormattedMetaData();
+        if ($details) {
+            $body['details'] = (array)$details;
+        }
         $params = [
-            'index' => $this->queryLogger,
-            'body'  => $results->getLogFormattedMetaData(),
+            'index' => $this->errorLogger,
+            'body'  => $body,
         ];
         try {
             $this->client->index($params);

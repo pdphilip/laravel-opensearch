@@ -2,34 +2,44 @@
 
 # Laravel-OpenSearch
 
-
 > **This package has been built off the back of the original [Elasticsearch version](https://github.com/pdphilip/laravel-elasticsearch) of this package**
-> 
+>
 > **The starting point of this package was forked from `v4.0.1` with over 2 years of development**
 
-[OpenSearch](https://opensearch.net/) is a distributed, community-driven, Apache 2.0-licensed, 100% open-source search and analytics suite used for a broad set of use cases like real-time application monitoring, log analytics, and website search.
+[OpenSearch](https://opensearch.net/) is a distributed, community-driven, Apache 2.0-licensed, 100% open-source search and analytics suite used for a broad set of use cases like real-time application monitoring, log analytics, and website
+search.
 
 ### An OpenSearch implementation of Laravel's Eloquent ORM
 
 This package extends Laravel's Eloquent model and query builder with seamless integration of OpenSearch functionalities. Designed to feel native to Laravel, this package enables you to work with Eloquent models while leveraging the
 powerful search and analytics capabilities of OpenSearch.
 
-Example:
+Examples:
+
 ```php
 $logs = UserLog::where('created_at','>=',Carbon::now()->subDays(30))->get();
 ```
+
 ```php
 $updates = UserLog::where('status', 1)->update(['status' => 4]);
 ```
+
+```php
+$updates = UserLog::where('status', 1)->paginate(50);
+```
+
 ```php
 $profiles = UserProfile::whereIn('country_code',['US','CA'])->orderByDesc('last_login')->take(10)->get();
 ```
+
 ```php
-$deleted = UserProfile::where('state','unsubscribed')->where('updated_at','<=',Carbon::now()->subDays(90)->delete();
+$deleted = UserProfile::where('state','unsubscribed')->where('updated_at','<=',Carbon::now()->subDays(90))->delete();
 ```
+
 ```php
-$search = UserProfile::term('loves espressos')->minShouldMatch(2)->highlight()->search();
+$search = UserProfile::phrase('loves espressos')->highlight()->search();
 ```
+
 ---
 > ### Read the [Documentation](https://opensearch.pdphilip.com/)
 ---
@@ -42,8 +52,8 @@ $search = UserProfile::term('loves espressos')->minShouldMatch(2)->highlight()->
 composer require pdphilip/opensearch
 ```
 
-| Laravel Version | Command                                       | Maintained |
-|-----------------|-----------------------------------------------|------------|
+| Laravel Version | Command                                    | Maintained |
+|-----------------|--------------------------------------------|------------|
 | Laravel 10 & 11 | `composer require pdphilip/opensearch:~2 ` | ✅          |
 | Laravel 8 & 9   | `composer require pdphilip/opensearch:~1`  | ✅          |
 
@@ -70,6 +80,7 @@ OS_OPT_VERIFY_SSL=true
 OS_OPT_RETRIES=
 OS_OPT_SNIFF_ON_START=
 OS_OPT_PORT_HOST_HEADERS=
+OS_ERROR_INDEX=
 ```
 
 For multiple nodes, pass in as comma-separated:
@@ -106,10 +117,7 @@ OS_HOSTS="http://opensearch-node1:9200,http://opensearch-node2:9200,http://opens
         'sniff_on_start'      => env('OS_OPT_SNIFF_ON_START'),
         'port_in_host_header' => env('OS_OPT_PORT_HOST_HEADERS'),
     ],
-    'query_log'    => [
-        'index'      => false, //Or provide a name for the logging index ex: 'laravel_query_logs'
-        'error_only' => true, //If false, then all queries are logged if the query_log index is set
-    ],
+    'error_log_index' => env('OS_ERROR_INDEX', false),
 ],
 ```
 
