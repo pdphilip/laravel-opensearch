@@ -61,17 +61,7 @@ class IndexBlueprint
 
     public function long($field): Definitions\FieldDefinition
     {
-        return $this->addField('short', $field);
-    }
-    
-    public function byte($field): Definitions\FieldDefinition
-    {
-        return $this->addField('byte', $field);
-    }
-    
-    public function double($field): Definitions\FieldDefinition
-    {
-        return $this->addField('double', $field);
+        return $this->addField('long', $field);
     }
 
     public function integer($field): Definitions\FieldDefinition
@@ -81,7 +71,7 @@ class IndexBlueprint
 
     public function short($field): Definitions\FieldDefinition
     {
-        return $this->addField('half_float', $field);
+        return $this->addField('short', $field);
     }
 
     public function byte($field): Definitions\FieldDefinition
@@ -110,6 +100,7 @@ class IndexBlueprint
             'scaling_factor' => $scalingFactor,
         ]);
     }
+
     public function unsignedLong($field): Definitions\FieldDefinition
     {
         return $this->addField('unsigned_long', $field);

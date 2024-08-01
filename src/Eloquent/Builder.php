@@ -43,7 +43,7 @@ class Builder extends BaseEloquentBuilder
         'raw',
         'rawValue',
         'sum',
-        'tosql',
+        'toSql',
         //ES only:
         'matrix',
         'query',
@@ -57,7 +57,7 @@ class Builder extends BaseEloquentBuilder
         'indexExists',
         'createIndex',
         'search',
-        'todsl',
+        'toDsl',
         'agg',
     ];
 
@@ -200,8 +200,8 @@ class Builder extends BaseEloquentBuilder
 
         if ($column === '_id') {
             //Use PIT
-            
-            
+
+
             return $this->_chunkByPit($count, $callback, $keepAlive);
         } else {
             $lastId = null;
