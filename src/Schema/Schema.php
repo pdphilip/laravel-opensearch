@@ -49,7 +49,7 @@ class Schema extends Facade
     {
         return static::$app['db']->connection($name)->getSchemaBuilder();
     }
-    
+
     /**
      * Get a schema builder instance for the default connection.
      *
@@ -64,8 +64,8 @@ class Schema extends Facade
     public static function __callStatic($method, $args)
     {
         $instance = static::getFacadeAccessor();
-        
+
         return $instance->$method(...$args);
     }
-    
+
 }
