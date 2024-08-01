@@ -25,6 +25,7 @@ class Connection extends BaseConnection
     protected $portInHeaders = null;
     protected $rebuild = false;
     protected $allowIdSort = true;
+    protected $errorLoggingIndex = false;
 
     public function __construct(array $config)
     {
@@ -59,6 +60,13 @@ class Connection extends BaseConnection
         if (isset($config['options']['port_in_host_header'])) {
             $this->portInHeaders = $config['options']['port_in_host_header'];
         }
+        if (!empty($config['error_log_index'])) {
+            if ($this->indexPrefix) {
+                $this->errorLoggingIndex = $this->indexPrefix.'_'.$config['error_log_index'];
+            } else {
+                $this->errorLoggingIndex = $config['error_log_index'];
+            }
+        }
     }
 
     public function getIndexPrefix(): string|null
@@ -87,6 +95,11 @@ class Connection extends BaseConnection
         }
 
         return $this->getIndex();
+    }
+
+    public function getErrorLoggingIndex(): string|bool
+    {
+        return $this->errorLoggingIndex;
     }
 
     public function getSchemaGrammar()
