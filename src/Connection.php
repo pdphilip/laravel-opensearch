@@ -26,9 +26,13 @@ class Connection extends BaseConnection
     protected $rebuild = false;
     protected $allowIdSort = true;
     protected $errorLoggingIndex = false;
+    protected $connectionName = 'opensearch';
 
     public function __construct(array $config)
     {
+
+        $this->connectionName = $config['name'];
+
         $this->config = $config;
 
         $this->setOptions($config);
@@ -202,7 +206,7 @@ class Connection extends BaseConnection
 
     protected function buildConnection(): Client
     {
-        $hosts = config('database.connections.opensearch.hosts') ?? null;
+        $hosts = config('database.connections.'.$this->connectionName.'.hosts') ?? null;
 
         $builder = ClientBuilder::create()->setHosts($hosts);
         $builder = $this->_buildOptions($builder);
@@ -217,8 +221,8 @@ class Connection extends BaseConnection
     protected function _buildAuth(ClientBuilder $builder): ClientBuilder
     {
 
-        $username = config('database.connections.opensearch.basic_auth.username') ?? null;
-        $pass = config('database.connections.opensearch.basic_auth.password') ?? null;
+        $username = config('database.connections.'.$this->connectionName.'.basic_auth.username') ?? null;
+        $pass = config('database.connections.'.$this->connectionName.'.basic_auth.password') ?? null;
         if ($username && $pass) {
             $builder->setBasicAuthentication($username, $pass);
         }
@@ -228,9 +232,9 @@ class Connection extends BaseConnection
 
     protected function _buildSigV4(ClientBuilder $builder): ClientBuilder
     {
-        $provider = config('database.connections.opensearch.sig_v4.provider') ?? null;
-        $region = config('database.connections.opensearch.sig_v4.region') ?? null;
-        $service = config('database.connections.opensearch.sig_v4.service') ?? null;
+        $provider = config('database.connections.'.$this->connectionName.'.sig_v4.provider') ?? null;
+        $region = config('database.connections.'.$this->connectionName.'.sig_v4.region') ?? null;
+        $service = config('database.connections.'.$this->connectionName.'.sig_v4.service') ?? null;
         if ($provider) {
             $builder->setSigV4CredentialProvider($provider);
         }
@@ -246,10 +250,10 @@ class Connection extends BaseConnection
 
     protected function _buildSSL(ClientBuilder $builder): ClientBuilder
     {
-        $sslCert = config('database.connections.opensearch.ssl.cert') ?? null;
-        $sslCertPassword = config('database.connections.opensearch.ssl.cert_password') ?? null;
-        $sslKey = config('database.connections.opensearch.ssl.key') ?? null;
-        $sslKeyPassword = config('database.connections.opensearch.ssl.key_password') ?? null;
+        $sslCert = config('database.connections.'.$this->connectionName.'.ssl.cert') ?? null;
+        $sslCertPassword = config('database.connections.'.$this->connectionName.'.ssl.cert_password') ?? null;
+        $sslKey = config('database.connections.'.$this->connectionName.'.ssl.key') ?? null;
+        $sslKeyPassword = config('database.connections.'.$this->connectionName.'.ssl.key_password') ?? null;
         if ($sslCert) {
             $builder->setSSLCert($sslCert, $sslCertPassword);
         }
