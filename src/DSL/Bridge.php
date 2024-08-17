@@ -1076,7 +1076,7 @@ class Bridge
         $data = [];
         if (!empty($response['aggregations'])) {
             foreach ($response['aggregations'] as $key => $values) {
-                $data = $this->_formatAggs($key, $values);
+                $data[$key] = $this->_formatAggs($key, $values)[$key];
             }
         }
 
