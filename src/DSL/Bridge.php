@@ -163,7 +163,7 @@ class Bridge
         try {
             $process = $this->client->search($params);
 
-            return $this->_sanitizeAggsResponse($process, $params, $this->_queryTag(__FUNCTION__));
+            return $this->_sanitizeRawAggsResponse($process, $params, $this->_queryTag(__FUNCTION__));
         } catch (Exception $e) {
 
             $this->throwError($e, $params, $this->_queryTag(__FUNCTION__));
@@ -730,11 +730,16 @@ class Bridge
     private function _maxAggregate($wheres, $options, $columns): Results
     {
         $params = $this->buildParams($this->index, $wheres, $options);
+        if (is_array($columns[0])) {
+            $columns = $columns[0];
+        }
         try {
-            $params['body']['aggs']['max_value'] = ParameterBuilder::maxAggregation($columns[0]);
+            foreach ($columns as $column) {
+                $params['body']['aggs']['max_'.$column] = ParameterBuilder::maxAggregation($column);
+            }
             $process = $this->client->search($params);
 
-            return $this->_return($process['aggregations']['max_value']['value'] ?? 0, $process, $params, $this->_queryTag(__FUNCTION__));
+            return $this->_sanitizeAggsResponse($process, $params, $this->_queryTag(__FUNCTION__));
         } catch (Exception $e) {
 
             $this->throwError($e, $params, $this->_queryTag(__FUNCTION__));
@@ -748,11 +753,16 @@ class Bridge
     private function _minAggregate($wheres, $options, $columns): Results
     {
         $params = $this->buildParams($this->index, $wheres, $options);
+        if (is_array($columns[0])) {
+            $columns = $columns[0];
+        }
         try {
-            $params['body']['aggs']['min_value'] = ParameterBuilder::minAggregation($columns[0]);
+            foreach ($columns as $column) {
+                $params['body']['aggs']['min_'.$column] = ParameterBuilder::minAggregation($column);
+            }
             $process = $this->client->search($params);
 
-            return $this->_return($process['aggregations']['min_value']['value'] ?? 0, $process, $params, $this->_queryTag(__FUNCTION__));
+            return $this->_sanitizeAggsResponse($process, $params, $this->_queryTag(__FUNCTION__));
         } catch (Exception $e) {
             $this->throwError($e, $params, $this->_queryTag(__FUNCTION__));
         }
@@ -766,11 +776,16 @@ class Bridge
     {
 
         $params = $this->buildParams($this->index, $wheres, $options);
+        if (is_array($columns[0])) {
+            $columns = $columns[0];
+        }
         try {
-            $params['body']['aggs']['sum_value'] = ParameterBuilder::sumAggregation($columns[0]);
+            foreach ($columns as $column) {
+                $params['body']['aggs']['sum_'.$column] = ParameterBuilder::sumAggregation($column);
+            }
             $process = $this->client->search($params);
 
-            return $this->_return($process['aggregations']['sum_value']['value'] ?? 0, $process, $params, $this->_queryTag(__FUNCTION__));
+            return $this->_sanitizeAggsResponse($process, $params, $this->_queryTag(__FUNCTION__));
         } catch (Exception $e) {
 
             $this->throwError($e, $params, $this->_queryTag(__FUNCTION__));
@@ -785,11 +800,16 @@ class Bridge
     private function _avgAggregate($wheres, $options, $columns): Results
     {
         $params = $this->buildParams($this->index, $wheres, $options);
+        if (is_array($columns[0])) {
+            $columns = $columns[0];
+        }
         try {
-            $params['body']['aggs']['avg_value'] = ParameterBuilder::avgAggregation($columns[0]);
+            foreach ($columns as $column) {
+                $params['body']['aggs']['avg_'.$column] = ParameterBuilder::avgAggregation($column);
+            }
             $process = $this->client->search($params);
 
-            return $this->_return($process['aggregations']['avg_value']['value'] ?? 0, $process, $params, $this->_queryTag(__FUNCTION__));
+            return $this->_sanitizeAggsResponse($process, $params, $this->_queryTag(__FUNCTION__));
         } catch (Exception $e) {
             $this->throwError($e, $params, $this->_queryTag(__FUNCTION__));
         }
@@ -1067,7 +1087,22 @@ class Bridge
         return $highlights;
     }
 
-    private function _sanitizeAggsResponse($response, $params, $queryTag)
+    public function _sanitizeAggsResponse($response, $params, $queryTag)
+    {
+        $meta['timed_out'] = $response['timed_out'];
+        $meta['total'] = $response['hits']['total']['value'] ?? 0;
+        $meta['max_score'] = $response['hits']['max_score'] ?? 0;
+        $meta['sorts'] = [];
+
+        $aggs = $response['aggregations'];
+        $data = (count($aggs) === 1)
+            ? reset($aggs)['value'] ?? 0
+            : array_map(fn($value) => $value['value'] ?? 0, $aggs);
+
+        return $this->_return($data, $meta, $params, $queryTag);
+    }
+
+    private function _sanitizeRawAggsResponse($response, $params, $queryTag)
     {
         $meta['timed_out'] = $response['timed_out'];
         $meta['total'] = $response['hits']['total']['value'] ?? 0;
