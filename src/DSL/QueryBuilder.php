@@ -279,7 +279,7 @@ trait QueryBuilder
 
             return ['match' => [$field => $value]];
         } else {
-            $operator = key($value);
+            $operator = strtolower(key($value));
             $operand = current($value);
             $queryPart = [];
 
