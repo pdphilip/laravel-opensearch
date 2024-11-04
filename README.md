@@ -2,6 +2,10 @@
 
 # Laravel-OpenSearch
 
+[![Latest Stable Version](http://img.shields.io/github/release/pdphilip/laravel-opensearch.svg)](https://packagist.org/packages/pdphilip/laravel-opensearch)
+[![Total Downloads](http://img.shields.io/packagist/dm/pdphilip/opensearch.svg)](https://packagist.org/packages/pdphilip/opensearch)
+
+
 > **This package has been built off the back of the original [Elasticsearch version](https://github.com/pdphilip/laravel-elasticsearch) of this package**
 >
 > **The starting point of this package was forked from `v4.0.1` with over 2 years of development**
