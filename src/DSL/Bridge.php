@@ -1059,6 +1059,10 @@ class Bridge
                     $datum['_meta']['highlights'] = $this->_sanitizeHighlights($hit['highlight']);
                 }
 
+                if (!empty($hit['sort']) && is_array($hit['sort'])) {
+                    $datum['_meta']['sort'] = $hit['sort'];
+                }
+
                 $datum['_meta']['_index'] = $hit['_index'];
                 $datum['_meta']['_id'] = $hit['_id'];
                 if (!empty($hit['_score'])) {
