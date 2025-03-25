@@ -440,6 +440,9 @@ trait QueryBuilder
                             }
                         }
                         break;
+                    case 'search_after':
+                        $return['body']['search_after'] = $value;
+                        break;
                     case 'skip':
                         $return['from'] = $value;
                         break;

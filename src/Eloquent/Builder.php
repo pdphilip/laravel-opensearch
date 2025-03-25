@@ -441,6 +441,15 @@ class Builder extends BaseEloquentBuilder
         return $this;
     }
 
+    public function searchAfter(array $sort): self
+    {
+        if (empty($sort)) {
+            return $this;
+        }
+        $this->query->searchAfter($sort);
+        return $this;
+    }
+
     /**
      * @param    string    $field
      * @param    int|null    $boostFactor

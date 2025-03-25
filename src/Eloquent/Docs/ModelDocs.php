@@ -19,6 +19,7 @@ namespace PDPhilip\OpenSearch\Eloquent\Docs;
  * @method $this minScore(float $value)
  * @method $this field(string $field, int $boostFactor = null)
  * @method $this fields(array $fields)
+ * @method $this searchAfter(array $sort)
  * @method sum(array|string $columns)
  * @method min(array|string $columns)
  * @method max(array|string $columns)

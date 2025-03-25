@@ -36,6 +36,8 @@ class Builder extends BaseBuilder
 
     public $filters = [];
 
+    public $searchAfter = [];
+
     /**
      * Clause ops.
      *
@@ -792,6 +794,15 @@ class Builder extends BaseBuilder
         return $this;
     }
 
+    public function searchAfter($sort)
+    {
+        if (!is_array($sort) || !Arr::isList($sort)) {
+            throw new RuntimeException('Incorrect "searchAfter" value');
+        }
+        $this->searchAfter = $sort;
+        return $this;
+    }
+
     /**
      * @inheritdoc
      */
@@ -856,6 +867,9 @@ class Builder extends BaseBuilder
         }
         if ($this->filters) {
             $options['filters'] = $this->filters;
+        }
+        if (!empty($this->searchAfter)) {
+            $options['search_after'] = $this->searchAfter;
         }
 
         return $options;
