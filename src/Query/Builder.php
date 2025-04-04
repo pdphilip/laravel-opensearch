@@ -155,7 +155,7 @@ class Builder extends BaseBuilder
             return true;
         }
 
-        if (!is_array(reset($values))) {
+        if (!array_is_list($values)) {
             $values = [$values];
         }
 
