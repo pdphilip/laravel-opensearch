@@ -9,7 +9,7 @@ declare(strict_types=1);
  * The code has been changed to export rules (without descriptions)
  */
 
-namespace PDPhilip\Elasticsearch\Tests\PHPStan;
+namespace PDPhilip\OpenSearch\Tests\PHPStan;
 
 use Nette\Utils\Json;
 use PHPStan\Command\AnalysisResult;

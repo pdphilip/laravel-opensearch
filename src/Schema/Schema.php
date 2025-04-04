@@ -70,7 +70,7 @@ class Schema extends Facade
      */
     protected static function getFacadeAccessor(): Builder
     {
-        return static::$app['db']->connection('elasticsearch')->getSchemaBuilder();
+        return static::$app['db']->connection('opensearch')->getSchemaBuilder();
     }
 
     public static function __callStatic($method, $args)

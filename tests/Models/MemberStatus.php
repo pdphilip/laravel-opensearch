@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
 enum MemberStatus: string
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace PDPhilip\Elasticsearch\Tests\Factories;
+namespace PDPhilip\OpenSearch\Tests\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
-use PDPhilip\Elasticsearch\Tests\Models\Product;
+use PDPhilip\OpenSearch\Tests\Models\Product;
 
 class ProductFactory extends Factory
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\SQLiteBuilder;
 use Illuminate\Support\Facades\Schema;
-use PDPhilip\Elasticsearch\Eloquent\HybridRelations;
+use PDPhilip\OpenSearch\Eloquent\HybridRelations;
 
 use function assert;
 

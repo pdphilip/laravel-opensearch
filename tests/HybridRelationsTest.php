@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 use Illuminate\Database\SQLiteConnection;
-use PDPhilip\Elasticsearch\Tests\Models\Book;
-use PDPhilip\Elasticsearch\Tests\Models\Experience;
-use PDPhilip\Elasticsearch\Tests\Models\Label;
-use PDPhilip\Elasticsearch\Tests\Models\Role;
-use PDPhilip\Elasticsearch\Tests\Models\Skill;
-use PDPhilip\Elasticsearch\Tests\Models\SqlBook;
-use PDPhilip\Elasticsearch\Tests\Models\SqlRole;
-use PDPhilip\Elasticsearch\Tests\Models\SqlUser;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Tests\Models\Book;
+use PDPhilip\OpenSearch\Tests\Models\Experience;
+use PDPhilip\OpenSearch\Tests\Models\Label;
+use PDPhilip\OpenSearch\Tests\Models\Role;
+use PDPhilip\OpenSearch\Tests\Models\Skill;
+use PDPhilip\OpenSearch\Tests\Models\SqlBook;
+use PDPhilip\OpenSearch\Tests\Models\SqlRole;
+use PDPhilip\OpenSearch\Tests\Models\SqlUser;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     SqlUser::executeSchema();
@@ -232,9 +232,9 @@ it('tests hybrid belongs to many', function () {
     $user2->fill(['name' => 'Maria Doe'])->save();
     $user2 = SqlUser::query()->find($user2->id);
 
-    // Create Elasticsearch Skills
+    // Create opensearch Skills
     $skill = Skill::query()->create(['name' => 'Laravel']);
-    $skill2 = Skill::query()->create(['name' => 'Elasticsearch']);
+    $skill2 = Skill::query()->create(['name' => 'opensearch']);
 
     // sync (pivot is empty)
     $skill->sqlUsers()->sync([$user->id, $user2->id]);

@@ -14,7 +14,7 @@ use PDPhilip\OpenSearch\Data\ModelMeta;
  */
 abstract class Model extends BaseModel
 {
-    use ElasticsearchModel;
+    use OpenSearchModel;
 
     protected $keyType = 'string';
 
@@ -44,15 +44,15 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Indicates if the given model class is a ElasticSearch document model.
+     * Indicates if the given model class is a OpenSearch document model.
      * It must be a subclass of {@see BaseModel} and use the
-     * {@see ElasticsearchModel} trait.
+     * {@see OpenSearchModel} trait.
      *
      * implementation of https://github.com/mongodb/laravel-mongodb/blob/5.x/src/Eloquent/Model.php
      *
      * @param  class-string|object  $class
      */
-    final public static function isElasticsearchModel(string|object $class): bool
+    final public static function isOpenSearchModel(string|object $class): bool
     {
         if (is_object($class)) {
             $class = $class::class;
@@ -73,6 +73,6 @@ abstract class Model extends BaseModel
         }
 
         // Document models must use the DocumentModel trait.
-        return self::$documentModelClasses[$class] = array_key_exists(ElasticsearchModel::class, class_uses_recursive($class));
+        return self::$documentModelClasses[$class] = array_key_exists(OpenSearchModel::class, class_uses_recursive($class));
     }
 }

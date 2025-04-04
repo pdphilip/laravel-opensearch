@@ -6,14 +6,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
-use PDPhilip\Elasticsearch\Connection;
-use PDPhilip\Elasticsearch\Eloquent\Model;
-use PDPhilip\Elasticsearch\Schema\Schema;
-use PDPhilip\Elasticsearch\Tests\Models\Book;
-use PDPhilip\Elasticsearch\Tests\Models\Guarded;
-use PDPhilip\Elasticsearch\Tests\Models\Item;
-use PDPhilip\Elasticsearch\Tests\Models\Soft;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Connection;
+use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Schema\Schema;
+use PDPhilip\OpenSearch\Tests\Models\Book;
+use PDPhilip\OpenSearch\Tests\Models\Guarded;
+use PDPhilip\OpenSearch\Tests\Models\Item;
+use PDPhilip\OpenSearch\Tests\Models\Soft;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     User::executeSchema();
@@ -24,7 +24,7 @@ beforeEach(function () {
 it('tests new model', function () {
     $user = new User;
 
-    expect(Model::isElasticsearchModel($user))->toBeTrue()
+    expect(Model::isopensearchModel($user))->toBeTrue()
         ->and($user->getConnection())->toBeInstanceOf(Connection::class)
         ->and($user->exists)->toBeFalse()
         ->and($user->getTable())->toBe('users')
@@ -193,7 +193,7 @@ it('tests find', function () {
 
     $check = User::find($user->id);
     expect($check)->toBeInstanceOf(User::class)
-        ->and(Model::isElasticsearchModel($check))->toBeTrue()
+        ->and(Model::isOpenSearchModel($check))->toBeTrue()
         ->and($check->exists)->toBeTrue()
         ->and($check->id)->toBe($user->id)
         ->and($check->name)->toBe('John Doe')
@@ -225,7 +225,7 @@ it('tests first', function () {
 
     $user = User::first();
     expect($user)->toBeInstanceOf(User::class)
-        ->and(Model::isElasticsearchModel($user))->toBeTrue()
+        ->and(Model::isOpenSearchModel($user))->toBeTrue()
         ->and($user->name)->toBe('John Doe');
 });
 
@@ -249,7 +249,7 @@ it('tests find or fail', function () {
 it('tests create', function () {
     $user = User::withoutRefresh()->create(['name' => 'Jane Poe']);
     expect($user)->toBeInstanceOf(User::class)
-        ->and(Model::isElasticsearchModel($user))->toBeTrue()
+        ->and(Model::isOpenSearchModel($user))->toBeTrue()
         ->and($user->exists)->toBeTrue()
         ->and($user->name)->toBe('Jane Poe');
     sleep(1);
@@ -543,7 +543,7 @@ it('tests first or create', function () {
 
     $user = User::firstOrCreate(['name' => $name]);
     expect($user)->toBeInstanceOf(User::class)
-        ->and(Model::isElasticsearchModel($user))->toBeTrue()
+        ->and(Model::isOpenSearchModel($user))->toBeTrue()
         ->and($user->exists)->toBeTrue()
         ->and($user->name)->toBe($name);
 
@@ -576,7 +576,7 @@ it('should throw an error if suffix is applied to a non dynamic index', function
     $user->name = 'one';
     $user->withSuffix('_test');
     $user->save();
-})->throws(\PDPhilip\Elasticsearch\Exceptions\DynamicIndexException::class);
+})->throws(\PDPhilip\OpenSearch\Exceptions\DynamicIndexException::class);
 
 it('gets the query meta', function () {
 
@@ -585,7 +585,7 @@ it('gets the query meta', function () {
     $user->save();
 
     $check = User::first();
-    expect($check->getMeta())->toBeInstanceOf(\PDPhilip\Elasticsearch\Data\ModelMeta::class)
+    expect($check->getMeta())->toBeInstanceOf(\PDPhilip\OpenSearch\Data\ModelMeta::class)
         ->and($check->getMeta()->toArray())->toHaveKeys(['score', 'index']);
 });
 

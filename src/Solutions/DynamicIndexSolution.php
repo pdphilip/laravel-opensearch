@@ -28,7 +28,7 @@ class {$this->modelName} extends Model
     public function getDocumentationLinks(): array
     {
         return [
-            'Read more' => 'https://elasticsearch.pdphilip.com/eloquent/dynamic-indices/',
+            'Read more' => 'https://opensearch.pdphilip.com/eloquent/dynamic-indices/',
         ];
     }
 }

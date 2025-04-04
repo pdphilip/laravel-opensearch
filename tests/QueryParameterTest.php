@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Event;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     Event::fake();

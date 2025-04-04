@@ -14,7 +14,7 @@ use PDPhilip\OpenSearch\Eloquent\Model as TModel;
  *
  * @extends \Illuminate\Database\Eloquent\Collection<int, TModel>
  */
-class ElasticCollection extends Collection
+class OpenCollection extends Collection
 {
     protected ?QueryMeta $meta;
 

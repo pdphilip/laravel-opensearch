@@ -24,7 +24,7 @@ class Grammar extends BaseGrammar
     // ======================================================================
 
     /**
-     * Compile the given values to an Elasticsearch insert statement
+     * Compile the given values to an OpenSearch insert statement
      *
      * @param  Builder  $query
      */
@@ -695,7 +695,7 @@ class Grammar extends BaseGrammar
     }
 
     /**
-     * Compile a search clause for Elasticsearch.
+     * Compile a search clause for OpenSearch.
      */
     protected function compileWhereSearch(Builder $builder, array $where): array
     {
@@ -1606,7 +1606,7 @@ class Grammar extends BaseGrammar
      */
     public function getDateFormat(): string
     {
-        return Config::get('laravel-elasticsearch.date_format', 'Y-m-d H:i:s');
+        return Config::get('laravel-opensearch.date_format', 'Y-m-d H:i:s');
     }
     // ----------------------------------------------------------------------
     // Index

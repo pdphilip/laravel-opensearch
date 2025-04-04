@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\DB;
-use PDPhilip\Elasticsearch\Exceptions\QueryException;
-use PDPhilip\Elasticsearch\Tests\Models\PageHit;
+use PDPhilip\OpenSearch\Exceptions\QueryException;
+use PDPhilip\OpenSearch\Tests\Models\PageHit;
 
 // Set up the database schema before each test
 beforeEach(function () {

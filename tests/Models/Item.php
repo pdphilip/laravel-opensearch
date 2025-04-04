@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
 use Carbon\Carbon;
-use PDPhilip\Elasticsearch\Eloquent\Builder;
-use PDPhilip\Elasticsearch\Eloquent\Model;
-use PDPhilip\Elasticsearch\Relations\BelongsTo;
-use PDPhilip\Elasticsearch\Schema\Blueprint;
-use PDPhilip\Elasticsearch\Schema\Schema;
+use PDPhilip\OpenSearch\Eloquent\Builder;
+use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Relations\BelongsTo;
+use PDPhilip\OpenSearch\Schema\Blueprint;
+use PDPhilip\OpenSearch\Schema\Schema;
 
 /** @property Carbon $created_at */
 class Item extends Model

@@ -24,7 +24,7 @@ use PDPhilip\OpenSearch\Traits\HasOptions;
  * @mixin \PDPhilip\OpenSearch\Query\Builder
  * @mixin \PDPhilip\OpenSearch\Eloquent\Builder
  */
-trait ElasticsearchModel
+trait OpenSearchModel
 {
     use HasOptions, HybridRelations, ModelDocs;
 
@@ -47,7 +47,7 @@ trait ElasticsearchModel
     protected $queryFieldMap = [];
 
     /**
-     * Model generates unique ids or Elasticsearch generates them.
+     * Model generates unique ids or OpenSearch generates them.
      *
      * @var bool
      */
@@ -420,9 +420,9 @@ trait ElasticsearchModel
         if (! ($connection instanceof Connection)) {
             $config = $connection->getConfig() ?? null;
             if (! empty($config['driver'])) {
-                throw new RuntimeException('Invalid connection settings; expected "elasticsearch", got "'.$config['driver'].'"');
+                throw new RuntimeException('Invalid connection settings; expected "opensearch", got "'.$config['driver'].'"');
             } else {
-                throw new RuntimeException('Invalid connection settings; expected "elasticsearch"');
+                throw new RuntimeException('Invalid connection settings; expected "opensearch"');
             }
         }
 

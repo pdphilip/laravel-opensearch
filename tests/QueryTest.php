@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use PDPhilip\Elasticsearch\Tests\Models\Birthday;
-use PDPhilip\Elasticsearch\Tests\Models\Product;
-use PDPhilip\Elasticsearch\Tests\Models\Scoped;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Tests\Models\Birthday;
+use PDPhilip\OpenSearch\Tests\Models\Product;
+use PDPhilip\OpenSearch\Tests\Models\Scoped;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     User::executeSchema();

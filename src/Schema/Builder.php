@@ -338,6 +338,6 @@ class Builder extends BaseBuilder
      */
     public function hasIndex($table, $index, $type = null)
     {
-        throw new LogicException('Elasticsearch does not support index types. Please use the `hasTable` method instead.');
+        throw new LogicException('OpenSearch does not support index types. Please use the `hasTable` method instead.');
     }
 }

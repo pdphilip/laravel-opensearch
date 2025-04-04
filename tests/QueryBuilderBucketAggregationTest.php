@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\DB;
-use PDPhilip\Elasticsearch\Tests\Models\Birthday;
-use PDPhilip\Elasticsearch\Tests\Models\Item;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Tests\Models\Birthday;
+use PDPhilip\OpenSearch\Tests\Models\Item;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     User::executeSchema();

@@ -317,7 +317,7 @@ trait HybridRelations
     ) {
         // If the related model is an instance of eloquent model class, leave pivot keys
         // as default. It's necessary for supporting hybrid relationship
-        if (Model::isElasticsearchModel($related)) {
+        if (Model::isOpenSearchModel($related)) {
             // For the inverse of the polymorphic many-to-many relations, we will change
             // the way we determine the foreign and other keys, as it is the opposite
             // of the morph-to-many method since we're figuring out these inverses.
@@ -345,7 +345,7 @@ trait HybridRelations
      */
     public function newEloquentBuilder($query)
     {
-        if (Model::isElasticsearchModel($this)) {
+        if (Model::isOpenSearchModel($this)) {
             return new Builder($query);
         }
 
@@ -355,9 +355,9 @@ trait HybridRelations
     protected function nonElasticModel($related, $includingSelf = false): bool
     {
         if ($includingSelf) {
-            return ! Model::isElasticsearchModel($related) && ! Model::isElasticsearchModel($this);
+            return ! Model::isOpenSearchModel($related) && ! Model::isOpenSearchModel($this);
         }
 
-        return ! Model::isElasticsearchModel($related);
+        return ! Model::isOpenSearchModel($related);
     }
 }

@@ -37,7 +37,7 @@ class Processor extends BaseProcessor
     }
 
     /**
-     * Get the raw Elasticsearch response as an array
+     * Get the raw OpenSearch response as an array
      */
     public function getRawResponse(): array
     {
@@ -266,8 +266,6 @@ class Processor extends BaseProcessor
 
     /**
      * Process the results of a "select" query.
-     *
-     * @param  Elasticsearch  $results
      */
     public function processSelect(BaseBuilder|Builder $query, $results): array|Collection
     {
@@ -375,7 +373,7 @@ class Processor extends BaseProcessor
     /**
      * Process the results of a tables query.
      *
-     * @param  array|Elasticsearch  $results
+     * @param  array  $results
      * @return array
      */
     public function processTables($results)
@@ -396,7 +394,7 @@ class Processor extends BaseProcessor
     /**
      *  Process the results of an update query.
      */
-    public function processUpdate(Builder $query, Elasticsearch $result): int
+    public function processUpdate(Builder $query, $result): int
     {
         $this->rawResponse = $result;
         $this->query = $query;
@@ -407,7 +405,7 @@ class Processor extends BaseProcessor
     /**
      * Process the results of a delete query.
      */
-    public function processDelete(Builder $query, Elasticsearch $result): bool
+    public function processDelete(Builder $query, $result): bool
     {
         $this->rawResponse = $result;
         $this->query = $query;
@@ -418,7 +416,7 @@ class Processor extends BaseProcessor
     /**
      *  Process the results of an insert query.
      */
-    public function processInsert(Builder $query, Elasticsearch $result): bool
+    public function processInsert(Builder $query, $result): bool
     {
         $this->rawResponse = $result;
         $this->query = $query;
@@ -426,7 +424,7 @@ class Processor extends BaseProcessor
         return ! $this->getRawResponse()['errors'];
     }
 
-    public function processBulkInsert(Builder $query, Elasticsearch $result): array
+    public function processBulkInsert(Builder $query, $result): array
     {
         $this->rawResponse = $result;
         $this->query = $query;

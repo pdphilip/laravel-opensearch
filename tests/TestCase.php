@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\Elasticsearch\Tests;
+namespace PDPhilip\OpenSearch\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use PDPhilip\Elasticsearch\ElasticServiceProvider;
+use PDPhilip\OpenSearch\ElasticServiceProvider;
 
 class TestCase extends Orchestra
 {

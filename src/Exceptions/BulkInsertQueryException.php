@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace PDPhilip\OpenSearch\Exceptions;
 
-use Elastic\Elasticsearch\Response\Elasticsearch;
-
 class BulkInsertQueryException extends LaravelOpenSearchException
 {
     private int $errorLimit = 10;
@@ -13,9 +11,9 @@ class BulkInsertQueryException extends LaravelOpenSearchException
     /**
      * BulkInsertQueryException constructor.
      */
-    public function __construct(Elasticsearch $queryResult)
+    public function __construct($queryResult)
     {
-        parent::__construct($this->formatMessage($queryResult->asArray()), 400);
+        parent::__construct($this->formatMessage($queryResult), 400);
     }
 
     /**

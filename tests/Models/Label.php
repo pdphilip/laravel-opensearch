@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use PDPhilip\Elasticsearch\Eloquent\Model;
-use PDPhilip\Elasticsearch\Schema\Blueprint;
-use PDPhilip\Elasticsearch\Schema\Schema;
+use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Schema\Blueprint;
+use PDPhilip\OpenSearch\Schema\Schema;
 
 /**
  * @property string $title

@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\DB;
-use PDPhilip\Elasticsearch\Connection;
-use PDPhilip\Elasticsearch\ElasticClient as Client;
-use PDPhilip\Elasticsearch\Helpers\Helpers;
-use PDPhilip\Elasticsearch\Schema\Builder as SchemaBuilder;
+use PDPhilip\OpenSearch\Connection;
+use PDPhilip\OpenSearch\Helpers\Helpers;
+use PDPhilip\OpenSearch\OpenClient as Client;
+use PDPhilip\OpenSearch\Schema\Builder as SchemaBuilder;
 
 function getLaravelVersion(): int
 {
@@ -23,26 +23,26 @@ test('Laravel Compatability for v'.getLaravelVersion().' loaded', function () {
 });
 
 test('Connection', function () {
-    $connection = DB::connection('elasticsearch');
+    $connection = DB::connection('opensearch');
 
     expect($connection)->toBeInstanceOf(Connection::class)
-        ->and($connection->getDriverName())->toEqual('elasticsearch')
-        ->and($connection->getDriverTitle())->toEqual('elasticsearch');
+        ->and($connection->getDriverName())->toEqual('opensearch')
+        ->and($connection->getDriverTitle())->toEqual('opensearch');
 });
 
 test('Reconnect', function () {
-    $c1 = DB::connection('elasticsearch');
-    $c2 = DB::connection('elasticsearch');
+    $c1 = DB::connection('opensearch');
+    $c2 = DB::connection('opensearch');
     expect(spl_object_hash($c1) === spl_object_hash($c2))->toBeTrue();
 
-    $c1 = DB::connection('elasticsearch');
-    DB::purge('elasticsearch');
-    $c2 = DB::connection('elasticsearch');
+    $c1 = DB::connection('opensearch');
+    DB::purge('opensearch');
+    $c2 = DB::connection('opensearch');
     expect(spl_object_hash($c1) !== spl_object_hash($c2))->toBeTrue();
 });
 
 test('Disconnect And Create New Connection', function () {
-    $connection = DB::connection('elasticsearch');
+    $connection = DB::connection('opensearch');
     expect($connection)->toBeInstanceOf(Connection::class);
     $client = $connection->getClient();
     expect($client)->toBeInstanceOf(Client::class);
@@ -50,9 +50,9 @@ test('Disconnect And Create New Connection', function () {
     $connection->disconnect();
     $client = $connection->getClient();
     expect($client)->toBeNull();
-    DB::purge('elasticsearch');
+    DB::purge('opensearch');
 
-    $connection = DB::connection('elasticsearch');
+    $connection = DB::connection('opensearch');
     expect($connection)->toBeInstanceOf(Connection::class);
     $client = $connection->getClient();
     expect($client)->toBeInstanceOf(Client::class);
@@ -60,7 +60,7 @@ test('Disconnect And Create New Connection', function () {
 });
 
 test('DB', function () {
-    $connection = DB::connection('elasticsearch');
+    $connection = DB::connection('opensearch');
     expect($connection->getClient())->toBeInstanceOf(Client::class);
 });
 
@@ -95,11 +95,11 @@ test('Prefix', function () {
 });
 
 test('Schema Builder', function () {
-    $schema = DB::connection('elasticsearch')->getSchemaBuilder();
+    $schema = DB::connection('opensearch')->getSchemaBuilder();
     expect($schema)->toBeInstanceOf(SchemaBuilder::class);
 });
 
 test('Driver Name', function () {
-    $driver = DB::connection('elasticsearch')->getDriverName();
-    expect($driver === 'elasticsearch')->toBeTrue();
+    $driver = DB::connection('opensearch')->getDriverName();
+    expect($driver === 'opensearch')->toBeTrue();
 });

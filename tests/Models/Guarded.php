@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
-use PDPhilip\Elasticsearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Eloquent\Model;
 
 class Guarded extends Model
 {

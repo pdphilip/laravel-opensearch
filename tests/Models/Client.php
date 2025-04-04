@@ -1,14 +1,14 @@
 <?php
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use PDPhilip\Elasticsearch\Eloquent\HybridRelations;
-use PDPhilip\Elasticsearch\Eloquent\Model;
-use PDPhilip\Elasticsearch\Schema\Blueprint;
-use PDPhilip\Elasticsearch\Schema\Schema;
+use PDPhilip\OpenSearch\Eloquent\HybridRelations;
+use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Schema\Blueprint;
+use PDPhilip\OpenSearch\Schema\Schema;
 
 class Client extends Model
 {

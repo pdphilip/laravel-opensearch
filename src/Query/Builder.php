@@ -18,8 +18,8 @@ use Illuminate\Support\Str;
 use InvalidArgumentException;
 use PDPhilip\OpenSearch\Connection;
 use PDPhilip\OpenSearch\Data\MetaDTO;
-use PDPhilip\OpenSearch\Eloquent\ElasticCollection;
 use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Eloquent\OpenCollection;
 use PDPhilip\OpenSearch\Exceptions\BuilderException;
 use PDPhilip\OpenSearch\Exceptions\LogicException;
 use PDPhilip\OpenSearch\Exceptions\RuntimeException;
@@ -155,8 +155,8 @@ class Builder extends BaseBuilder
     /**
      * {@inheritdoc}
      *
-     *  Match query: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html
-     *  or Range query: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html
+     *  Match query
+     *  or Range query
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and', $options = [])
     {
@@ -207,7 +207,7 @@ class Builder extends BaseBuilder
 
     /**
      * {@inheritdoc}
-     * Terms query: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html
+     * Terms query
      */
     public function whereIn($column, $values, $boolean = 'and', $not = false, $options = [])
     {
@@ -307,7 +307,7 @@ class Builder extends BaseBuilder
 
     /**
      * Add a where between statement to the query.
-     * Range query: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html
+     * Range query
      *
      * @param  string  $column
      * @param  array  $values
@@ -478,7 +478,7 @@ class Builder extends BaseBuilder
      *
      * @param  array  $columns
      */
-    public function get($columns = ['*']): ElasticCollection
+    public function get($columns = ['*']): OpenCollection
     {
 
         $original = $this->columns;
@@ -489,7 +489,7 @@ class Builder extends BaseBuilder
 
         $results = $this->getResultsOnce();
         $this->columns = $original;
-        $collection = ElasticCollection::make($results);
+        $collection = OpenCollection::make($results);
         $collection->setQueryMeta($this->metaTransfer);
 
         return $collection;
@@ -503,7 +503,7 @@ class Builder extends BaseBuilder
     /**
      * Run the query as a "select" statement against the connection.
      *
-     * @return Elasticsearch
+     * @return OpenCollection
      */
     protected function runSelect()
     {
@@ -880,7 +880,7 @@ class Builder extends BaseBuilder
         return $this->whereWeekday($column, $operator, $value, 'or', $options);
     }
 
-    // Match: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html
+    // Match
 
     public function whereMatch($column, $value, $boolean = 'and', $not = false, $options = []): self
     {
@@ -906,7 +906,7 @@ class Builder extends BaseBuilder
         return $this->whereMatch($column, $value, 'or', true, $options);
     }
 
-    // Match Phrase: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase.html
+    // Match Phrase
 
     public function wherePhrase($column, $value, $boolean = 'and', $not = false, $options = [])
     {
@@ -933,7 +933,7 @@ class Builder extends BaseBuilder
         return $this->wherePhrase($column, $value, 'or', true, $options);
     }
 
-    // Match Phrase Prefix: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query-phrase-prefix.html
+    // Match Phrase Prefix
 
     public function wherePhrasePrefix($column, $value, $boolean = 'and', $not = false, $options = [])
     {
@@ -961,7 +961,7 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Add a term query: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
+     * Add a term query
      *
      * @param  string  $boolean
      */
@@ -1013,7 +1013,6 @@ class Builder extends BaseBuilder
 
     /**
      * Returns documents that contain an indexed value for a field.
-     * https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-query.html
      *
      * @param  string  $column
      * @param  string  $boolean
@@ -1050,7 +1049,6 @@ class Builder extends BaseBuilder
 
     /**
      * Add a fuzzy term query
-     * https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-fuzzy-query.html
      *
      * @param  string  $boolean
      */
@@ -1360,7 +1358,6 @@ class Builder extends BaseBuilder
     }
 
     // Multi Match query with type:best_fields
-    // https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html#type-best-fields
 
     public function searchTerm($query, mixed $columns = null, $options = [])
     {
@@ -1383,7 +1380,6 @@ class Builder extends BaseBuilder
     }
 
     // Multi Match query with type:most_fields
-    // https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html#type-most-fields
 
     public function searchTermMost($query, mixed $columns = null, $options = [])
     {
@@ -1406,7 +1402,6 @@ class Builder extends BaseBuilder
     }
 
     // Multi Match query with type:cross_fields
-    // https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html#type-cross-fields
 
     public function searchTermCross($query, mixed $columns = null, $options = [])
     {
@@ -1429,7 +1424,6 @@ class Builder extends BaseBuilder
     }
 
     // Multi Match query with type:phrase
-    // https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html#type-phrase
 
     public function searchPhrase($phrase, mixed $columns = null, $options = [])
     {
@@ -1452,7 +1446,6 @@ class Builder extends BaseBuilder
     }
 
     // Multi Match query with type:phrase_prefix
-    // https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html#type-phrase
 
     public function searchPhrasePrefix($phrase, mixed $columns = null, $options = [])
     {
@@ -1475,7 +1468,6 @@ class Builder extends BaseBuilder
     }
 
     // Multi Match query with type:bool_prefix
-    // https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html#type-bool-prefix
 
     public function searchBoolPrefix($query, mixed $columns = null, $options = [])
     {
@@ -1617,7 +1609,6 @@ class Builder extends BaseBuilder
     /**
      * A boxplot metrics aggregation that computes boxplot of numeric values extracted from the aggregated documents.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-boxplot-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -1632,7 +1623,6 @@ class Builder extends BaseBuilder
     /**
      * Retrieve the Cardinality Stats of the values of a given keyword column.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-cardinality-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -1689,7 +1679,6 @@ class Builder extends BaseBuilder
     /**
      * Retrieve the extended stats of the values of a given column.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-extendedstats-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -1704,7 +1693,6 @@ class Builder extends BaseBuilder
     /**
      * Retrieve the String Stats of the values of a given keyword column.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-string-stats-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -1719,7 +1707,6 @@ class Builder extends BaseBuilder
     /**
      * Retrieve the median absolute deviation stats of the values of a given column.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-median-absolute-deviation-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -1734,7 +1721,6 @@ class Builder extends BaseBuilder
     /**
      * Retrieve the percentiles of the values of a given column.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-percentile-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -1749,7 +1735,6 @@ class Builder extends BaseBuilder
     /**
      * Retrieve the stats of the values of a given column.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-stats-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -1764,7 +1749,6 @@ class Builder extends BaseBuilder
     /**
      * Retrieve the String Stats of the values of a given keyword column.
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-string-stats-aggregation.html
      *
      * @param  Expression|string|array  $columns
      * @param  array  $options
@@ -2012,8 +1996,6 @@ class Builder extends BaseBuilder
     /**
      * Set how to handle conflicts during a delete request
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-delete-by-query.html#docs-delete-by-query-api-query-params
-     *
      * @throws \Exception
      */
     public function onConflicts(string $option = self::CONFLICT['PROCEED']): self
@@ -2138,7 +2120,7 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Get the Elasticsearch representation of the query.
+     * Get the OpenSearch representation of the query.
      */
     public function toCompiledQuery(): array|string
     {
@@ -2194,7 +2176,7 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Get the parent ID to be used when routing queries to Elasticsearch
+     * Get the parent ID to be used when routing queries to OpenSearch
      */
     public function getParentId(): ?string
     {
@@ -2207,7 +2189,7 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Set the parent ID to be used when routing queries to Elasticsearch
+     * Set the parent ID to be used when routing queries to OpenSearch
      */
     public function parentId(string $id): self
     {
@@ -2279,7 +2261,7 @@ class Builder extends BaseBuilder
         return $this;
     }
 
-    public function raw($value): Elasticsearch
+    public function raw($value)
     {
         return $this->connection->raw($value);
     }
@@ -2336,7 +2318,7 @@ class Builder extends BaseBuilder
     /**
      * Apply PIT and get()
      */
-    public function getPit($columns = ['*']): ElasticCollection
+    public function getPit($columns = ['*']): OpenCollection
     {
         if (! $this->pitId) {
             $this->openPit();

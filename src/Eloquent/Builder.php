@@ -131,7 +131,7 @@ class Builder extends BaseEloquentBuilder
     /**
      * {@inheritdoc}
      */
-    public function get($columns = ['*']): ElasticCollection
+    public function get($columns = ['*']): OpenCollection
     {
         if (! is_array($columns)) {
             $columns = [$columns];
@@ -142,7 +142,7 @@ class Builder extends BaseEloquentBuilder
 
         $models = $this->loadRelations($models, $builder);
 
-        return ElasticCollection::loadCollection($builder->getModel()->newCollection($models))->loadMeta($modelsCollection->getQueryMeta());
+        return OpenCollection::loadCollection($builder->getModel()->newCollection($models))->loadMeta($modelsCollection->getQueryMeta());
     }
 
     public function getPit($columns = ['*'])
@@ -155,7 +155,7 @@ class Builder extends BaseEloquentBuilder
         $models = $modelsCollection->all();
         $models = $this->loadRelations($models, $builder);
 
-        return ElasticCollection::loadCollection($builder->getModel()->newCollection($models))->loadMeta($modelsCollection->getQueryMeta());
+        return OpenCollection::loadCollection($builder->getModel()->newCollection($models))->loadMeta($modelsCollection->getQueryMeta());
     }
 
     public function getRaw(): mixed
@@ -194,7 +194,7 @@ class Builder extends BaseEloquentBuilder
             $elasticQueryCollection->all()
         );
 
-        return ElasticCollection::loadCollection($eloquentCollection)->loadMeta($elasticQueryCollection->getQueryMeta());
+        return OpenCollection::loadCollection($eloquentCollection)->loadMeta($elasticQueryCollection->getQueryMeta());
     }
 
     public function getElasticModelsViaPit($columns = ['*'])
@@ -204,7 +204,7 @@ class Builder extends BaseEloquentBuilder
             $elasticQueryCollection->all()
         );
 
-        return ElasticCollection::loadCollection($eloquentCollection)->loadMeta($elasticQueryCollection->getQueryMeta());
+        return OpenCollection::loadCollection($eloquentCollection)->loadMeta($elasticQueryCollection->getQueryMeta());
     }
 
     /**
@@ -425,14 +425,14 @@ class Builder extends BaseEloquentBuilder
     /**
      *  Distinct executes Nested Term Aggs on the specified column(s)
      */
-    public function distinct(mixed $columns = [], bool $includeCount = false): ElasticCollection
+    public function distinct(mixed $columns = [], bool $includeCount = false): OpenCollection
     {
         $elasticQueryCollection = $this->query->distinct($columns, $includeCount);
         $eloquentCollection = $this->model->hydrate(
             $elasticQueryCollection->all()
         );
 
-        return ElasticCollection::loadCollection($eloquentCollection)->loadMeta($elasticQueryCollection->getQueryMeta());
+        return OpenCollection::loadCollection($eloquentCollection)->loadMeta($elasticQueryCollection->getQueryMeta());
     }
 
     public function min($column, array $options = [])
@@ -528,7 +528,7 @@ class Builder extends BaseEloquentBuilder
                 $items
             );
 
-            return ElasticCollection::loadCollection($models)->setQueryMeta($meta);
+            return OpenCollection::loadCollection($models)->setQueryMeta($meta);
         }
 
         return $result;

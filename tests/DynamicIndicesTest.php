@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use PDPhilip\Elasticsearch\Tests\Models\PageHit;
+use PDPhilip\OpenSearch\Tests\Models\PageHit;
 
 beforeEach(function () {
     PageHit::executeSchema();

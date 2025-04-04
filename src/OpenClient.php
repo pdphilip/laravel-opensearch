@@ -7,7 +7,7 @@ use Opensearch\Client;
 use OpenSearch\Namespaces\IndicesNamespace;
 use PDPhilip\OpenSearch\Query\DSL\DslBuilder;
 
-class ElasticClient
+class OpenClient
 {
     public function __construct(protected Client $client) {}
 

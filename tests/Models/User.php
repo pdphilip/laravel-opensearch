@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
 use DateTimeInterface;
 use Illuminate\Auth\Authenticatable;
@@ -13,10 +13,10 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use PDPhilip\Elasticsearch\Eloquent\Builder;
-use PDPhilip\Elasticsearch\Eloquent\Model;
-use PDPhilip\Elasticsearch\Schema\Blueprint;
-use PDPhilip\Elasticsearch\Schema\Schema;
+use PDPhilip\OpenSearch\Eloquent\Builder;
+use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Schema\Blueprint;
+use PDPhilip\OpenSearch\Schema\Schema;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -25,7 +25,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     use MassPrunable;
     use Notifiable;
 
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $casts = [
         'birthday' => 'datetime',
@@ -127,7 +127,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('users');
         $schema->create('users', function (Blueprint $table) {

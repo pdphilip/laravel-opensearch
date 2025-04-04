@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use PDPhilip\Elasticsearch\Query\Builder;
-use PDPhilip\Elasticsearch\Tests\Models\Post;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Query\Builder;
+use PDPhilip\OpenSearch\Tests\Models\Post;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     User::executeSchema();

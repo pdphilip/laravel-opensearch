@@ -23,10 +23,8 @@ use PDPhilip\OpenSearch\Query\Builder;
 use PDPhilip\OpenSearch\Query\Processor;
 use PDPhilip\OpenSearch\Schema\Blueprint;
 use PDPhilip\OpenSearch\Traits\HasOptions;
-use RuntimeException;
 
 use function array_replace_recursive;
-use function in_array;
 use function is_array;
 use function strtolower;
 
@@ -40,12 +38,10 @@ class Connection extends BaseConnection
     use ConnectionCompatibility;
     use HasOptions;
 
-    const VALID_AUTH_TYPES = ['http', 'cloud'];
-
     /**
-     * The Elasticsearch connection handler.
+     * The OpenSearch connection handler.
      */
-    protected ?Client $connection;
+    protected ?OpenClient $connection;
 
     protected string $connectionName = '';
 
@@ -70,8 +66,6 @@ class Connection extends BaseConnection
         $this->config = $config;
 
         $this->sanitizeConfig();
-
-        $this->validateConnection();
 
         $this->setOptions();
 
@@ -102,30 +96,34 @@ class Connection extends BaseConnection
         $this->config = array_replace_recursive(
             [
                 'name' => null,
-                'auth_type' => '',
-                'cloud_id' => null,
                 'hosts' => [],
-                'username' => null,
-                'password' => null,
-                'api_key' => null,
-                'api_id' => null,
-                'index_prefix' => '',
-                'ssl_cert' => null,
+                'basic_auth' => [
+                    'username' => null,
+                    'password' => null,
+                ],
+                'sig_v4' => [
+                    'provider' => null,
+                    'region' => null,
+                    'service' => null,
+                ],
                 'ssl' => [
                     'key' => null,
                     'key_password' => null,
                     'cert' => null,
                     'cert_password' => null,
                 ],
+                'index_prefix' => '',
                 'options' => [
-                    'bypass_map_validation' => false, // This skips the safety checks for Elastic Specific queries.
+                    'port_in_host_header' => null,
+                    'sniff_on_start' => null,
+                    'bypass_map_validation' => false, // This skips the safety checks for mapping validation.
                     'logging' => false,
                     'ssl_verification' => true,
                     'retires' => null,
-                    'meta_header' => null,
                     'default_limit' => null,
                     'allow_id_sort' => false,
                 ],
+                'connection_params' => [],
             ],
             $this->config
         );
@@ -133,35 +131,10 @@ class Connection extends BaseConnection
         $this->config['auth_type'] = strtolower($this->config['auth_type']);
     }
 
-    /**
-     * Validates the connection configuration based on the specified authentication type.
-     *
-     * @throws RuntimeException if the configuration is invalid for the specified authentication type.
-     */
-    private function validateConnection(): void
-    {
-        if (! in_array($this->config['auth_type'], self::VALID_AUTH_TYPES)) {
-            throw new RuntimeException('Invalid [auth_type] in database config. Must be: http or cloud');
-        }
-
-        if ($this->config['auth_type'] === 'cloud' && ! $this->config['cloud_id']) {
-            throw new RuntimeException('auth_type of `cloud` requires `cloud_id` to be set');
-        }
-
-        if ($this->config['auth_type'] === 'http' && (! $this->config['hosts'] || ! is_array($this->config['hosts']))) {
-            throw new RuntimeException('auth_type of `http` requires `hosts` to be set and be an array');
-        }
-    }
-
     public function setOptions(): void
     {
         $this->allowIdSort = $this->config['options']['allow_id_sort'] ?? false;
-
-        $this->options()->add('bypass_map_validation', $this->config['options']['bypass_map_validation'] ?? null);
-
-        if (isset($this->config['options']['ssl_verification'])) {
-            $this->options()->add('ssl_verification', $this->config['options']['ssl_verification']);
-        }
+        $this->options()->add('bypass_map_validation', $this->config['options']['bypass_map_validation'] ?? false);
 
         if (! empty($this->config['options']['retires'])) {
             $this->options()->add('retires', $this->config['options']['retires']);
@@ -176,74 +149,79 @@ class Connection extends BaseConnection
         }
     }
 
-    /**
-     * Builds and configures a connection to the OpenSearch client based on
-     * the provided configuration settings.
-     *
-     * @return Client The configured OpenSearch client.
-     *
-     * @throws AuthenticationException
-     */
-    protected function createConnection(): Client
+    // ----------------------------------------------------------------------
+    // Connection Builder
+    // ----------------------------------------------------------------------
+
+    protected function createConnection(): OpenClient
     {
+        $builder = ClientBuilder::create()->setHosts($this->config['hosts']);
+        $builder = $this->_builderOptions($builder);
+        $builder = $this->_buildAuth($builder);
+        $builder = $this->_buildSigV4($builder);
+        $builder = $this->_buildSSL($builder);
 
-        $this->validateConnection();
+        return new OpenClient($builder->build());
 
-        $clientBuilder = ClientBuilder::create();
-
-        // Set the connection type
-        if ($this->config['auth_type'] === 'http') {
-            $clientBuilder = $clientBuilder->setHosts($this->config['hosts']);
-        } else {
-            $clientBuilder = $clientBuilder->setElasticCloudId($this->config['cloud_id']);
-        }
-
-        // Set Builder options
-        $clientBuilder = $this->builderOptions($clientBuilder);
-
-        // Set Authentication
-        if ($this->config['username'] && $this->config['password']) {
-            $clientBuilder->setBasicAuthentication($this->config['username'], $this->config['password']);
-        }
-
-        if ($this->config['api_key']) {
-            $clientBuilder->setApiKey($this->config['api_key'], $this->config['api_id']);
-        }
-
-        return new Client($clientBuilder->build());
     }
 
-    /**
-     * Configures and returns the client builder with the provided SSL and retry settings.
-     *
-     * @param  ClientBuilder  $clientBuilder  The callback builder instance.
-     */
-    protected function builderOptions(ClientBuilder $clientBuilder): Client
+    protected function _buildAuth(ClientBuilder $builder): ClientBuilder
     {
-        $clientBuilder = $clientBuilder->setSSLVerification($this->options()->get('ssl_verification'));
-        if ($this->options()->get('meta_header')) {
-            $clientBuilder = $clientBuilder->setElasticMetaHeader($this->options()->get('meta_header'));
+        $username = $this->config['basic_auth']['username'];
+        $password = $this->config['basic_auth']['password'];
+        if ($username && $password) {
+            $builder->setBasicAuthentication($username, $password);
         }
 
-        $clientBuilder = $clientBuilder->setRetries($this->options()->get('retires', 3));
+        return $builder;
+    }
 
-        if ($this->config['options']['logging']) {
-            $clientBuilder = $clientBuilder->setLogger(Log::getLogger());
+    protected function _buildSigV4(ClientBuilder $builder): ClientBuilder
+    {
+        $provider = $this->config['sig_v4']['provider'];
+        $region = $this->config['sig_v4']['region'];
+        $service = $this->config['sig_v4']['service'];
+        if ($provider) {
+            $builder->setSigV4CredentialProvider($provider);
+        }
+        if ($region) {
+            $builder->setSigV4Region($region);
+        }
+        if ($service) {
+            $builder->setSigV4Service($service);
         }
 
-        if ($this->config['ssl_cert']) {
-            $clientBuilder = $clientBuilder->setCABundle($this->config['ssl_cert']);
+        return $builder;
+    }
+
+    protected function _buildSSL(ClientBuilder $builder): ClientBuilder
+    {
+        $sslCert = $this->config['ssl']['cert'];
+        $sslCertPassword = $this->config['ssl']['cert_password'];
+        $sslKey = $this->config['ssl']['key'];
+        $sslKeyPassword = $this->config['ssl']['key_password'];
+        if ($sslCert) {
+            $builder->setSSLCert($sslCert, $sslCertPassword);
+        }
+        if ($sslKey) {
+            $builder->setSSLKey($sslKey, $sslKeyPassword);
         }
 
-        if ($this->config['ssl']['cert']) {
-            $clientBuilder = $clientBuilder->setSSLCert($this->config['ssl']['cert'], $this->config['ssl']['cert_password']);
+        return $builder;
+    }
+
+    protected function _builderOptions(ClientBuilder $builder): ClientBuilder
+    {
+        $builder->setSSLVerification($this->config['options']['ssl_verification']);
+
+        if ($this->config['options']['port_in_host_header'] !== null) {
+            $builder->includePortInHostHeader($this->config['options']['port_in_host_header']);
+        }
+        if ($this->config['options']['sniff_on_start'] !== null) {
+            $builder->setSniffOnStart($this->config['options']['sniff_on_start']);
         }
 
-        if ($this->config['ssl']['key']) {
-            $clientBuilder = $clientBuilder->setSSLKey($this->config['ssl']['key'], $this->config['ssl']['key_password']);
-        }
-
-        return $clientBuilder;
+        return $builder;
     }
 
     /** {@inheritdoc} */
@@ -532,9 +510,6 @@ class Connection extends BaseConnection
         );
     }
 
-    /**
-     * @throws AuthenticationException
-     */
     public function reconnectIfMissingConnection(): void
     {
         if (is_null($this->connection)) {

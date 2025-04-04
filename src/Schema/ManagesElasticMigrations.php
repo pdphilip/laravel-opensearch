@@ -10,8 +10,7 @@ trait ManagesElasticMigrations
 {
     /**
      * Create a new date column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html
+
      *
      * @param  string  $name
      */
@@ -26,8 +25,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new date_range column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/range.html
      */
     public function dateRange(string $name, array|string $parameters = []): PropertyDefinition
     {
@@ -40,8 +37,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new double_range column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/range.html
      */
     public function doubleRange(string $name, array $parameters = []): PropertyDefinition
     {
@@ -50,8 +45,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new float_range column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/range.html
      */
     public function floatRange(string $name, array $parameters = []): PropertyDefinition
     {
@@ -60,8 +53,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new geo_point column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
      */
     public function geoPoint(string $name, array $parameters = []): PropertyDefinition
     {
@@ -70,8 +61,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new geo_shape column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-shape.html
      */
     public function geoShape(string $name, array $parameters = []): PropertyDefinition
     {
@@ -80,8 +69,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new integer_range column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/range.html
      */
     public function integerRange(string $name, array $parameters = []): PropertyDefinition
     {
@@ -89,19 +76,7 @@ trait ManagesElasticMigrations
     }
 
     /**
-     * Create a new range column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/range.html
-     */
-    public function range(string $type, string $name, array $parameters = []): PropertyDefinition
-    {
-        return $this->addColumn($type, $name, $parameters);
-    }
-
-    /**
      * Create a new ip column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/ip.html
      */
     public function ip(string $name, array $parameters = []): PropertyDefinition
     {
@@ -109,9 +84,15 @@ trait ManagesElasticMigrations
     }
 
     /**
+     * Create a new range column on the table.
+     */
+    public function range(string $type, string $name, array $parameters = []): PropertyDefinition
+    {
+        return $this->addColumn($type, $name, $parameters);
+    }
+
+    /**
      * Create a new ip_range column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/range.html
      */
     public function ipRange(string $name, array $parameters = []): PropertyDefinition
     {
@@ -120,8 +101,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new join column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/parent-join.html
      */
     public function join(string $parent, string $child): PropertyDefinition
     {
@@ -135,8 +114,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new long column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/number.html
      */
     public function long(string $name, array $parameters = []): PropertyDefinition
     {
@@ -145,8 +122,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new long_range column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/range.html
      */
     public function longRange(string $name, array $parameters = []): PropertyDefinition
     {
@@ -155,8 +130,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new nested column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html
      */
     public function nested(string $name, array $parameters = []): PropertyDefinition
     {
@@ -165,8 +138,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new nested column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/flattened.html
      */
     public function flattened(string $name, array $parameters = []): PropertyDefinition
     {
@@ -175,8 +146,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new percolator column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/percolator.html
      */
     public function percolator(string $name, array $parameters = []): PropertyDefinition
     {
@@ -200,8 +169,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new keyword column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html
      */
     public function keyword(string $name, array $parameters = []): PropertyDefinition
     {
@@ -210,8 +177,6 @@ trait ManagesElasticMigrations
 
     /**
      * Create a new token_count column on the table.
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/token-count.html
      */
     public function tokenCount(string $name, array $parameters = []): PropertyDefinition
     {
@@ -220,8 +185,6 @@ trait ManagesElasticMigrations
 
     /**
      *  Alias field
-     *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/alias.html
      */
     public function aliasField(string $field, string $path): PropertyDefinition
     {

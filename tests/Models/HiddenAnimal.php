@@ -1,10 +1,10 @@
 <?php
 
-namespace PDPhilip\Elasticsearch\Tests\Models;
+namespace PDPhilip\OpenSearch\Tests\Models;
 
-use PDPhilip\Elasticsearch\Eloquent\Model;
-use PDPhilip\Elasticsearch\Schema\Blueprint;
-use PDPhilip\Elasticsearch\Schema\Schema;
+use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Schema\Blueprint;
+use PDPhilip\OpenSearch\Schema\Schema;
 
 /**
  * @property string $name

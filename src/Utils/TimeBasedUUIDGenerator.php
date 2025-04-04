@@ -5,14 +5,13 @@ namespace PDPhilip\OpenSearch\Utils;
 /**
  * @internal
  *
- * @see https://github.com/elastic/elasticsearch/blob/6b7751d65f7b32be38020688b8867f406a0f608a/server/src/main/java/org/elasticsearch/common/TimeBasedUUIDGenerator.java
  *
  * - Same 15-byte ID structure (timestamp, sequence, MAC).
  * - Atomic sequence number handling (prevents duplicates).
  * - Base64 URL-safe encoding, same as Strings.BASE_64_NO_PADDING_URL_ENCODER.
- * - Matches Elasticsearch’s ID distribution (compression-friendly byte layout).
+ * - Matches Opensearch’s ID distribution (compression-friendly byte layout).
  *
- * // Rational for the byte layout via Elasticsearch source code:
+ * // Rational for the byte layout via Opensearch source code:
  * // We have auto-generated ids, which are usually used for append-only workloads.
  * // So we try to optimize the order of bytes for indexing speed (by having quite
  * // unique bytes close to the beginning of the ids so that sorting is fast) and
@@ -143,7 +142,7 @@ class TimeBasedUUIDGenerator
             $macAddress = self::constructDummyMulticastAddress();
         }
 
-        // Munging the MAC address (Elasticsearch-like obfuscation)
+        // Munging the MAC address (Opensearch-like obfuscation)
         $mungedMac = '';
         $randomSeed = random_bytes(6);
         for ($i = 0; $i < 6; $i++) {

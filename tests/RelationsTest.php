@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
-use PDPhilip\Elasticsearch\Tests\Models\Address;
-use PDPhilip\Elasticsearch\Tests\Models\Book;
-use PDPhilip\Elasticsearch\Tests\Models\Client;
-use PDPhilip\Elasticsearch\Tests\Models\Group;
-use PDPhilip\Elasticsearch\Tests\Models\Item;
-use PDPhilip\Elasticsearch\Tests\Models\Label;
-use PDPhilip\Elasticsearch\Tests\Models\Photo;
-use PDPhilip\Elasticsearch\Tests\Models\Role;
-use PDPhilip\Elasticsearch\Tests\Models\Soft;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Tests\Models\Address;
+use PDPhilip\OpenSearch\Tests\Models\Book;
+use PDPhilip\OpenSearch\Tests\Models\Client;
+use PDPhilip\OpenSearch\Tests\Models\Group;
+use PDPhilip\OpenSearch\Tests\Models\Item;
+use PDPhilip\OpenSearch\Tests\Models\Label;
+use PDPhilip\OpenSearch\Tests\Models\Photo;
+use PDPhilip\OpenSearch\Tests\Models\Role;
+use PDPhilip\OpenSearch\Tests\Models\Soft;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     Photo::executeSchema();

@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\DB;
-use PDPhilip\Elasticsearch\Exceptions\InvalidFieldTypeException;
-use PDPhilip\Elasticsearch\Schema\Blueprint;
-use PDPhilip\Elasticsearch\Schema\Schema;
-use PDPhilip\Elasticsearch\Tests\Models\User;
+use PDPhilip\OpenSearch\Exceptions\InvalidFieldTypeException;
+use PDPhilip\OpenSearch\Schema\Blueprint;
+use PDPhilip\OpenSearch\Schema\Schema;
+use PDPhilip\OpenSearch\Tests\Models\User;
 
 beforeEach(function () {
     Schema::dropIfExists('newcollection');

@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use PDPhilip\Elasticsearch\Exceptions\QueryException;
-use PDPhilip\Elasticsearch\Schema\Blueprint;
-use PDPhilip\Elasticsearch\Schema\Schema;
-use PDPhilip\Elasticsearch\Tests\Factories\ProductFactory;
-use PDPhilip\Elasticsearch\Tests\Models\Product;
+use PDPhilip\OpenSearch\Exceptions\QueryException;
+use PDPhilip\OpenSearch\Schema\Blueprint;
+use PDPhilip\OpenSearch\Schema\Schema;
+use PDPhilip\OpenSearch\Tests\Factories\ProductFactory;
+use PDPhilip\OpenSearch\Tests\Models\Product;
 
 it('re-indexs data', function () {
     // Drop the Schema

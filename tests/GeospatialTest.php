@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use PDPhilip\Elasticsearch\Tests\Models\Location;
+use PDPhilip\OpenSearch\Tests\Models\Location;
 
 beforeEach(function () {
     Location::executeSchema();

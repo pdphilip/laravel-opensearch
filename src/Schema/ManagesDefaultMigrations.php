@@ -88,10 +88,10 @@ trait ManagesDefaultMigrations
     {
 
         if ($precision <= 24) {
-            // Use single precision equivalent in Elasticsearch
+            // Use single precision equivalent in OpenSearch
             return $this->addColumn('float', $column, $parameters);
         } elseif ($precision <= 53) {
-            // Use double precision equivalent in Elasticsearch
+            // Use double precision equivalent in OpenSearch
             return $this->addColumn('double', $column, $parameters);
         }
 
@@ -450,7 +450,7 @@ trait ManagesDefaultMigrations
      */
     public function bigIncrements($column)
     {
-        throw new InvalidFieldTypeException('Increments are not supported by ElasticSearch.');
+        throw new InvalidFieldTypeException('Increments are not supported by OpenSearch.');
     }
 
     /**
@@ -460,7 +460,7 @@ trait ManagesDefaultMigrations
      */
     public function mediumIncrements($column)
     {
-        throw new InvalidFieldTypeException('Increments are not supported by ElasticSearch.');
+        throw new InvalidFieldTypeException('Increments are not supported by OpenSearch.');
     }
 
     /**
@@ -470,7 +470,7 @@ trait ManagesDefaultMigrations
      */
     public function tinyIncrements($column)
     {
-        throw new InvalidFieldTypeException('Increments are not supported by ElasticSearch.');
+        throw new InvalidFieldTypeException('Increments are not supported by OpenSearch.');
     }
 
     /**
@@ -480,7 +480,7 @@ trait ManagesDefaultMigrations
      */
     public function smallIncrements($column)
     {
-        throw new InvalidFieldTypeException('Increments are not supported by ElasticSearch.');
+        throw new InvalidFieldTypeException('Increments are not supported by OpenSearch.');
     }
 
     /**
@@ -490,7 +490,7 @@ trait ManagesDefaultMigrations
      */
     public function set($column, array $allowed)
     {
-        throw new InvalidFieldTypeException('set(s) are not supported by ElasticSearch use keyword instead.');
+        throw new InvalidFieldTypeException('set(s) are not supported by OpenSearch use keyword instead.');
     }
 
     /**
@@ -500,7 +500,7 @@ trait ManagesDefaultMigrations
      */
     public function json($column)
     {
-        throw new InvalidFieldTypeException('ElasticSearch is all json. No need to specify a type.');
+        throw new InvalidFieldTypeException('OpenSearch is all json. No need to specify a type.');
     }
 
     /**
@@ -510,6 +510,6 @@ trait ManagesDefaultMigrations
      */
     public function jsonb($column)
     {
-        throw new InvalidFieldTypeException('ElasticSearch is all json. No need to specify a type.');
+        throw new InvalidFieldTypeException('OpenSearch is all json. No need to specify a type.');
     }
 }
