@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PDPhilip\OpenSearch\Relations;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
@@ -7,37 +9,34 @@ use Illuminate\Database\Eloquent\Relations\MorphTo as BaseMorphTo;
 
 class MorphTo extends BaseMorphTo
 {
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     public function addConstraints()
     {
         if (static::$constraints) {
-            $this->query->where($this->getOwnerKey(), '=', $this->parent->{$this->foreignKey});
+            // For belongs to relationships, which are essentially the inverse of has one
+            // or has many relationships, we need to actually query on the primary key
+            // of the related models matching on the foreign key that's on a parent.
+            $this->query->where(
+                $this->ownerKey ?? $this->getForeignKeyName(),
+                '=',
+                $this->getForeignKeyFrom($this->parent),
+            );
         }
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** {@inheritdoc} */
     protected function getResultsByType($type)
     {
         $instance = $this->createModelByType($type);
 
-        $key = $instance->getKeyName();
+        $key = $this->ownerKey ?? $instance->getKeyName();
 
         $query = $instance->newQuery();
 
         return $query->whereIn($key, $this->gatherKeysByType($type, $instance->getKeyType()))->get();
     }
 
-
-    public function getOwnerKey()
-    {
-        return property_exists($this, 'ownerKey') ? $this->ownerKey : $this->otherKey;
-    }
-
-    protected function whereInMethod(EloquentModel $model, $key)
+    protected function whereInMethod(EloquentModel $model, $key): string
     {
         return 'whereIn';
     }

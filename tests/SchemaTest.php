@@ -520,7 +520,7 @@ it('should create an index will all numeric type mappings', function () {
 
 function getIndexMapping(string $table)
 {
-    $mapping = DB::connection('elasticsearch')->elastic()->indices()->getMapping(['index' => $table])->asArray();
+    $mapping = DB::connection('elasticsearch')->openClient()->indices()->getMapping(['index' => $table])->asArray();
 
     return $mapping[$table]['mappings']['properties'];
 }

@@ -1,52 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PDPhilip\OpenSearch\Schema;
 
-use PDPhilip\OpenSearch\Schema\Builder as SchemaBuilder;
 use Illuminate\Support\Facades\Facade;
+use PDPhilip\OpenSearch\Exceptions\LogicException;
 
 /**
- * @method static Builder overridePrefix(string|null $value)
- * @method static array getIndex(string $index)
+ * @method static Builder overridePrefix(string $value)
+ * @method static array getTables()
+ * @method static array getTable($name)
+ * @method static bool hasTable($table)
+ * @method static bool hasColumn($table, $column)
+ * @method static bool hasColumns($table, $columns)
+ * @method static void table($table, $callback)
+ * @method static void index($table, $callback)
+ * @method static void create($table, $callback)
+ * @method static void createIfNotExists($table, $callback)
+ * @method static void drop($table)
+ * @method static void dropIfExists($table)
+ * @method static array getIndex($indices)
  * @method static array getIndices()
- * @method static array getMappings(string $index)
- * @method static array getSettings(string $index)
- * @method static array create(string $index, \Closure $callback)
- * @method static array createIfNotExists(string $index, \Closure $callback)
- * @method static Builder reIndex(string $from, string $to)
- * @wip static Builder rename(string $from, string $to)
- * @method static Builder modify(string $index, \Closure $callback)
- * @method static bool delete(string $index)
- * @method static bool deleteIfExists(string $index)
- * @method static array setAnalyser(string $index, \Closure $callback)
+ * @method static array getIndicesSummary()
+ * @method static array getFieldMapping($table, $column, $raw = false)
+ * @method static array getFieldsMapping($table, $raw = false)
+ * @method static array getMappings($table, $raw = false)
+ * @method static array getSettings($table)
+ * @method static bool indexExists($table)
+ * @method static array reindex($from, $to, $options = [])
+ * @method static Indices indices()
+ * @method static void modify($index, $callback)
+ * @method static void delete($index)
+ * @method static void deleteIfExists($index)
+ * @method static void setAnalyser($index, $callback)
+ * @method static bool hasField($index, $field)
+ * @method static bool hasFields($index, $fields)
+ * @method static LogicException hasIndex($table, $index, $type = null)
+ *** Laravel Inherited
+ * @method static \Illuminate\Database\Connection getConnection()
+ * @method static void blueprintResolver(\Closure $resolver)
  *
- * @wip static Builder createTemplate(string $name, \Closure $callback)
- * @method static bool hasField(string $index, string $field)
- * @method static bool hasFields(string $index, array $fields)
- * @method static bool hasIndex(string $index)
- * @method static bool dsl(string $method, array $parameters)
- * @method static \PDPhilip\OpenSearch\Connection getConnection()
- * @method static \PDPhilip\OpenSearch\Schema\Builder setConnection(\PDPhilip\OpenSearch\Connection $connection)
- *
- * @see \PDPhilip\OpenSearch\Schema\Builder
+ * @see Builder
  */
 class Schema extends Facade
 {
-//    protected static $app;
-//
-//    protected static $resolvedInstance;
-//
-//
-//    protected static $cached = false;
+    public static function on($name): Builder
+    {
+        return static::connection($name);
+    }
+
     /**
      * Get a schema builder instance for a connection.
      *
-     * @param    string|null    $name
-     *
-     * @return Builder
+     * @param  string|null  $name
      */
-    public static function connection($name)
+    public static function connection($name): Builder
     {
+
         if ($name === null) {
             return static::getFacadeAccessor();
         }
@@ -54,27 +65,18 @@ class Schema extends Facade
         return static::$app['db']->connection($name)->getSchemaBuilder();
     }
 
-    public static function on($name)
-    {
-        return static::connection($name);
-    }
-
     /**
      * Get a schema builder instance for the default connection.
-     *
-     * @return Builder
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): Builder
     {
-        return static::$app['db']->connection('opensearch')->getSchemaBuilder();
+        return static::$app['db']->connection('elasticsearch')->getSchemaBuilder();
     }
 
-//
     public static function __callStatic($method, $args)
     {
         $instance = static::getFacadeAccessor();
 
         return $instance->$method(...$args);
     }
-
 }
