@@ -1,0 +1,30 @@
+.env
+.env.*
+
+#composer
+vendor
+
+# Snow-blower
+!secrets/.env*
+.sb*
+secrets.nix
+
+# pre-commit
+.pre-commit-config.yaml
+
+# direnv
+.direnv
+
+.phpunit*
+
+
+.idea
+.phpunit.cache
+build
+composer.lock
+coverage
+docs
+phpunit.xml
+phpstan.neon
+testbench.yaml
+node_modules
