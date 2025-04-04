@@ -26,7 +26,6 @@ use PDPhilip\OpenSearch\Traits\HasOptions;
 
 use function array_replace_recursive;
 use function is_array;
-use function strtolower;
 
 /**
  * @mixin Client
@@ -128,7 +127,6 @@ class Connection extends BaseConnection
             $this->config
         );
 
-        $this->config['auth_type'] = strtolower($this->config['auth_type']);
     }
 
     public function setOptions(): void
@@ -233,7 +231,7 @@ class Connection extends BaseConnection
     // ----------------------------------------------------------------------
     // Connection getters
     // ----------------------------------------------------------------------
-    public function getClient(): ?Client
+    public function getClient(): ?OpenClient
     {
         return $this->connection;
     }

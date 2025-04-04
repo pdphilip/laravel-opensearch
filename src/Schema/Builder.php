@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Schema;
 
 use Closure;
+use Exception;
 use Illuminate\Database\Schema\Builder as BaseBuilder;
 use Illuminate\Support\Arr;
+use OpenSearch\Namespaces\IndicesNamespace;
 use PDPhilip\OpenSearch\Connection;
 use PDPhilip\OpenSearch\Exceptions\LogicException;
 use PDPhilip\OpenSearch\Helpers\Sanitizer;
@@ -61,14 +63,14 @@ class Builder extends BaseBuilder
         $index = $this->parseIndexName($table);
         $params = ['index' => $index];
 
-        return $this->connection->openClient()->indices()->exists($params)->asBool();
+        return $this->connection->openClient()->indices()->exists($params);
     }
 
     public function hasColumn($table, $column): bool
     {
         $index = $this->parseIndexName($table);
         $params = ['index' => $index, 'fields' => $column];
-        $result = $this->connection->openClient()->indices()->getFieldMapping($params)->asArray();
+        $result = $this->connection->openClient()->indices()->getFieldMapping($params);
 
         return ! empty($result[$index]['mappings'][$column]);
     }
@@ -77,7 +79,7 @@ class Builder extends BaseBuilder
     {
         $index = $this->parseIndexName($table);
         $params = ['index' => $index, 'fields' => implode(',', $columns)];
-        $result = $this->connection->openClient()->indices()->getFieldMapping($params)->asArray();
+        $result = $this->connection->openClient()->indices()->getFieldMapping($params);
 
         foreach ($columns as $value) {
             if (empty($result[$index]['mappings'][$value])) {
@@ -149,7 +151,7 @@ class Builder extends BaseBuilder
             if ($this->hasTable($table)) {
                 $this->drop($table);
             }
-        } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
+        } catch (Exception $e) {
         }
     }
 
@@ -169,7 +171,7 @@ class Builder extends BaseBuilder
     {
         $params = ['index' => $this->parseIndexName($indices)];
 
-        return $this->connection->openClient()->indices()->get($params)->asArray();
+        return $this->connection->openClient()->indices()->get($params);
     }
 
     /**
@@ -215,7 +217,7 @@ class Builder extends BaseBuilder
         $index = $this->parseIndexName($table);
         $params = ['index' => Arr::wrap($index)];
 
-        $mappings = $this->connection->openClient()->indices()->getMapping($params)->asArray();
+        $mappings = $this->connection->openClient()->indices()->getMapping($params);
         if ($raw) {
             return $mappings;
         }
@@ -233,7 +235,7 @@ class Builder extends BaseBuilder
         $index = $this->parseIndexName($table);
         $params = ['index' => Arr::wrap($index)];
 
-        return $this->connection->openClient()->indices()->getSettings($params)->asArray();
+        return $this->connection->openClient()->indices()->getSettings($params);
     }
 
     /**
@@ -259,10 +261,10 @@ class Builder extends BaseBuilder
         ];
         $params = [...$params, ...$options];
 
-        return $this->connection->openClient()->reindex($params)->asArray();
+        return $this->connection->openClient()->reindex($params);
     }
 
-    public function indices(): Indices
+    public function indices(): IndicesNamespace
     {
         return $this->connection->indices();
     }

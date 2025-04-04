@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Schema;
 
 use Illuminate\Support\Facades\Facade;
+use OpenSearch\Namespaces\IndicesNamespace;
 use PDPhilip\OpenSearch\Exceptions\LogicException;
 
 /**
@@ -29,7 +30,7 @@ use PDPhilip\OpenSearch\Exceptions\LogicException;
  * @method static array getSettings($table)
  * @method static bool indexExists($table)
  * @method static array reindex($from, $to, $options = [])
- * @method static Indices indices()
+ * @method static IndicesNamespace indices()
  * @method static void modify($index, $callback)
  * @method static void delete($index)
  * @method static void deleteIfExists($index)

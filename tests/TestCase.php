@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use PDPhilip\OpenSearch\ElasticServiceProvider;
+use PDPhilip\OpenSearch\OpenSearchServiceProvider;
 
 class TestCase extends Orchestra
 {
     protected function getPackageProviders($app): array
     {
         return [
-            ElasticServiceProvider::class,
+            OpenSearchServiceProvider::class,
         ];
     }
 
     protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('database.default', 'elasticsearch');
+        $app['config']->set('database.default', 'opensearch');
 
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
@@ -28,18 +28,16 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        $app['config']->set('database.connections.elasticsearch', [
-            'driver' => 'elasticsearch',
-            'auth_type' => 'http',
+        $app['config']->set('database.connections.opensearch', [
+            'driver' => 'opensearch',
             'hosts' => ['http://localhost:9200'],
             'options' => [
                 'logging' => true,
             ],
         ]);
 
-        $app['config']->set('database.connections.elasticsearch_unsafe', [
-            'driver' => 'elasticsearch',
-            'auth_type' => 'http',
+        $app['config']->set('database.connections.opensearch_unsafe', [
+            'driver' => 'opensearch',
             'hosts' => ['http://localhost:9200'],
             'options' => [
                 'bypass_map_validation' => true,

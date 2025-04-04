@@ -44,7 +44,7 @@ class Grammar extends BaseGrammar
             $connection->createIndex($index = $blueprint->getIndex(), $body);
 
             $alias = $blueprint->getAlias();
-            if ($alias !== $index && ! $connection->openClient()->indices()->existsAlias(['name' => $alias])->asBool()) {
+            if ($alias !== $index && ! $connection->openClient()->indices()->existsAlias(['name' => $alias])) {
                 $connection->createAlias($index, $alias);
             }
         };
@@ -55,7 +55,7 @@ class Grammar extends BaseGrammar
         return function () use ($connection, $blueprint): void {
 
             $index = $connection->openClient()->indices()->exists(['index' => $blueprint->getTable()]);
-            if (! $index->asBool()) {
+            if (! $index) {
                 $body = $this->buildBody($blueprint);
                 $connection->createIndex($blueprint->getIndex(), $body);
             }

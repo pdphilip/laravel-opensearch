@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Exceptions;
 
 use Exception;
+use OpenSearch\Common\Exceptions\ClientErrorResponseException;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 
 final class QueryException extends Exception
 {
@@ -38,8 +40,8 @@ final class QueryException extends Exception
     {
         // Clean that ish up.
         return match (get_class($result)) {
-            MissingParameterException::class => $this->formatMissingParameterException($result),
-            ClientResponseException::class => $this->routeClientResponseException($result),
+            Missing404Exception::class => $this->formatMissingParameterException($result),
+            ClientErrorResponseException::class => $this->routeClientResponseException($result),
             default => $result->getMessage(),
         };
     }

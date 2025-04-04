@@ -23,7 +23,7 @@ class OpenClient
 
     public function count(array $params = []): int
     {
-        return $this->client->count($params)->asArray()['count'] ?? 0;
+        return $this->client->count($params)['count'] ?? 0;
     }
 
     public function bulk(array $params = [])
