@@ -16,7 +16,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
  */
 class Label extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $index = 'labels';
 
@@ -61,7 +61,7 @@ class Label extends Model
      */
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('labels');
         $schema->create('labels', function (Blueprint $table) {

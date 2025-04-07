@@ -10,7 +10,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
 
 class Experience extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'experiences';
 
@@ -25,7 +25,7 @@ class Experience extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('experienceds');
         $schema->create('experienceds', function (Blueprint $table) {

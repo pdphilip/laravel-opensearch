@@ -269,11 +269,9 @@ class Builder extends BaseEloquentBuilder
         return parent::orderedChunkById($count, $callback, $column, $alias, $descending);
     }
 
-    /**
-     * @throws BuilderException
-     */
     public function chunkByPit($count, callable $callback, $keepAlive = '1m'): bool
     {
+        $this->enforceOrderBy(true);
         $this->query->keepAlive = $keepAlive;
         $pitId = $this->query->openPit();
 
@@ -302,6 +300,17 @@ class Builder extends BaseEloquentBuilder
         $this->query->closePit($pitId);
 
         return true;
+    }
+
+    protected function enforceOrderBy($throw = false)
+    {
+        if (empty($this->query->orders)) {
+            if ($throw) {
+                throw new RuntimeException('You must specify an orderBy clause when chunking');
+            }
+            $this->query->orderBy('_id', 'asc');
+
+        }
     }
 
     /**
@@ -466,11 +475,11 @@ class Builder extends BaseEloquentBuilder
     }
 
     // ES Metric Aggregations
-
-    public function boxplot($columns, $options = [])
-    {
-        return $this->hydrateAggregationResult($this->query->boxplot($columns, $options));
-    }
+    //
+    //    public function boxplot($columns, $options = [])
+    //    {
+    //        return $this->hydrateAggregationResult($this->query->boxplot($columns, $options));
+    //    }
 
     public function cardinality($columns, $options = [])
     {
@@ -502,10 +511,10 @@ class Builder extends BaseEloquentBuilder
         return $this->hydrateAggregationResult($this->query->stats($columns, $options));
     }
 
-    public function stringStats($columns, $options = [])
-    {
-        return $this->hydrateAggregationResult($this->query->stringStats($columns, $options));
-    }
+    //    public function stringStats($columns, $options = [])
+    //    {
+    //        return $this->hydrateAggregationResult($this->query->stringStats($columns, $options));
+    //    }
 
     public function agg(array $functions, string $column, array $options = [])
     {

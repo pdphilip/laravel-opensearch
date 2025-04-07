@@ -14,7 +14,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
 /** @property Carbon $created_at */
 class Item extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $index = 'items';
 
@@ -32,7 +32,7 @@ class Item extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('items');
         $schema->create('items', function (Blueprint $table) {

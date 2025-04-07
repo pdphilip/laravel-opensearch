@@ -497,7 +497,7 @@ class Builder extends BaseBuilder
 
     public function getRaw(): mixed
     {
-        return $this->runSelect()->asArray();
+        return $this->runSelect();
     }
 
     /**
@@ -760,6 +760,8 @@ class Builder extends BaseBuilder
     public function chunk($count, callable $callback, $scrollTimeout = '30s')
     {
         if (! $this->connection->allowIdSort) {
+            $this->enforceOrderBy();
+
             return $this->chunkByPit($count, $callback);
         }
 
@@ -782,7 +784,6 @@ class Builder extends BaseBuilder
 
     public function chunkByPit($count, callable $callback, $keepAlive = '1m'): bool
     {
-
         $this->keepAlive = $keepAlive;
         $pitId = $this->openPit();
 
@@ -813,6 +814,12 @@ class Builder extends BaseBuilder
         return true;
     }
 
+    protected function enforceOrderBy()
+    {
+        if (empty($this->orders)) {
+            throw new RuntimeException('You must specify an orderBy clause when using this function.');
+        }
+    }
     // ======================================================================
     // ES Specific Methods
     // ======================================================================
@@ -1613,12 +1620,12 @@ class Builder extends BaseBuilder
      * @param  Expression|string|array  $columns
      * @param  array  $options
      */
-    public function boxplot($columns, $options = [])
-    {
-        $result = $this->aggregate('boxplot', Arr::wrap($columns), $options);
-
-        return $result ?: [];
-    }
+    //    public function boxplot($columns, $options = [])
+    //    {
+    //        $result = $this->aggregate('boxplot', Arr::wrap($columns), $options);
+    //
+    //        return $result ?: [];
+    //    }
 
     /**
      * Retrieve the Cardinality Stats of the values of a given keyword column.
@@ -1753,12 +1760,12 @@ class Builder extends BaseBuilder
      * @param  Expression|string|array  $columns
      * @param  array  $options
      */
-    public function stringStats($columns, $options = [])
-    {
-        $result = $this->aggregate('string_stats', Arr::wrap($columns), $options);
-
-        return $result ?: [];
-    }
+    //    public function stringStats($columns, $options = [])
+    //    {
+    //        $result = $this->aggregate('string_stats', Arr::wrap($columns), $options);
+    //
+    //        return $result ?: [];
+    //    }
 
     /**
      * @return array|mixed

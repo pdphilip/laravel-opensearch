@@ -11,7 +11,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
 
 class Book extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $index = 'books';
 
@@ -29,7 +29,7 @@ class Book extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('books');
         $schema->create('books', function (Blueprint $table) {

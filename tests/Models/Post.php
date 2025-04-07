@@ -10,7 +10,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
 
 class Post extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'post';
 
@@ -23,7 +23,7 @@ class Post extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         Schema::dropIfExists('post');
 

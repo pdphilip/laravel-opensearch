@@ -12,7 +12,7 @@ class Location extends Model
 {
     protected $keyType = 'string';
 
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'locations';
 
@@ -20,7 +20,7 @@ class Location extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('locations');
         $schema->create('locations', function (Blueprint $table) {

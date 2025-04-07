@@ -15,7 +15,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
  */
 class Role extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $index = 'roles';
 
@@ -36,7 +36,7 @@ class Role extends Model
      */
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('roles');
         $schema->create('roles', function (Blueprint $table) {

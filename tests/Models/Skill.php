@@ -16,7 +16,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
  */
 class Skill extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $index = 'skills';
 
@@ -29,7 +29,7 @@ class Skill extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('skill_sql_user');
         $schema->create('skill_sql_user', function (Blueprint $table) {

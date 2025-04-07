@@ -465,19 +465,18 @@ it('tests chunk across many items', function () {
         $users[] = [
             'name' => "User {$i}",
             'age' => rand(1, 100),
+            'order' => $i,
             'title' => rand(0, 1) ? 'admin' : 'user',
         ];
     }
     User::insert($users);
-
     $names = [];
-    User::chunk(1000, function (EloquentCollection $items) use (&$names) {
+    User::orderBy('order')->chunk(1000, function (EloquentCollection $items) use (&$names) {
         $names = [
             ...$names,
             ...$items,
         ];
     });
-
     expect($names)->toHaveCount(15000);
 });
 
@@ -558,7 +557,7 @@ it('tests first or fail', function () {
 
 it('tests changes the table index', function () {
 
-    $schema = Schema::connection('elasticsearch');
+    $schema = Schema::connection('opensearch');
     $schema->dropIfExists('urs_test');
     $user = new User;
     $user->name = 'one';
@@ -570,7 +569,7 @@ it('tests changes the table index', function () {
 
 it('should throw an error if suffix is applied to a non dynamic index', function () {
 
-    $schema = Schema::connection('elasticsearch');
+    $schema = Schema::connection('opensearch');
     $schema->dropIfExists('users_test');
     $user = new User;
     $user->name = 'one';

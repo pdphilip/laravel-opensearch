@@ -8,7 +8,7 @@ use PDPhilip\OpenSearch\Eloquent\Model;
 
 class Guarded extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'guarded';
 

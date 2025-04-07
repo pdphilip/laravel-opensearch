@@ -14,7 +14,7 @@ class Client extends Model
 {
     use HybridRelations;
 
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'clients';
 
@@ -66,7 +66,7 @@ class Client extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('clients');
         $schema->create('clients', function (Blueprint $table) {

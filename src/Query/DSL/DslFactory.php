@@ -502,8 +502,9 @@ class DslFactory
 
     public static function sortByShardDoc($dir = 'asc')
     {
+        // Shard doc sorting is not supported in OpenSearch
         return [
-            '_shard_doc' => [
+            'created_at' => [
                 'order' => $dir,
             ],
         ];

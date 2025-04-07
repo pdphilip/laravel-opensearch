@@ -13,7 +13,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
  */
 class HiddenAnimal extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $keyType = 'string';
 
@@ -27,7 +27,7 @@ class HiddenAnimal extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('hidden_animals');
         $schema->create('hidden_animals', function (Blueprint $table) {

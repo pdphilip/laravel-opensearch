@@ -60,26 +60,26 @@ trait ManagesDefaultMigrations
         return $this->addColumn('double', $column, $parameters);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function enum($column, array $allowed, array $parameters = [])
-    {
-
-        $allowed = implode("', '", $allowed);
-
-        $script = "def allowed = ['{$allowed}'];
-      if (!allowed.contains(params._source.{$column})) {
-        throw new IllegalArgumentException(\"Value for '{$column}' must be one of \" + allowed);
-      }
-      emit(params._source.{$column});";
-
-        return $this->addColumn('keyword', $column, [
-            'script' => $script,
-            'on_script_error' => 'fail',
-            ...$parameters,
-        ]);
-    }
+    //    /**
+    //     * {@inheritdoc}
+    //     */
+    //    public function enum($column, array $allowed, array $parameters = [])
+    //    {
+    //
+    //        $allowed = implode("', '", $allowed);
+    //
+    //        $script = "def allowed = ['{$allowed}'];
+    //      if (!allowed.contains(params._source.{$column})) {
+    //        throw new IllegalArgumentException(\"Value for '{$column}' must be one of \" + allowed);
+    //      }
+    //      emit(params._source.{$column});";
+    //
+    //        return $this->addColumn('keyword', $column, [
+    //            'script' => $script,
+    //            'on_script_error' => 'fail',
+    //            ...$parameters,
+    //        ]);
+    //    }
 
     /**
      * {@inheritdoc}

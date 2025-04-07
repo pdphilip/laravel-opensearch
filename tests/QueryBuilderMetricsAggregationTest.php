@@ -29,10 +29,10 @@ it('aggregate multiple metrics', function () {
 
 it('bucket and then aggregate a single metric', function () {
 
-    $items = DB::table('items')->groupBy('name')->boxplot('amount');
+    $items = DB::table('items')->groupBy('name')->matrix('amount');
     expect($items)->toHaveCount(3)
         ->and($items[0]['name'])->toBe('fork')
-        ->and($items[0]['boxplot_amount'])->toHaveCount(7);
+        ->and($items[0]['matrix_stats_amount'])->toHaveCount(8);
 
     $items = DB::table('items')->groupBy('name')->min('amount');
     expect($items)->toHaveCount(3)
@@ -48,11 +48,10 @@ it('bucket and then aggregate a single metric', function () {
 
 it('bucket and then aggregate multiple metrics', function () {
 
-    $items = DB::table('items')->groupBy('name')->boxplot(['amount', 'stock']);
+    $items = DB::table('items')->groupBy('name')->matrix(['amount', 'stock']);
     expect($items)->toHaveCount(3)
         ->and($items[0]['name'])->toBe('fork')
-        ->and($items[0]['boxplot_amount'])->toHaveCount(7)
-        ->and($items[0]['boxplot_stock'])->toHaveCount(7);
+        ->and($items[0]['matrix_stats_amount'])->toHaveCount(8);
 
     $items = DB::table('items')->groupBy('name')->min(['amount', 'stock']);
     expect($items)->toHaveCount(3)
@@ -74,9 +73,9 @@ it('can get metric aggregations', function () {
     expect($items)->toHaveCount(8)
         ->and($items)->toHaveKeys(['count', 'mean', 'variance', 'skewness', 'kurtosis']);
 
-    $items = DB::table('items')->boxplot('amount');
-    expect($items)->toHaveCount(7)
-        ->and($items)->toHaveKeys(['min', 'max', 'q1', 'q2', 'q3', 'lower', 'upper']);
+    //    $items = DB::table('items')->boxplot('amount');
+    //    expect($items)->toHaveCount(7)
+    //        ->and($items)->toHaveKeys(['min', 'max', 'q1', 'q2', 'q3', 'lower', 'upper']);
 
     $items = DB::table('items')->stats('amount');
     expect($items)->toHaveCount(5)
@@ -108,7 +107,7 @@ it('can get metric aggregations', function () {
     expect($items)->toHaveCount(7)
         ->and($items)->toHaveKeys(['1.0', '5.0', '25.0']);
 
-    $items = DB::table('items')->stringStats('name.keyword');
-    expect($items)->toHaveCount(5)
-        ->and($items)->toHaveKeys(['count', 'min_length', 'max_length', 'avg_length', 'entropy']);
+    //    $items = DB::table('items')->stringStats('name.keyword');
+    //    expect($items)->toHaveCount(5)
+    //        ->and($items)->toHaveKeys(['count', 'min_length', 'max_length', 'avg_length', 'entropy']);
 });

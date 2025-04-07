@@ -10,7 +10,7 @@ use PDPhilip\OpenSearch\Schema\Schema;
 
 class Birthday extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'birthday';
 
@@ -23,7 +23,7 @@ class Birthday extends Model
      */
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('birthday');
         $schema->create('birthday', function (Blueprint $table) {

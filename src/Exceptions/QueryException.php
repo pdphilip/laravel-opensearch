@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Exceptions;
 
 use Exception;
-use OpenSearch\Common\Exceptions\ClientErrorResponseException;
+use OpenSearch\Common\Exceptions\BadRequest400Exception;
 use OpenSearch\Common\Exceptions\Missing404Exception;
 
 final class QueryException extends Exception
@@ -41,7 +41,7 @@ final class QueryException extends Exception
         // Clean that ish up.
         return match (get_class($result)) {
             Missing404Exception::class => $this->formatMissingParameterException($result),
-            ClientErrorResponseException::class => $this->routeClientResponseException($result),
+            BadRequest400Exception::class => $this->routeClientResponseException($result),
             default => $result->getMessage(),
         };
     }
@@ -53,8 +53,7 @@ final class QueryException extends Exception
 
     private function routeClientResponseException($result): string
     {
-
-        $error = json_decode((string) $result->getResponse()->getBody(), true);
+        $error = json_decode((string) $result->getMessage(), true);
 
         if (! empty($error['failures'])) {
             return $this->formatAsConflictException($error);

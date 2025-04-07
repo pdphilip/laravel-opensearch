@@ -13,7 +13,7 @@ class PageHit extends Model
 {
     use DynamicIndex;
 
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'page_hits';
 
@@ -21,7 +21,7 @@ class PageHit extends Model
 
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         collect([
             '2021-01-01',

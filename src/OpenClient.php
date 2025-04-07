@@ -110,14 +110,14 @@ class OpenClient
 
     public function openPit(array $params = []): ?string
     {
-        $open = $this->client->createPointInTime($params);
+        $open = $this->client->createPit($params);
 
-        return $open['id'] ?? null;
+        return $open['pit_id'] ?? null;
     }
 
     public function closePit(array $params = []): bool
     {
-        $closed = $this->client->deletePointInTime($params);
+        $closed = $this->client->deletePit($params);
 
         return $closed['succeeded'] ?? false;
     }

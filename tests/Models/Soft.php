@@ -14,7 +14,7 @@ class Soft extends Model
     use MassPrunable;
     use SoftDeletes;
 
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected static $unguarded = true;
 
@@ -35,7 +35,7 @@ class Soft extends Model
      */
     public static function executeSchema()
     {
-        $schema = Schema::connection('elasticsearch');
+        $schema = Schema::connection('opensearch');
 
         $schema->dropIfExists('softs');
         $schema->create('softs', function (Blueprint $table) {

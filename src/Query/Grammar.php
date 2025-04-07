@@ -241,7 +241,7 @@ class Grammar extends BaseGrammar
             $dsl->setBody(['pit', 'id'], $query->pitId);
             $dsl->unsetOption(['index']);
             $dsl->setBody(['pit', 'keep_alive'], $query->keepAlive);
-            $dsl->appendOption(['body', 'sort'], DslFactory::sortByShardDoc());
+            //            $dsl->appendOption(['body', 'sort'], DslFactory::sortByShardDoc());
         }
 
         if ($query->searchAfter) {
@@ -1435,8 +1435,8 @@ class Grammar extends BaseGrammar
     public function compileClosePit(Builder $query)
     {
         $dsl = new DslBuilder;
-        $dsl->setIndex($query->getFrom());
-        $dsl->setBody(['id'], $query->pitId);
+        //        $dsl->setIndex($query->getFrom());
+        $dsl->setBody(['pit_id'], $query->pitId);
 
         return $dsl->getDsl();
     }

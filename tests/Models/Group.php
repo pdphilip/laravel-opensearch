@@ -11,7 +11,7 @@ use PDPhilip\OpenSearch\Eloquent\Model;
 /** @property Carbon $created_at */
 class Group extends Model
 {
-    protected $connection = 'elasticsearch';
+    protected $connection = 'opensearch';
 
     protected $table = 'groups';
 
