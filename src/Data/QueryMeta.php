@@ -147,6 +147,11 @@ final class QueryMeta
         return $this->error;
     }
 
+    public function getTotalHits(): int
+    {
+        return $this->hits;
+    }
+
     public function toArray(): array
     {
         $return = [
