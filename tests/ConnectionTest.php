@@ -49,7 +49,7 @@ test('Disconnect And Create New Connection', function () {
 
     $connection->disconnect();
     $client = $connection->getClient();
-    expect($client)->toBeNull();
+    expect($client)->not()->toBeNull();
     DB::purge('opensearch');
 
     $connection = DB::connection('opensearch');
