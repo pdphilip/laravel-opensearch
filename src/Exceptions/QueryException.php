@@ -161,7 +161,7 @@ final class QueryException extends Exception
         if ($this->_isJson($error)) {
             $errorArray = json_decode($error, true);
             $title = '';
-        }else{
+        } else {
             $jsonStartPos = strpos($error, ':') + 1;
             $response = ($error);
             $title = substr($response, 0, $jsonStartPos);

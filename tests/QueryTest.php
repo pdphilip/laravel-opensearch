@@ -356,13 +356,13 @@ it('paginates results', function () {
 });
 
 it('uses cursor pagination', function () {
-    $results = User::cursorPaginate(2);
+    $results = User::orderBy('created_at')->cursorPaginate(2);
     expect($results->count())->toBe(2)
         ->and($results->first()->title)->not()->toBeNull()
         ->and($results->nextCursor())->not()->toBeNull()
         ->and($results->onFirstPage())->toBeTrue();
 
-    $results = User::cursorPaginate(2, ['name', 'age']);
+    $results = User::orderBy('created_at')->cursorPaginate(2, ['name', 'age']);
     expect($results->count())->toBe(2)
         ->and($results->first()->title)->toBeNull();
 
@@ -442,20 +442,20 @@ it('sorts by age and name in descending order', function () {
 });
 
 it('can apply ES specific sorts', function () {
-    $results = Product::orderBy('price', 'desc', ['mode' => 'sum'])->first();
-    expect($results->product)->toBe('sandwich');
+    $results = Product::orderBy('price', 'desc', ['mode' => 'sum'])->get();
+    expect($results[0]->product)->toBe('sandwich');
 
-    $results = Product::orderBy('price', 'desc', ['mode' => 'avg'])->first();
-    expect($results->product)->toBe('pizza');
+    $results = Product::orderBy('price', 'desc', ['mode' => 'avg'])->get();
+    expect($results[0]->product)->toBe('pizza');
 
-    $results = Product::orderBy('price', 'desc', ['mode' => 'median'])->first();
-    expect($results->product)->toBe('pizza');
+    $results = Product::orderBy('price', 'desc', ['mode' => 'median'])->get();
+    expect($results[0]->product)->toBe('pizza');
 
-    $results = Product::orderBy('price', 'desc', ['mode' => 'sum', 'missing' => '_first'])->first();
-    expect($results->product)->toBe('error');
+    $results = Product::orderBy('price', 'desc', ['mode' => 'sum', 'missing' => '_first'])->get();
+    expect($results[0]->product)->toBe('error');
 
-    $results = Product::orderByDesc('price', ['mode' => 'sum', 'missing' => '_first'])->first();
-    expect($results->product)->toBe('error');
+    $results = Product::orderByDesc('price', ['mode' => 'sum', 'missing' => '_first'])->get();
+    expect($results[0]->product)->toBe('error');
 });
 
 it('deletes users with specific conditions', function () {

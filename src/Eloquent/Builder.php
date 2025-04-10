@@ -271,7 +271,7 @@ class Builder extends BaseEloquentBuilder
 
     public function chunkByPit($count, callable $callback, $keepAlive = '1m'): bool
     {
-        $this->enforceOrderBy(true);
+        $this->enforceOrderBy();
         $this->query->keepAlive = $keepAlive;
         $pitId = $this->query->openPit();
 
@@ -302,14 +302,14 @@ class Builder extends BaseEloquentBuilder
         return true;
     }
 
-    protected function enforceOrderBy($throw = false)
+    protected function enforceOrderBy()
     {
         if (empty($this->query->orders)) {
-            if ($throw) {
-                throw new RuntimeException('You must specify an orderBy clause when chunking');
+            if ($this->query->connection->allowIdSort) {
+                $this->query->orderBy('_id', 'asc');
+            } else {
+                throw new RuntimeException('You must specify an orderBy clause to execute this query');
             }
-            $this->query->orderBy('_id', 'asc');
-
         }
     }
 
@@ -321,6 +321,7 @@ class Builder extends BaseEloquentBuilder
      */
     public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null): SearchAfterPaginator
     {
+        $this->enforceOrderBy();
         if ($perPage < 2) {
             throw new RuntimeException('Cursor pagination requires a perPage value greater than 1');
         }
