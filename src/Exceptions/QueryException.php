@@ -28,7 +28,6 @@ final class QueryException extends Exception
             'dsl' => $dsl,
             'original' => $errorMsg,
         ];
-
         parent::__construct($this->formatMessage($previous), $previous->code);
         $this->details = $details;
     }
@@ -158,14 +157,21 @@ final class QueryException extends Exception
     {
         $return['msg'] = $error;
         $return['data'] = [];
-        $jsonStartPos = strpos($error, ': ') + 2;
-        $response = ($error);
-        $title = substr($response, 0, $jsonStartPos);
-        $jsonString = substr($response, $jsonStartPos);
-        if ($this->_isJson($jsonString)) {
-            $errorArray = json_decode($jsonString, true);
-        } else {
-            $errorArray = [$jsonString];
+
+        if ($this->_isJson($error)) {
+            $errorArray = json_decode($error, true);
+            $title = '';
+        }else{
+            $jsonStartPos = strpos($error, ':') + 1;
+            $response = ($error);
+            $title = substr($response, 0, $jsonStartPos);
+            $jsonString = substr($response, $jsonStartPos);
+
+            if ($this->_isJson($jsonString)) {
+                $errorArray = json_decode($jsonString, true);
+            } else {
+                $errorArray = [$jsonString];
+            }
         }
 
         if (json_last_error() === JSON_ERROR_NONE) {

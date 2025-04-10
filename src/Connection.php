@@ -213,10 +213,10 @@ class Connection extends BaseConnection
         $builder->setSSLVerification($this->config['options']['ssl_verification']);
 
         if ($this->config['options']['port_in_host_header'] !== null) {
-            $builder->includePortInHostHeader($this->config['options']['port_in_host_header']);
+            $builder->includePortInHostHeader((bool) $this->config['options']['port_in_host_header']);
         }
         if ($this->config['options']['sniff_on_start'] !== null) {
-            $builder->setSniffOnStart($this->config['options']['sniff_on_start']);
+            $builder->setSniffOnStart((bool) $this->config['options']['sniff_on_start']);
         }
 
         return $builder;
