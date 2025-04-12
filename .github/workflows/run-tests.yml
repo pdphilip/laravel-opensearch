@@ -67,8 +67,8 @@ jobs:
 
       - name: Run tests
         run: |
-          ./vendor/bin/pest  --version
-          ./vendor/bin/pest
+          ./vendor/bin/pest --version
+          ./vendor/bin/pest --no-cache
         env:
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
