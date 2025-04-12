@@ -68,8 +68,7 @@ jobs:
       - name: Run tests
         run: |
           ./vendor/bin/pest --version
-          mkdir -p ./.pest/cache
-          ./vendor/bin/pest --cache-directory=./.pest/cache
+          ./vendor/bin/pest
         env:
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}

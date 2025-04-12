@@ -47,14 +47,8 @@
   },
   "autoload": {
     "psr-4": {
-      "PDPhilip\\OpenSearch\\": "src/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "PDPhilip\\OpenSearch\\OpenSearchServiceProvider"
-      ]
+      "PDPhilip\\OpenSearch\\": "src/",
+      "PDPhilip\\OpenSearch\\Tests\\": "tests"
     }
   },
   "config": {
@@ -63,6 +57,13 @@
       "pestphp/pest-plugin": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "phpstan/extension-installer": true
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "PDPhilip\\OpenSearch\\OpenSearchServiceProvider"
+      ]
     }
   },
   "scripts": {
