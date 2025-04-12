@@ -2,7 +2,7 @@
 
 namespace PDPhilip\OpenSearch\Laravel\Compatibility\Schema;
 
-use PDPhilip\Elasticsearch\Helpers\Helpers;
+use PDPhilip\Elasticsearch\Utils\Helpers;
 use PDPhilip\OpenSearch\Laravel\v11\Schema\GrammarCompatibility as GrammarCompatibility11;
 use PDPhilip\OpenSearch\Laravel\v12\Schema\GrammarCompatibility as GrammarCompatibility12;
 

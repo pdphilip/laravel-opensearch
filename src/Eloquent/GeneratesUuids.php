@@ -3,7 +3,7 @@
 namespace PDPhilip\OpenSearch\Eloquent;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use PDPhilip\Elasticsearch\Helpers\Helpers;
+use PDPhilip\Elasticsearch\Utils\Helpers;
 
 trait GeneratesUuids
 {

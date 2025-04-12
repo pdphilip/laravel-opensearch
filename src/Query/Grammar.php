@@ -11,10 +11,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use PDPhilip\Elasticsearch\Helpers\Helpers;
 use PDPhilip\Elasticsearch\Query\DSL\DslBuilder;
 use PDPhilip\Elasticsearch\Query\DSL\DslFactory;
 use PDPhilip\Elasticsearch\Query\DSL\QueryCompiler;
+use PDPhilip\Elasticsearch\Utils\Helpers;
 use PDPhilip\OpenSearch\Exceptions\BuilderException;
 
 class Grammar extends BaseGrammar

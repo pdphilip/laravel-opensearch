@@ -7,7 +7,7 @@ namespace PDPhilip\OpenSearch\Query;
 use Illuminate\Database\Query\Builder as BaseBuilder;
 use Illuminate\Database\Query\Processors\Processor as BaseProcessor;
 use Illuminate\Support\Collection;
-use PDPhilip\Elasticsearch\Helpers\Sanitizer;
+use PDPhilip\Elasticsearch\Utils\Sanitizer;
 use PDPhilip\OpenSearch\Data\MetaDTO;
 
 class Processor extends BaseProcessor

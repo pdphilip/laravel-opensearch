@@ -2,7 +2,7 @@
 
 namespace PDPhilip\OpenSearch\Laravel\Compatibility\Connection;
 
-use PDPhilip\Elasticsearch\Helpers\Helpers;
+use PDPhilip\Elasticsearch\Utils\Helpers;
 use PDPhilip\OpenSearch\Laravel\v11\Connection\ConnectionCompatibility as ConnectionCompatibility11;
 use PDPhilip\OpenSearch\Laravel\v12\Connection\ConnectionCompatibility as ConnectionCompatibility12;
 
