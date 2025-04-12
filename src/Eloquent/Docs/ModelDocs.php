@@ -8,6 +8,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Cursor;
 use PDPhilip\OpenSearch\Eloquent\Builder;
 use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Eloquent\OpenCollection;
 use PDPhilip\OpenSearch\Pagination\SearchAfterPaginator;
 
 /**
@@ -178,14 +179,14 @@ use PDPhilip\OpenSearch\Pagination\SearchAfterPaginator;
  * @method static Model firstOrCreate($attributes, $values = [])
  *-----------------------------------
  * @method static array getModels($columns = ['*'])
- * @method static ElasticCollection get($columns = ['*'])
- * @method static ElasticCollection insert($values, $returnData = null)
+ * @method static OpenCollection get($columns = ['*'])
+ * @method static OpenCollection insert($values, $returnData = null)
  *-----------------------------------
  * @method static array toDsl($columns = ['*'])
  * @method static array toSql($columns = ['*'])
  *-----------------------------------
  * @method static mixed rawDsl($bodyParams)
- * @method static ElasticCollection rawSearch($bodyParams)
+ * @method static OpenCollection rawSearch($bodyParams)
  * @method static array rawAggregation($bodyParams)
  *-----------------------------------
  * @method static LengthAwarePaginator paginate($perPage = 15, $columns = ['*'], $pageName = 'page', $page = null,  $total = null)
@@ -194,7 +195,7 @@ use PDPhilip\OpenSearch\Pagination\SearchAfterPaginator;
  * @method static bool chunk($count, $callback)
  * @method static bool chunkById($count, $callback, $column = '_id', $alias = null)
  *                                                                                  -----------------------------------
- * @method static ElasticCollection distinct($columns = [], $includeCount = false)
+ * @method static OpenCollection distinct($columns = [], $includeCount = false)
  *===========================================
  * Aggregators Methods
  *===========================================
@@ -204,14 +205,12 @@ use PDPhilip\OpenSearch\Pagination\SearchAfterPaginator;
  * @method static int|array avg($columns)
  * @method static mixed agg(array $functions, $column)
  *-----------------------------------
- * @method static mixed boxplot($columns, $options = [])
  * @method static mixed cardinality($columns, $options = [])
  * @method static mixed extendedStats($columns, $options = [])
  * @method static mixed matrix($columns, $options = [])
  * @method static mixed medianAbsoluteDeviation($columns, $options = [])
  * @method static mixed percentiles($columns, $options = [])
  * @method static mixed stats($columns, $options = [])
- * @method static mixed stringStats( $columns, $options = [])
  *-----------------------------------
  * @method static array getAggregationResults()
  * @method static array getRawAggregationResults()

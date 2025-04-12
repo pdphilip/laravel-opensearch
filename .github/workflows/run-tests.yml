@@ -22,8 +22,8 @@ jobs:
 
     # Docs: https://docs.github.com/en/actions/using-containerized-services
     services:
-      elasticsearch:
-        image: elasticsearch:7.17.3
+      opensearch:
+        image: opensearch:latest
         env:
           discovery.type: single-node
           ES_JAVA_OPTS: '-Xms512m -Xmx512m'
@@ -41,9 +41,9 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v4
 
-      - name: Verify Elasticsearch connection 🧩
+      - name: Verify Opensearch connection
         run: |
-          curl -X GET "localhost:${{ job.services.elasticsearch.ports['9200'] }}/_cluster/health?pretty=true"
+          curl -X GET "localhost:${{ job.services.opensearch.ports['9200'] }}/_cluster/health?pretty=true"
 
       - name: Setup PHP 🏗
         uses: shivammathur/setup-php@v2
@@ -57,13 +57,13 @@ jobs:
         run: |
           composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: List Installed Dependencies 📦
+      - name: List Installed Dependencies
         run: composer show -D
 
-      - name: Run tests 🧪
+      - name: Run tests
         run: |
           ./vendor/bin/pest  --version
           ./vendor/bin/pest
         env:
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-          ELASTICSEARCH_PORT: ${{ job.services.elasticsearch.ports['9200'] }}
+          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
