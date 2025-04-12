@@ -23,7 +23,7 @@ jobs:
     # Docs: https://docs.github.com/en/actions/using-containerized-services
     services:
       opensearch:
-        image: opensearch:latest
+        image: opensearch:2.10.0
         env:
           discovery.type: single-node
           ES_JAVA_OPTS: '-Xms512m -Xmx512m'
