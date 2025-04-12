@@ -7,8 +7,8 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/pdphilip/laravel-opensearch/phpstan.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/pdphilip/laravel-opensearch/actions/workflows/phpstan.yml?query=branch%3Amain++)
 [![Total Downloads](http://img.shields.io/packagist/dm/pdphilip/opensearch.svg)](https://packagist.org/packages/pdphilip/opensearch)
 
-[OpenSearch](https://opensearch.net/) is a distributed, community-driven, Apache 2.0-licensed, 100% open-source search and analytics suite used for a broad set of use cases like real-time application monitoring, log analytics, and website
-search.
+> [OpenSearch](https://opensearch.net/) is a distributed, community-driven, Apache 2.0-licensed, 100% open-source search and analytics suite used for a broad set of use cases like real-time application monitoring, log analytics, and website
+> search.
 
 ### An OpenSearch implementation of Laravel's Eloquent ORM
 
