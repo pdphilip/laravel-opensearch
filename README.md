@@ -10,7 +10,7 @@
 > [OpenSearch](https://opensearch.net/) is a distributed, community-driven, Apache 2.0-licensed, 100% open-source search and analytics suite used for a broad set of use cases like real-time application monitoring, log analytics, and website
 > search.
 
-### An OpenSearch implementation of Laravel's Eloquent ORM
+## An OpenSearch implementation of Laravel's Eloquent ORM
 
 ### The Power of OpenSearch with Laravel's Eloquent
 
