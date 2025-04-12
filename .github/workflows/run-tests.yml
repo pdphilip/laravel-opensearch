@@ -26,6 +26,7 @@ jobs:
         image: opensearchproject/opensearch:latest
         env:
           discovery.type: single-node
+          OPENSEARCH_INITIAL_ADMIN_PASSWORD: Eb9zjMWij5JFOm5NMqgqUeLG5
           ES_JAVA_OPTS: '-Xms512m -Xmx512m'
         ports:
           - 9200:9200
