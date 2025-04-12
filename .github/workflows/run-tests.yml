@@ -43,14 +43,14 @@ jobs:
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - name: Checkout 🛎
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Verify Opensearch connection
         run: |
           curl -X GET "localhost:${{ job.services.opensearch.ports['9200'] }}/_cluster/health?pretty=true"
 
-      - name: Setup PHP 🏗
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
@@ -68,7 +68,8 @@ jobs:
       - name: Run tests
         run: |
           ./vendor/bin/pest --version
-          ./vendor/bin/pest --no-cache
+          mkdir -p ./.pest/cache
+          ./vendor/bin/pest --cache-directory=./.pest/cache
         env:
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
