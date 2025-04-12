@@ -14,13 +14,13 @@ use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Iterator;
+use PDPhilip\Elasticsearch\Pagination\SearchAfterPaginator;
 use PDPhilip\OpenSearch\Data\MetaDTO;
 use PDPhilip\OpenSearch\Exceptions\BuilderException;
 use PDPhilip\OpenSearch\Exceptions\DynamicIndexException;
 use PDPhilip\OpenSearch\Exceptions\RuntimeException;
-use PDPhilip\OpenSearch\Helpers\QueriesRelationships;
-use PDPhilip\OpenSearch\Pagination\SearchAfterPaginator;
 use PDPhilip\OpenSearch\Query\Builder as QueryBuilder;
+use PDPhilip\OpenSearch\Relations\Traits\QueriesRelationships;
 use PDPhilip\OpenSearch\Schema\Schema;
 
 /**

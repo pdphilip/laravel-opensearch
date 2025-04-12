@@ -9,9 +9,9 @@ use Exception;
 use Illuminate\Database\Schema\Builder as BaseBuilder;
 use Illuminate\Support\Arr;
 use OpenSearch\Namespaces\IndicesNamespace;
+use PDPhilip\Elasticsearch\Helpers\Sanitizer;
 use PDPhilip\OpenSearch\Connection;
 use PDPhilip\OpenSearch\Exceptions\LogicException;
-use PDPhilip\OpenSearch\Helpers\Sanitizer;
 use PDPhilip\OpenSearch\Laravel\Compatibility\Schema\BuilderCompatibility;
 
 /**

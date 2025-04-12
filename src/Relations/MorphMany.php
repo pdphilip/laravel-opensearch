@@ -6,6 +6,7 @@ namespace PDPhilip\OpenSearch\Relations;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\Relations\MorphMany as BaseMorphMany;
+use PDPhilip\OpenSearch\Relations\Traits\ManagesRefresh;
 
 class MorphMany extends BaseMorphMany
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\OpenSearch\Relations;
+namespace PDPhilip\OpenSearch\Relations\Traits;
 
 trait ManagesRefresh
 {

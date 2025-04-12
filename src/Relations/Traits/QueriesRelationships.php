@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PDPhilip\OpenSearch\Helpers;
+namespace PDPhilip\OpenSearch\Relations\Traits;
 
 use Closure;
 use Exception;
@@ -46,7 +46,7 @@ trait QueriesRelationships
         // If this is a hybrid relation then we can not use a normal whereExists() query that relies on a subquery
         // We need to use a `whereIn` query
         // @phpstan-ignore-next-line
-        if (Model::isOpenSearchModel($this->getModel()) || $this->isAcrossConnections($relation)) {
+        if (Model::isOpenModel($this->getModel()) || $this->isAcrossConnections($relation)) {
             return $this->addHybridHas($relation, $operator, $count, $boolean, $callback);
         }
 

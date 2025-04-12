@@ -23,6 +23,7 @@
     "illuminate/database": "^10.30|^11|^12",
     "illuminate/events": "^10.0|^11|^12",
     "illuminate/support": "^10.0|^11|^12",
+    "pdphilip/elasticsearch": "v5.0.3",
     "opensearch-project/opensearch-php": "2.3.1",
     "spatie/ignition": "^1.15"
   },
@@ -39,6 +40,9 @@
     "phpstan/extension-installer": "^1.4",
     "phpstan/phpstan-deprecation-rules": "^2",
     "phpstan/phpstan-phpunit": "^2"
+  },
+  "replace": {
+    "elasticsearch/elasticsearch": "*"
   },
   "autoload-dev": {
     "psr-4": {

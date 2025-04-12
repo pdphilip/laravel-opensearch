@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Eloquent;
 
 use Illuminate\Support\Str;
-use PDPhilip\OpenSearch\Helpers\EloquentBuilder;
 use PDPhilip\OpenSearch\Relations\BelongsTo;
 use PDPhilip\OpenSearch\Relations\BelongsToMany;
+use PDPhilip\OpenSearch\Relations\EloquentBuilder;
 use PDPhilip\OpenSearch\Relations\HasMany;
 use PDPhilip\OpenSearch\Relations\HasOne;
 use PDPhilip\OpenSearch\Relations\MorphMany;
@@ -317,7 +317,7 @@ trait HybridRelations
     ) {
         // If the related model is an instance of eloquent model class, leave pivot keys
         // as default. It's necessary for supporting hybrid relationship
-        if (Model::isOpenSearchModel($related)) {
+        if (Model::isOpenModel($related)) {
             // For the inverse of the polymorphic many-to-many relations, we will change
             // the way we determine the foreign and other keys, as it is the opposite
             // of the morph-to-many method since we're figuring out these inverses.
@@ -345,7 +345,7 @@ trait HybridRelations
      */
     public function newEloquentBuilder($query)
     {
-        if (Model::isOpenSearchModel($this)) {
+        if (Model::isOpenModel($this)) {
             return new Builder($query);
         }
 
@@ -355,9 +355,9 @@ trait HybridRelations
     protected function nonElasticModel($related, $includingSelf = false): bool
     {
         if ($includingSelf) {
-            return ! Model::isOpenSearchModel($related) && ! Model::isOpenSearchModel($this);
+            return ! Model::isOpenModel($related) && ! Model::isOpenModel($this);
         }
 
-        return ! Model::isOpenSearchModel($related);
+        return ! Model::isOpenModel($related);
     }
 }

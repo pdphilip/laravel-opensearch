@@ -16,6 +16,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use PDPhilip\Elasticsearch\Helpers\Sanitizer;
+use PDPhilip\Elasticsearch\Traits\HasOptions;
 use PDPhilip\OpenSearch\Connection;
 use PDPhilip\OpenSearch\Data\MetaDTO;
 use PDPhilip\OpenSearch\Eloquent\Model;
@@ -23,9 +25,7 @@ use PDPhilip\OpenSearch\Eloquent\OpenCollection;
 use PDPhilip\OpenSearch\Exceptions\BuilderException;
 use PDPhilip\OpenSearch\Exceptions\LogicException;
 use PDPhilip\OpenSearch\Exceptions\RuntimeException;
-use PDPhilip\OpenSearch\Helpers\Sanitizer;
 use PDPhilip\OpenSearch\Schema\Schema;
-use PDPhilip\OpenSearch\Traits\HasOptions;
 
 /**
  * @method $this save()

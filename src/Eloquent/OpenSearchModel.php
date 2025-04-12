@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use PDPhilip\Elasticsearch\Traits\HasOptions;
 use PDPhilip\OpenSearch\Connection;
 use PDPhilip\OpenSearch\Data\ModelMeta;
 use PDPhilip\OpenSearch\Eloquent\Docs\ModelDocs;
 use PDPhilip\OpenSearch\Exceptions\RuntimeException;
-use PDPhilip\OpenSearch\Traits\HasOptions;
 
 /**
  * @property object $searchHighlights

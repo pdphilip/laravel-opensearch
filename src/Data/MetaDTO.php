@@ -6,7 +6,7 @@ namespace PDPhilip\OpenSearch\Data;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
-use PDPhilip\OpenSearch\Traits\Makeable;
+use PDPhilip\Elasticsearch\Traits\Makeable;
 
 class MetaDTO implements Arrayable
 {

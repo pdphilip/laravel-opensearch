@@ -48,11 +48,9 @@ abstract class Model extends BaseModel
      * It must be a subclass of {@see BaseModel} and use the
      * {@see OpenSearchModel} trait.
      *
-     * implementation of https://github.com/mongodb/laravel-mongodb/blob/5.x/src/Eloquent/Model.php
-     *
      * @param  class-string|object  $class
      */
-    final public static function isOpenSearchModel(string|object $class): bool
+    final public static function isOpenModel(string|object $class): bool
     {
         if (is_object($class)) {
             $class = $class::class;

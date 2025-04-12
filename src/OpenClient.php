@@ -5,7 +5,7 @@ namespace PDPhilip\OpenSearch;
 use Illuminate\Support\Arr;
 use Opensearch\Client;
 use OpenSearch\Namespaces\IndicesNamespace;
-use PDPhilip\OpenSearch\Query\DSL\DslBuilder;
+use PDPhilip\Elasticsearch\Query\DSL\DslBuilder;
 
 class OpenClient
 {

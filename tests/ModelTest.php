@@ -24,7 +24,7 @@ beforeEach(function () {
 it('tests new model', function () {
     $user = new User;
 
-    expect(Model::isopensearchModel($user))->toBeTrue()
+    expect(Model::isOpenModel($user))->toBeTrue()
         ->and($user->getConnection())->toBeInstanceOf(Connection::class)
         ->and($user->exists)->toBeFalse()
         ->and($user->getTable())->toBe('users')
@@ -193,7 +193,7 @@ it('tests find', function () {
 
     $check = User::find($user->id);
     expect($check)->toBeInstanceOf(User::class)
-        ->and(Model::isOpenSearchModel($check))->toBeTrue()
+        ->and(Model::isOpenModel($check))->toBeTrue()
         ->and($check->exists)->toBeTrue()
         ->and($check->id)->toBe($user->id)
         ->and($check->name)->toBe('John Doe')
@@ -225,7 +225,7 @@ it('tests first', function () {
 
     $user = User::first();
     expect($user)->toBeInstanceOf(User::class)
-        ->and(Model::isOpenSearchModel($user))->toBeTrue()
+        ->and(Model::isOpenModel($user))->toBeTrue()
         ->and($user->name)->toBe('John Doe');
 });
 
@@ -249,7 +249,7 @@ it('tests find or fail', function () {
 it('tests create', function () {
     $user = User::withoutRefresh()->create(['name' => 'Jane Poe']);
     expect($user)->toBeInstanceOf(User::class)
-        ->and(Model::isOpenSearchModel($user))->toBeTrue()
+        ->and(Model::isOpenModel($user))->toBeTrue()
         ->and($user->exists)->toBeTrue()
         ->and($user->name)->toBe('Jane Poe');
     sleep(1);
@@ -542,7 +542,7 @@ it('tests first or create', function () {
 
     $user = User::firstOrCreate(['name' => $name]);
     expect($user)->toBeInstanceOf(User::class)
-        ->and(Model::isOpenSearchModel($user))->toBeTrue()
+        ->and(Model::isOpenModel($user))->toBeTrue()
         ->and($user->exists)->toBeTrue()
         ->and($user->name)->toBe($name);
 

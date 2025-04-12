@@ -16,13 +16,13 @@ use OpenSearch\ClientBuilder;
 use OpenSearch\Helper\Iterators\SearchHitIterator;
 use OpenSearch\Helper\Iterators\SearchResponseIterator;
 use OpenSearch\Namespaces\IndicesNamespace;
+use PDPhilip\Elasticsearch\Traits\HasOptions;
 use PDPhilip\OpenSearch\Exceptions\BulkInsertQueryException;
 use PDPhilip\OpenSearch\Exceptions\QueryException;
 use PDPhilip\OpenSearch\Laravel\Compatibility\Connection\ConnectionCompatibility;
 use PDPhilip\OpenSearch\Query\Builder;
 use PDPhilip\OpenSearch\Query\Processor;
 use PDPhilip\OpenSearch\Schema\Blueprint;
-use PDPhilip\OpenSearch\Traits\HasOptions;
 
 use function array_replace_recursive;
 use function is_array;

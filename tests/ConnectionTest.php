@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\DB;
+use PDPhilip\Elasticsearch\Helpers\Helpers;
 use PDPhilip\OpenSearch\Connection;
-use PDPhilip\OpenSearch\Helpers\Helpers;
 use PDPhilip\OpenSearch\OpenClient as Client;
 use PDPhilip\OpenSearch\Schema\Builder as SchemaBuilder;
 
