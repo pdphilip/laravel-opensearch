@@ -26,11 +26,15 @@ jobs:
         image: opensearchproject/opensearch:latest
         env:
           discovery.type: single-node
-          OPENSEARCH_INITIAL_ADMIN_PASSWORD: Eb9zjMWij5JFOm5NMqgqUeLG5
+          DISABLE_SECURITY_PLUGIN: "true"
           ES_JAVA_OPTS: '-Xms512m -Xmx512m'
         ports:
           - 9200:9200
-        options: --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=5
+        options: >-
+          --health-cmd="curl http://localhost:9200/_cluster/health"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
       redis:
         image: redis
