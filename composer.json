@@ -65,6 +65,9 @@
       "phpstan/extension-installer": true
     }
   },
+  "replace": {
+    "pdphilip/opensearch": "self.version"
+  },
   "scripts": {
     "post-autoload-dump": [
       "@clear",
