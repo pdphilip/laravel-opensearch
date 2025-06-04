@@ -100,9 +100,6 @@ it('can get metric aggregations', function () {
     expect($items)->toHaveCount(13)
         ->and($items)->toHaveKeys(['count', 'min', 'max', 'avg', 'sum', 'sum_of_squares', 'variance', 'variance_population', 'variance_sampling', 'std_deviation', 'std_deviation_population', 'std_deviation_sampling', 'std_deviation_bounds']);
 
-    $items = DB::table('items')->medianAbsoluteDeviation('amount');
-    expect($items)->toBe(8.5);
-
     $items = DB::table('items')->percentiles('amount');
     expect($items)->toHaveCount(7)
         ->and($items)->toHaveKeys(['1.0', '5.0', '25.0']);

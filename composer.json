@@ -31,7 +31,7 @@
     "orchestra/testbench": "^10.1||^9.0.0||^8.22.0",
     "mockery/mockery": "^1.4.4",
     "doctrine/coding-standard": "12.0.x-dev",
-    "pestphp/pest": "^3",
+    "pestphp/pest": "^3.8.2",
     "pestphp/pest-plugin-laravel": "^3",
     "laravel/pint": "^1.14",
     "nunomaduro/collision": "^8.1.1||^7.10.0",
