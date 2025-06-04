@@ -273,6 +273,7 @@ class Builder extends BaseEloquentBuilder
     {
         $this->enforceOrderBy();
         $this->query->keepAlive = $keepAlive;
+        $this->query->limit = $count;
         $pitId = $this->query->openPit();
 
         $searchAfter = null;
