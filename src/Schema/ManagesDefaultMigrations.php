@@ -249,7 +249,7 @@ trait ManagesDefaultMigrations
     /**
      * {@inheritdoc}
      */
-    public function morphs($name, $indexName = null): void
+    public function morphs($name, $indexName = null, $after = null): void
     {
         $this->keyword("{$name}_type");
         $this->keyword("{$name}_id");
@@ -390,17 +390,17 @@ trait ManagesDefaultMigrations
     /**
      * {@inheritdoc}
      */
-    public function ulidMorphs($name, $indexName = null): void
+    public function ulidMorphs($name, $indexName = null, $after = null): void
     {
-        $this->morphs($name, $indexName);
+        $this->morphs($name, $indexName, $after);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function uuidMorphs($name, $indexName = null): void
+    public function uuidMorphs($name, $indexName = null, $after = null): void
     {
-        $this->morphs($name, $indexName);
+        $this->morphs($name, $indexName, $after);
     }
 
     /**
