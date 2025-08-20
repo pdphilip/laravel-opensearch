@@ -644,14 +644,14 @@ class Builder extends BaseEloquentBuilder
             ...$options,
         ];
 
-        $results = $this->query->raw($dsl)->asArray();
+        $results = $this->query->raw($dsl);
 
         return $results['aggregations'] ?? [];
     }
 
     public function rawDsl($dsl): array
     {
-        return $this->query->raw($dsl)->asArray();
+        return $this->query->raw($dsl);
     }
 
     // ----------------------------------------------------------------------

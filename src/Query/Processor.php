@@ -428,8 +428,7 @@ class Processor extends BaseProcessor
     {
         $this->rawResponse = $result;
         $this->query = $query;
-
-        $process = $result->asArray();
+        $process = is_array($result) ? $result : $result->asArray();
 
         $outcome = [
             'hasErrors' => $process['errors'],
