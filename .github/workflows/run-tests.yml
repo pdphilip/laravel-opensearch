@@ -71,4 +71,4 @@ jobs:
           ./vendor/bin/pest
         env:
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-          OPENSEARCH_PORT: ${{ job.services.opensearch.ports['9200'] }}
+          OPENSEARCH_HOST: http://localhost:${{ job.services.opensearch.ports['9200'] }}

@@ -28,9 +28,11 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
+        $osHost = env('OPENSEARCH_HOST', 'http://localhost:9201');
+
         $app['config']->set('database.connections.opensearch', [
             'driver' => 'opensearch',
-            'hosts' => ['http://localhost:9200'],
+            'hosts' => [$osHost],
             'options' => [
                 'logging' => true,
             ],
@@ -38,7 +40,7 @@ class TestCase extends Orchestra
 
         $app['config']->set('database.connections.opensearch_unsafe', [
             'driver' => 'opensearch',
-            'hosts' => ['http://localhost:9200'],
+            'hosts' => [$osHost],
             'options' => [
                 'bypass_map_validation' => true,
                 'insert_chunk_size' => 10000,
