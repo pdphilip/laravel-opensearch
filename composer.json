@@ -19,30 +19,27 @@
   "license": "MIT",
   "require": {
     "php": "^8.2",
-    "illuminate/container": "^10.0|^11|^12",
-    "illuminate/database": "^10.30|^11|^12",
-    "illuminate/events": "^10.0|^11|^12",
-    "illuminate/support": "^10.0|^11|^12",
-    "pdphilip/elasticsearch": "v5.0.4",
-    "opensearch-project/opensearch-php": "2.3.1",
+    "illuminate/container": "^11.0|^12.0|^13.0",
+    "illuminate/database": "^11.0|^12.0|^13.0",
+    "illuminate/events": "^11.0|^12.0|^13.0",
+    "illuminate/support": "^11.0|^12.0|^13.0",
+    "pdphilip/elasticsearch": "v0.5.2",
+    "opensearch-project/opensearch-php": "^2.3",
     "spatie/ignition": "^1.15"
   },
   "require-dev": {
-    "orchestra/testbench": "^10.1||^9.0.0||^8.22.0",
+    "orchestra/testbench": "^9.0||^10.0||^11.0",
     "mockery/mockery": "^1.4.4",
     "doctrine/coding-standard": "12.0.x-dev",
-    "pestphp/pest": "^3.8.2",
-    "pestphp/pest-plugin-laravel": "^3",
+    "pestphp/pest": "^3||^4",
+    "pestphp/pest-plugin-laravel": "^3||^4",
     "laravel/pint": "^1.14",
-    "nunomaduro/collision": "^8.1.1||^7.10.0",
+    "nunomaduro/collision": "^8.1.1",
     "larastan/larastan": "^3",
-    "pestphp/pest-plugin-arch": "^3",
-    "phpstan/extension-installer": "^1.4",
+    "pestphp/pest-plugin-arch": "^3||^4",
+    "phpstan/extension-installer": "^1.4||^2.0",
     "phpstan/phpstan-deprecation-rules": "^2",
     "phpstan/phpstan-phpunit": "^2"
-  },
-  "replace": {
-    "elasticsearch/elasticsearch": "*"
   },
   "autoload-dev": {
     "psr-4": {
@@ -71,11 +68,7 @@
     }
   },
   "scripts": {
-    "post-autoload-dump": [
-      "@clear",
-      "@prepare"
-    ],
-    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "post-autoload-dump": "@composer run prepare",
     "prepare": "@php vendor/bin/testbench package:discover --ansi",
     "build": "@php vendor/bin/testbench workbench:build --ansi",
     "serve": [
@@ -94,6 +87,24 @@
       "@test:lint",
       "@test:types",
       "@test:unit"
+    ],
+    "test:l11": [
+      "@composer update --with laravel/framework:^11.0 --prefer-stable --no-interaction --quiet",
+      "@test:unit"
+    ],
+    "test:l12": [
+      "@composer update --with laravel/framework:^12.0 --prefer-stable --no-interaction --quiet",
+      "@test:unit"
+    ],
+    "test:l13": [
+      "@composer update --with laravel/framework:^13.0 --prefer-stable --no-interaction --quiet",
+      "@test:unit"
+    ],
+    "test:all": [
+      "Composer\\Config::disableProcessTimeout",
+      "@test:l11",
+      "@test:l12",
+      "@test:l13"
     ]
   }
 }
