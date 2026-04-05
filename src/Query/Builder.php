@@ -16,10 +16,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use PDPhilip\Elasticsearch\Data\MetaDTO;
 use PDPhilip\Elasticsearch\Traits\HasOptions;
 use PDPhilip\Elasticsearch\Utils\Sanitizer;
 use PDPhilip\OpenSearch\Connection;
-use PDPhilip\OpenSearch\Data\MetaDTO;
 use PDPhilip\OpenSearch\Eloquent\Model;
 use PDPhilip\OpenSearch\Eloquent\OpenCollection;
 use PDPhilip\OpenSearch\Exceptions\BuilderException;
@@ -2003,7 +2003,7 @@ class Builder extends BaseBuilder
     /**
      * Set how to handle conflicts during a delete request
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function onConflicts(string $option = self::CONFLICT['PROCEED']): self
     {
@@ -2013,7 +2013,7 @@ class Builder extends BaseBuilder
             return $this;
         }
 
-        throw new \Exception(
+        throw new Exception(
             "$option is an invalid conflict option, valid options are: ".implode(', ', self::CONFLICT)
         );
     }

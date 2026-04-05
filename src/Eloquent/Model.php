@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Eloquent;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
-use PDPhilip\OpenSearch\Data\ModelMeta;
+use PDPhilip\Elasticsearch\Data\ModelMeta;
 
 /**
  * @property object $searchHighlights
@@ -32,6 +32,12 @@ abstract class Model extends BaseModel
             $this->defaultLimit = $connection->getDefaultLimit();
         }
 
+    }
+
+    /** {@inheritdoc} */
+    public function newCollection(array $models = [])
+    {
+        return new OpenCollection($models);
     }
 
     public function getTable()

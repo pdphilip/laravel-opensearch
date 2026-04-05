@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use PDPhilip\Elasticsearch\Data\ModelMeta;
 use PDPhilip\Elasticsearch\Traits\HasOptions;
 use PDPhilip\OpenSearch\Connection;
-use PDPhilip\OpenSearch\Data\ModelMeta;
 use PDPhilip\OpenSearch\Eloquent\Docs\ModelDocs;
 use PDPhilip\OpenSearch\Exceptions\RuntimeException;
 
@@ -476,7 +476,7 @@ trait OpenSearchModel
     /**
      * Perform a model insert operation.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder<static>  $query
+     * @param  Builder<static>  $query
      */
     protected function performInsert(Builder $query): bool
     {

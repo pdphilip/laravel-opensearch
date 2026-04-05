@@ -6,8 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
+use PDPhilip\Elasticsearch\Data\ModelMeta;
 use PDPhilip\OpenSearch\Connection;
 use PDPhilip\OpenSearch\Eloquent\Model;
+use PDPhilip\OpenSearch\Exceptions\DynamicIndexException;
 use PDPhilip\OpenSearch\Schema\Schema;
 use PDPhilip\OpenSearch\Tests\Models\Book;
 use PDPhilip\OpenSearch\Tests\Models\Guarded;
@@ -575,7 +577,7 @@ it('should throw an error if suffix is applied to a non dynamic index', function
     $user->name = 'one';
     $user->withSuffix('_test');
     $user->save();
-})->throws(\PDPhilip\OpenSearch\Exceptions\DynamicIndexException::class);
+})->throws(DynamicIndexException::class);
 
 it('gets the query meta', function () {
 
@@ -584,7 +586,7 @@ it('gets the query meta', function () {
     $user->save();
 
     $check = User::first();
-    expect($check->getMeta())->toBeInstanceOf(\PDPhilip\OpenSearch\Data\ModelMeta::class)
+    expect($check->getMeta())->toBeInstanceOf(ModelMeta::class)
         ->and($check->getMeta()->toArray())->toHaveKeys(['score', 'index']);
 });
 

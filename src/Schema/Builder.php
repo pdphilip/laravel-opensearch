@@ -77,12 +77,8 @@ class Builder extends BaseBuilder
 
     public function hasColumns($table, $columns): bool
     {
-        $index = $this->parseIndexName($table);
-        $params = ['index' => $index, 'fields' => implode(',', $columns)];
-        $result = $this->connection->openClient()->indices()->getFieldMapping($params);
-
-        foreach ($columns as $value) {
-            if (empty($result[$index]['mappings'][$value])) {
+        foreach ($columns as $column) {
+            if (! $this->hasColumn($table, $column)) {
                 return false;
             }
         }
@@ -203,10 +199,19 @@ class Builder extends BaseBuilder
 
     /**
      * Returns the mapping details about your indices.
+     *
+     * Uses the _mapping API instead of _mapping/field/* because the
+     * OpenSearch PHP client returns empty results for wildcard field queries.
      */
     public function getFieldsMapping(string $table, $raw = false): array
     {
-        return $this->getFieldMapping($table, '*', $raw);
+        $mappings = $this->getMappings($table, $raw);
+
+        if ($raw) {
+            return $mappings;
+        }
+
+        return array_map(fn ($details) => is_array($details) ? ($details['type'] ?? 'object') : $details, $mappings);
     }
 
     /**

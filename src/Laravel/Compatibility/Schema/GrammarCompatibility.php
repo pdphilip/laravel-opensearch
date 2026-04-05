@@ -3,19 +3,16 @@
 namespace PDPhilip\OpenSearch\Laravel\Compatibility\Schema;
 
 use PDPhilip\Elasticsearch\Utils\Helpers;
-use PDPhilip\OpenSearch\Laravel\v11\Schema\GrammarCompatibility as GrammarCompatibility11;
-use PDPhilip\OpenSearch\Laravel\v12\Schema\GrammarCompatibility as GrammarCompatibility12;
+use PDPhilip\OpenSearch\Schema\Blueprint;
 
-$laravelVersion = Helpers::getLaravelCompatabilityVersion();
+trait GrammarCompatibility
+{
+    private function createBlueprint(Blueprint $blueprint): Blueprint
+    {
+        if (Helpers::getLaravelCompatabilityVersion() >= 12) {
+            return new Blueprint($blueprint->getConnection(), '');
+        }
 
-if ($laravelVersion == 12) {
-    trait GrammarCompatibility
-    {
-        use GrammarCompatibility12;
-    }
-} else {
-    trait GrammarCompatibility
-    {
-        use GrammarCompatibility11;
+        return new Blueprint(''); // @phpstan-ignore arguments.count
     }
 }

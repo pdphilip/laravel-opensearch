@@ -3,7 +3,7 @@
 namespace PDPhilip\OpenSearch;
 
 use Illuminate\Support\Arr;
-use Opensearch\Client;
+use OpenSearch\Client;
 use OpenSearch\Namespaces\IndicesNamespace;
 use PDPhilip\Elasticsearch\Query\DSL\DslBuilder;
 

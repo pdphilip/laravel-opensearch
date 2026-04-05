@@ -45,7 +45,7 @@ class Connection extends BaseConnection
     protected string $connectionName = '';
 
     /**
-     * @var Query\Processor
+     * @var Processor
      */
     protected $postProcessor;
 
@@ -70,7 +70,7 @@ class Connection extends BaseConnection
 
         $this->connection = $this->createConnection();
 
-        $this->postProcessor = new Query\Processor;
+        $this->postProcessor = new Processor;
 
         $this->useDefaultSchemaGrammar();
 
@@ -261,9 +261,9 @@ class Connection extends BaseConnection
     }
 
     /** {@inheritdoc} */
-    protected function getDefaultPostProcessor(): Query\Processor
+    protected function getDefaultPostProcessor(): Processor
     {
-        return new Query\Processor;
+        return new Processor;
     }
 
     public function getDefaultLimit(): int
@@ -521,7 +521,7 @@ class Connection extends BaseConnection
      * @param  array  $params
      * @param  array  $bindings
      */
-    public function select($params, $bindings = [], $useReadPdo = true)
+    public function select($params, $bindings = [], $useReadPdo = true, $fetchUsing = null)
     {
         return $this->run(
             $this->addClientParams($params),
