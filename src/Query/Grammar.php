@@ -92,6 +92,13 @@ class Grammar extends BaseGrammar
                 unset($doc['id'], $doc['_id']);
             }
 
+            if (! empty($doc['_op_type'])) {
+                $options['op_type'] = $doc['_op_type'];
+                unset($doc['_op_type']);
+            } elseif ($optType = $query->getOption('op_type')) {
+                $options['op_type'] = $optType;
+            }
+
             // Add the document index operation
             $index = DslFactory::indexOperation(
                 index: $query->getFrom(),
@@ -715,6 +722,15 @@ class Grammar extends BaseGrammar
 
         return $query;
 
+    }
+
+    private function compileWhereQueryString(Builder $builder, array $where)
+    {
+        $fields = $where['columns'];
+        $query = $where['value'];
+        $options = $where['options'] ?? [];
+
+        return DslFactory::queryString($query, $fields, $options);
     }
 
     /**

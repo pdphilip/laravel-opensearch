@@ -397,9 +397,25 @@ class Builder extends BaseEloquentBuilder
         return $model;
     }
 
-    public function withoutRefresh()
+    public function withoutRefresh(): Model
     {
-        $this->model->options()->add('refresh', false);
+        return $this->withRefresh(false);
+    }
+
+    /**
+     * Explicitly control the OpenSearch refresh behavior for write ops.
+     * Accepts: true, false, or 'wait_for'.
+     */
+    public function withRefresh(bool|string $refresh): Model
+    {
+        $this->model->options()->add('refresh', $refresh);
+
+        return $this->model;
+    }
+
+    public function withOpType(string $value)
+    {
+        $this->model->options()->add('op_type', $value);
 
         return $this->model;
     }
@@ -657,6 +673,26 @@ class Builder extends BaseEloquentBuilder
     // ----------------------------------------------------------------------
     // Protected
     // ----------------------------------------------------------------------
+
+    /**
+     * Force insert operations to use op_type=create for dedupe semantics.
+     * When set, attempts to create an existing _id will fail with a 409 from OpenSearch.
+     */
+    public function createOnly(): Model
+    {
+        $this->withOpType('create');
+
+        return $this->model;
+    }
+
+    /**
+     * Convenience method to perform a create-only insert and surface 409s as exceptions.
+     * Accepts single document attributes or an array of documents.
+     */
+    public function createOrFail(array $attributes)
+    {
+        return $this->createOnly()->create($attributes);
+    }
 
     protected function loadRelations($models, $builder)
     {

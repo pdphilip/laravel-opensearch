@@ -2411,6 +2411,74 @@ class Builder extends BaseBuilder
         return $this;
     }
 
+    public function withTrackTotalHits(bool|int|null $val = true): self
+    {
+        if ($val === null) {
+            return $this->withoutTrackTotalHits();
+        }
+        $this->bodyParameters['track_total_hits'] = $val;
+
+        return $this;
+    }
+
+    public function withoutTrackTotalHits(): self
+    {
+        unset($this->bodyParameters['track_total_hits']);
+
+        return $this;
+    }
+
+    // ----------------------------------------------------------------------
+    // Query String Queries
+    // ----------------------------------------------------------------------
+
+    /**
+     * Add a 'query_string' statement to query
+     *
+     * @throws Exception
+     */
+    public function searchQueryString(mixed $query, mixed $columns = null, $options = []): self
+    {
+        return $this->buildQueryStringWheres($columns, $query, 'and', false, $options);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function orSearchQueryString(mixed $query, mixed $columns = null, $options = []): self
+    {
+        return $this->buildQueryStringWheres($columns, $query, 'or', false, $options);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchNotQueryString(mixed $query, mixed $columns = null, $options = []): self
+    {
+        return $this->buildQueryStringWheres($columns, $query, 'and', true, $options);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function orSearchNotQueryString(mixed $query, mixed $columns = null, $options = []): self
+    {
+        return $this->buildQueryStringWheres($columns, $query, 'or', true, $options);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function buildQueryStringWheres($columns, $value, $boolean, $not, $options): self
+    {
+        $type = 'QueryString';
+        [$columns, $options] = $this->extractSearch($columns, $options, 'querystring');
+        $options = $this->setOptions($options, 'querystring')->toArray();
+        $this->wheres[] = compact('columns', 'value', 'type', 'boolean', 'not', 'options');
+
+        return $this;
+    }
+
     // ----------------------------------------------------------------------
     // Internal Operations
     // ----------------------------------------------------------------------

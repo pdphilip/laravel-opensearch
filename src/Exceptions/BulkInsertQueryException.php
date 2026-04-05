@@ -13,7 +13,7 @@ class BulkInsertQueryException extends LaravelOpenSearchException
      */
     public function __construct($queryResult)
     {
-        parent::__construct($this->formatMessage($queryResult), 400);
+        parent::__construct($this->formatMessage($queryResult), $this->inferStatusCode($queryResult));
     }
 
     /**
@@ -28,12 +28,16 @@ class BulkInsertQueryException extends LaravelOpenSearchException
         // Clean that ish up.
         $items = collect($result['items'] ?? [])
             ->filter(function (array $item) {
-                return $item['index'] && ! empty($item['index']['error']);
+                $action = array_key_first($item) ?? 'index';
+
+                return isset($item[$action]) && ! empty($item[$action]['error']);
             })
             ->map(function (array $item) {
-                return $item['index'];
+                $action = array_key_first($item) ?? 'index';
+
+                return $item[$action];
             })
-        // reduce to max limit
+            // reduce to max limit
             ->slice(0, $this->errorLimit)
             ->values();
 
@@ -42,11 +46,28 @@ class BulkInsertQueryException extends LaravelOpenSearchException
         $message->push('Bulk Insert Errors ('.'Showing '.$items->count().' of '.$totalErrors->count().'):');
 
         $items = $items->map(function (array $item) {
-            return "{$item['_id']}: {$item['error']['reason']}";
+            $id = $item['_id'] ?? 'unknown';
+            $reason = $item['error']['reason'] ?? 'unknown error';
+            $type = $item['error']['type'] ?? 'error';
+
+            return "$id: [$type] $reason";
         })->values()->toArray();
 
         $message->push(...$items);
 
         return $message->implode(PHP_EOL);
+    }
+
+    private function inferStatusCode(array $result): int
+    {
+        foreach ($result['items'] ?? [] as $item) {
+            $action = array_key_first($item) ?? 'index';
+            $error = $item[$action]['error'] ?? null;
+            if (is_array($error) && ($error['type'] ?? '') === 'version_conflict_engine_exception') {
+                return 409;
+            }
+        }
+
+        return 400;
     }
 }

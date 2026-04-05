@@ -13,6 +13,7 @@ use PDPhilip\OpenSearch\Query\Options\NestedOptions;
 use PDPhilip\OpenSearch\Query\Options\PhraseOptions;
 use PDPhilip\OpenSearch\Query\Options\PhrasePrefixOptions;
 use PDPhilip\OpenSearch\Query\Options\PrefixOptions;
+use PDPhilip\OpenSearch\Query\Options\QueryStringOptions;
 use PDPhilip\OpenSearch\Query\Options\RegexOptions;
 use PDPhilip\OpenSearch\Query\Options\SearchOptions;
 use PDPhilip\OpenSearch\Query\Options\TermOptions;
@@ -74,25 +75,16 @@ trait ManagesOptions
         return [$column, $value, $not, $boolean, $options];
     }
 
-    public function extractSearch($columns = null, $options = []): array
+    public function extractSearch($columns = null, $options = [], $as = 'search'): array
     {
         if ($options) {
             return [$columns, $options];
         }
         if (is_callable($columns) && ! is_string($columns)) {
-            $options = $columns;
-            $columns = null;
-
-            return [$columns, $options];
+            return [null, $columns];
         }
-        if (is_array($columns)) {
-            $isOptions = $this->validatePossibleOptions($columns, 'search');
-            if ($isOptions) {
-                $options = $columns;
-                $columns = null;
-
-                return [$columns, $options];
-            }
+        if (is_array($columns) && $this->validatePossibleOptions($columns, $as)) {
+            return [null, $columns];
         }
 
         return [$columns, $options];
@@ -219,6 +211,7 @@ trait ManagesOptions
             'prefix' => PrefixOptions::class,
             'regex' => RegexOptions::class,
             'nested' => NestedOptions::class,
+            'querystring' => QueryStringOptions::class,
             default => null
         };
     }
