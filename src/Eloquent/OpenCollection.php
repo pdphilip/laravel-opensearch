@@ -4,8 +4,8 @@ namespace PDPhilip\OpenSearch\Eloquent;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
-use PDPhilip\OpenSearch\Data\MetaDTO;
-use PDPhilip\OpenSearch\Data\QueryMeta;
+use PDPhilip\Elasticsearch\Data\MetaDTO;
+use PDPhilip\Elasticsearch\Data\QueryMeta;
 use PDPhilip\OpenSearch\Eloquent\Model as TModel;
 
 /**

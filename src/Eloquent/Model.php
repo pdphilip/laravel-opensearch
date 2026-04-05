@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PDPhilip\OpenSearch\Eloquent;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
-use PDPhilip\OpenSearch\Data\ModelMeta;
+use PDPhilip\Elasticsearch\Data\ModelMeta;
 
 /**
  * @property object $searchHighlights
