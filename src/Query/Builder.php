@@ -2003,7 +2003,7 @@ class Builder extends BaseBuilder
     /**
      * Set how to handle conflicts during a delete request
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function onConflicts(string $option = self::CONFLICT['PROCEED']): self
     {
@@ -2013,7 +2013,7 @@ class Builder extends BaseBuilder
             return $this;
         }
 
-        throw new \Exception(
+        throw new Exception(
             "$option is an invalid conflict option, valid options are: ".implode(', ', self::CONFLICT)
         );
     }

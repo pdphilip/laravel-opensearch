@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use PDPhilip\OpenSearch\Query\Builder;
 use PDPhilip\OpenSearch\Tests\Models\Item;
 use PDPhilip\OpenSearch\Tests\Models\User;
 
@@ -51,7 +52,7 @@ it('tests delete with id', function () {
 });
 
 it('tests collection', function () {
-    expect(DB::table('users'))->toBeInstanceOf(\PDPhilip\OpenSearch\Query\Builder::class);
+    expect(DB::table('users'))->toBeInstanceOf(Builder::class);
 });
 
 it('tests get', function () {

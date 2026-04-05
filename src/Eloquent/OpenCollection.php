@@ -12,7 +12,7 @@ use PDPhilip\OpenSearch\Eloquent\Model as TModel;
  * @template TKey of array-key
  * @template TModel of \PDPhilip\OpenSearch\Eloquent\Model
  *
- * @extends \Illuminate\Database\Eloquent\Collection<int, TModel>
+ * @extends Collection<int, TModel>
  */
 class OpenCollection extends Collection
 {

@@ -187,7 +187,7 @@ trait ManagesOptions
         $optionClass = $this->getOptionClass($type);
         if (! $optionClass) {
             // remove after testing as it's internal and should never happen
-            throw new \Exception('Invalid option type: '.$type);
+            throw new Exception('Invalid option type: '.$type);
         }
         if (is_callable($options)) {
             return tap(new $optionClass, $options);

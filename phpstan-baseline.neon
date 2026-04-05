@@ -1,11 +1,337 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:push\\(\\) invoked with 3 parameters, 0 required\\.$#"
+			message: '''
+				#^Call to method __construct\(\) of deprecated class OpenSearch\\Helper\\Iterators\\SearchHitIterator\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method __construct\(\) of deprecated class OpenSearch\\Helper\\Iterators\\SearchResponseIterator\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 2
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method build\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method create\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: staticMethod.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method includePortInHostHeader\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setBasicAuthentication\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setHosts\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setSSLCert\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setSSLKey\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setSSLVerification\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setSigV4CredentialProvider\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setSigV4Region\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setSigV4Service\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Call to method setSniffOnStart\(\) of deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class OpenSearch\\Helper\\Iterators\\SearchHitIterator\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Instantiation of deprecated class OpenSearch\\Helper\\Iterators\\SearchResponseIterator\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: new.deprecatedClass
+			count: 2
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Parameter \$builder of method PDPhilip\\OpenSearch\\Connection\:\:_buildAuth\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Parameter \$builder of method PDPhilip\\OpenSearch\\Connection\:\:_buildSSL\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Parameter \$builder of method PDPhilip\\OpenSearch\\Connection\:\:_buildSigV4\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Parameter \$builder of method PDPhilip\\OpenSearch\\Connection\:\:_builderOptions\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Return type of method PDPhilip\\OpenSearch\\Connection\:\:_buildAuth\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Return type of method PDPhilip\\OpenSearch\\Connection\:\:_buildSSL\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Return type of method PDPhilip\\OpenSearch\\Connection\:\:_buildSigV4\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Return type of method PDPhilip\\OpenSearch\\Connection\:\:_builderOptions\(\) has typehint with deprecated class OpenSearch\\ClientBuilder\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: src/Connection.php
+
+		-
+			message: '''
+				#^Access to constant on deprecated class OpenSearch\\Common\\Exceptions\\BadRequest400Exception\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: src/Exceptions/QueryException.php
+
+		-
+			message: '''
+				#^Access to constant on deprecated class OpenSearch\\Common\\Exceptions\\Missing404Exception\:
+				in 2\.4\.0 and will be removed in 3\.0\.0\.$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: src/Exceptions/QueryException.php
+
+		-
+			message: '#^Call to method bulk\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method clearScroll\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method cluster\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 2
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method count\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method createPit\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method deleteByQuery\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method deletePit\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method indices\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 10
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method scroll\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method search\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method update\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Call to method updateByQuery\(\) on an unknown class Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Method PDPhilip\\OpenSearch\\OpenClient\:\:client\(\) has invalid return type Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Parameter \$client of method PDPhilip\\OpenSearch\\OpenClient\:\:__construct\(\) has invalid type Opensearch\\Client\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Property PDPhilip\\OpenSearch\\OpenClient\:\:\$client has unknown class Opensearch\\Client as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenClient.php
+
+		-
+			message: '#^Method Illuminate\\Database\\Eloquent\\Model\:\:push\(\) invoked with 3 parameters, 0 required\.$#'
+			identifier: arguments.count
 			count: 2
 			path: src/Relations/BelongsToMany.php
 
 		-
-			message: "#^Method Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:push\\(\\) invoked with 3 parameters, 0 required\\.$#"
+			message: '#^Method Illuminate\\Database\\Eloquent\\Model\:\:push\(\) invoked with 3 parameters, 0 required\.$#'
+			identifier: arguments.count
 			count: 6
 			path: src/Relations/MorphToMany.php
