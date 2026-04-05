@@ -28,7 +28,7 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        $host = 'http://localhost:'.env('OPENSEARCH_PORT', '9201');
+        $host = env('OPENSEARCH_HOST', 'http://localhost:'.env('OPENSEARCH_PORT', '9201'));
 
         $app['config']->set('database.connections.opensearch', [
             'driver' => 'opensearch',
