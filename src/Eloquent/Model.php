@@ -34,6 +34,12 @@ abstract class Model extends BaseModel
 
     }
 
+    /** {@inheritdoc} */
+    public function newCollection(array $models = [])
+    {
+        return new OpenCollection($models);
+    }
+
     public function getTable()
     {
         if (! empty($this->index)) {
