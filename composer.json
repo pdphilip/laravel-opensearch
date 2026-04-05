@@ -24,7 +24,7 @@
     "illuminate/events": "^11.0|^12.0|^13.0",
     "illuminate/support": "^11.0|^12.0|^13.0",
     "pdphilip/elasticsearch": "v0.5.2",
-    "opensearch-project/opensearch-php": "^2.3",
+    "opensearch-project/opensearch-php": "^2.6",
     "spatie/ignition": "^1.15"
   },
   "require-dev": {
