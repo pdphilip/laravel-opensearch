@@ -8,12 +8,12 @@ use Carbon\Carbon;
 use Closure;
 use DateTimeInterface;
 use Exception;
-use Generator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Query\Builder as BaseBuilder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use PDPhilip\Elasticsearch\Data\MetaDTO;
@@ -573,19 +573,21 @@ class Builder extends BaseBuilder
     }
 
     /**
-     * Get a generator for the given query.
+     * Get a lazy collection for the given query.
      *
-     * @return Generator
+     * @return LazyCollection
      */
     public function cursor($scrollTimeout = '30s')
     {
-        if (is_null($this->columns)) {
-            $this->columns = ['*'];
-        }
+        return new LazyCollection(function () {
+            if (is_null($this->columns)) {
+                $this->columns = ['*'];
+            }
 
-        foreach ($this->connection->cursor($this->toCompiledQuery()) as $document) {
-            yield $this->processor->documentFromResult($this, $document);
-        }
+            foreach ($this->connection->cursor($this->toCompiledQuery()) as $document) {
+                yield $this->processor->documentFromResult($this, $document);
+            }
+        });
     }
 
     /**

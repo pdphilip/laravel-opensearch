@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use PDPhilip\Elasticsearch\Data\ModelMeta;
 use PDPhilip\OpenSearch\Connection;
@@ -504,6 +505,21 @@ it('tests cursor across many items', function () {
         $names[] = $cursor;
     }
     expect($names)->toHaveCount(15000);
+});
+
+it('returns a chunkable lazy collection from cursor', function () {
+    User::insert([
+        ['name' => 'User 1'],
+        ['name' => 'User 2'],
+        ['name' => 'User 3'],
+    ]);
+
+    $cursor = User::query()->orderBy('name.keyword')->cursor();
+
+    expect($cursor)->toBeInstanceOf(LazyCollection::class);
+
+    $chunkSizes = $cursor->chunk(2)->map(fn ($chunk) => $chunk->count())->all();
+    expect($chunkSizes)->toBe([2, 1]);
 });
 
 it('tests truncate model', function () {

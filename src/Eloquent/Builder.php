@@ -13,7 +13,7 @@ use Illuminate\Pagination\Cursor;
 use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
-use Iterator;
+use Illuminate\Support\LazyCollection;
 use PDPhilip\Elasticsearch\Data\MetaDTO;
 use PDPhilip\OpenSearch\Exceptions\BuilderException;
 use PDPhilip\OpenSearch\Exceptions\DynamicIndexException;
@@ -375,15 +375,17 @@ class Builder extends BaseEloquentBuilder
     }
 
     /**
-     * Get a generator for the given query.
+     * Get a lazy collection for the given query.
      *
-     * @return Iterator
+     * @return LazyCollection
      */
     public function cursor($scrollTimeout = '30s')
     {
-        foreach ($this->applyScopes()->query->cursor($scrollTimeout) as $record) {
-            yield $this->model->newFromBuilder($record);
-        }
+        return new LazyCollection(function () use ($scrollTimeout) {
+            foreach ($this->applyScopes()->query->cursor($scrollTimeout) as $record) {
+                yield $this->model->newFromBuilder($record);
+            }
+        });
     }
 
     /**

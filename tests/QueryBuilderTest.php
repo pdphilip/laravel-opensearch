@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\LazyCollection;
 use PDPhilip\OpenSearch\Query\Builder;
 use PDPhilip\OpenSearch\Tests\Models\Item;
 use PDPhilip\OpenSearch\Tests\Models\User;
@@ -619,7 +620,7 @@ it('verifies cursor returns lazy collection and checks names', function () {
 
     $results = DB::table('items')->orderBy('name.keyword', 'asc')->cursor();
 
-    expect($results)->toBeInstanceOf(Generator::class);
+    expect($results)->toBeInstanceOf(LazyCollection::class);
     foreach ($results as $i => $result) {
         expect($result['name'])->toBe($data[$i]['name']);
     }
