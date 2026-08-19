@@ -2,6 +2,61 @@
 
 All notable changes to this `laravel-opensearch` package will be documented in this file.
 
+## v3.2.0 - 2026-08-19
+
+This release is compatible with Laravel 11, 12 & 13, and with OpenSearch 2.x & 3.x
+
+### Added
+
+- **OpenSearch 3.x support** - the full suite now runs green against OpenSearch 2.13, 2.19 and 3.8.
+  Scrolling was the only thing in the way (see Fixed)
+- **`cursor()` returns a `LazyCollection`** - matching Laravel's own `Query\Builder::cursor()` and
+  `Eloquent\Builder::cursor()`, so `cursor()->chunk()`, `->map()`, `->filter()` and `->remember()`
+  all work instead of fataling with `Call to undefined method Generator::chunk()`. Thanks to
+  [@BobbyBorisov](https://github.com/BobbyBorisov) -
+  [#28](https://github.com/pdphilip/laravel-opensearch/pull/28)
+- CI now runs both OpenSearch lines (2.19.6 and 3.8.0) across PHP 8.3/8.4 and Laravel 11/12/13
+
+### Fixed
+
+- **Scrolling on OpenSearch 3.x** - `cursor()` and `chunk()` released their scroll context through
+  the client's deprecated url-path branch, which `rawurlencode`s the scroll id. OpenSearch 3.x
+  rejects the result (`Cannot parse scroll id` / `Illegal base64 character 25`) where 2.x tolerated
+  it. Both paths now drive the scroll directly and keep the id in the request body. It only bit when
+  the base64 id happened to contain a character needing encoding, so it read as intermittent
+- **`cursor()` crashed on a fresh connection** - `Processor::getRawResponse()` dereferenced a null
+  raw response (`Call to a member function asArray() on null`). Only select, insert and aggregate
+  processing assign one, and a scroll runs none of them, so any cursor that was the first query on
+  its connection died. Every existing cursor test inserted first, which is why nothing caught it
+- **Scroll contexts are always released** - a `finally` block clears the scroll even when a consumer
+  abandons the cursor early, which the previous path did not guarantee
+
+### Changed
+
+- **`cursor()` now returns `LazyCollection` instead of `Generator`.** `LazyCollection` is an
+  `IteratorAggregate`, not an `Iterator`, so anything type-hinting `Generator` or `Iterator` against
+  the old return value needs updating. Iterating with `foreach` is unaffected
+- A cursor is now re-iterable - a second pass opens a fresh scroll rather than throwing
+  `Cannot rewind a generator`
+- Dropped the deprecated `SearchResponseIterator` and `SearchHitIterator` helpers, ahead of their
+  removal in `opensearch-php` 3.0.0
+- CI pins the OpenSearch service image. `:latest` silently became 3.8.0 and turned every job red at
+  once with no package change
+- PHPStan baseline down to 24 entries from 28 (the deprecated iterator suppressions are no longer
+  needed)
+
+> **Laravel 11 notice:** Laravel 11 is past its security window, and three advisories now cover the
+> entire 11.x branch with no 11.x release that clears them (the fixes only ever landed on 12.x and
+> 13.x). Composer 2.9 and up block advisory-affected versions while resolving, so on Laravel 11
+> `composer require` and `composer update` will refuse to install anything, this package included.
+> `composer install` from an existing lock file is unaffected, so deployments keep working.
+>
+> This package still supports and tests Laravel 11, and will keep doing so. If you need to install
+> or update on it, `composer config policy.advisories.block false` lifts the block. The real fix is
+> moving to Laravel 12 or 13.
+
+**Full Changelog**: https://github.com/pdphilip/laravel-opensearch/compare/v3.1.0...v3.2.0
+
 ## v3.1.0 - 2026-04-06
 
 > **Future-proofing note:** After GitHub incorrectly shadow-banned my account (since reinstated with no
