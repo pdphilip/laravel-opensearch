@@ -16,6 +16,7 @@ jobs:
       matrix:
         php: [ 8.3, 8.4 ]
         laravel: [ 13.*, 12.*, 11.* ]
+        opensearch: [ 2.19.6, 3.8.0 ]
         include:
           - laravel: 13.*
             testbench: 11.*
@@ -24,7 +25,7 @@ jobs:
           - laravel: 11.*
             testbench: 9.*
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - OS${{ matrix.opensearch }}
 
     env:
       BROADCAST_DRIVER: log
@@ -40,7 +41,10 @@ jobs:
 
     services:
       opensearch:
-        image: opensearchproject/opensearch:latest
+        # Always pinned, never ":latest". A silent major bump on the server side
+        # once turned every job red at the same time with no package change; a
+        # new server line should be a deliberate row here instead.
+        image: opensearchproject/opensearch:${{ matrix.opensearch }}
         env:
           discovery.type: single-node
           DISABLE_SECURITY_PLUGIN: "true"

@@ -13,8 +13,6 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Log;
 use OpenSearch\Client;
 use OpenSearch\ClientBuilder;
-use OpenSearch\Helper\Iterators\SearchHitIterator;
-use OpenSearch\Helper\Iterators\SearchResponseIterator;
 use OpenSearch\Namespaces\IndicesNamespace;
 use PDPhilip\Elasticsearch\Traits\HasOptions;
 use PDPhilip\OpenSearch\Exceptions\BulkInsertQueryException;
@@ -377,16 +375,30 @@ class Connection extends BaseConnection
     public function searchResponseIterator($query, $scrollTimeout = '30s', $size = 100): Generator
     {
 
-        $scrollParams = [
+        $client = $this->openClient();
+
+        $response = $client->search([
             'scroll' => $scrollTimeout,
             'size' => $size, // Number of results per shard
             'index' => $query['index'],
             'body' => $query['body'],
-        ];
+        ]);
 
-        $pages = new SearchResponseIterator($this->connection, $scrollParams);
-        foreach ($pages as $page) {
-            yield $page;
+        $scrollId = $response['_scroll_id'] ?? null;
+
+        try {
+            while (! empty($response['hits']['hits'])) {
+                yield $response;
+
+                $response = $client->scroll([
+                    'scroll' => $scrollTimeout,
+                    'body' => ['scroll_id' => $scrollId],
+                ]);
+
+                $scrollId = $response['_scroll_id'] ?? $scrollId;
+            }
+        } finally {
+            $this->clearScroll($client, $scrollId);
         }
     }
 
@@ -406,27 +418,57 @@ class Connection extends BaseConnection
         // We want to scroll by 1000 row chunks
         $query['body']['size'] = 1000;
 
-        $scrollParams = [
+        $client = $this->openClient();
+
+        $response = $client->search([
             'scroll' => $scrollTimeout,
             'index' => $query['index'],
             'body' => $query['body'],
-        ];
+        ]);
 
+        $scrollId = $response['_scroll_id'] ?? null;
         $count = 0;
-        $pages = new SearchResponseIterator($this->openClient(), $scrollParams);
-        $hits = new SearchHitIterator($pages);
 
-        foreach ($hits as $hit) {
-            $count++;
-            if ($count > $limit) {
-                break;
+        try {
+            while (! empty($response['hits']['hits'])) {
+                foreach ($response['hits']['hits'] as $hit) {
+                    $count++;
+                    if ($count > $limit) {
+                        return;
+                    }
+                    yield $hit;
+                }
+
+                $response = $client->scroll([
+                    'scroll' => $scrollTimeout,
+                    'body' => ['scroll_id' => $scrollId],
+                ]);
+
+                $scrollId = $response['_scroll_id'] ?? $scrollId;
             }
-            yield $hit;
+        } finally {
+            $this->clearScroll($client, $scrollId);
+        }
+    }
+
+    /**
+     * Release a scroll context.
+     *
+     * The id goes in the body, never the url. The client rawurlencodes a path
+     * scroll id and OpenSearch 3.x rejects the result ("Cannot parse scroll
+     * id"), which is what breaks every scroll on 3.x when the id happens to
+     * contain a character that needs encoding.
+     */
+    protected function clearScroll($client, ?string $scrollId): void
+    {
+        if ($scrollId === null) {
+            return;
         }
 
-        return (function () {
-            yield;
-        })();
+        $client->clearScroll([
+            'body' => ['scroll_id' => [$scrollId]],
+            'client' => ['ignore' => 404],
+        ]);
     }
 
     /**
