@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\LazyCollection;
 use PDPhilip\OpenSearch\Query\Builder;
 use PDPhilip\OpenSearch\Tests\Models\Item;
 use PDPhilip\OpenSearch\Tests\Models\User;
@@ -619,10 +620,38 @@ it('verifies cursor returns lazy collection and checks names', function () {
 
     $results = DB::table('items')->orderBy('name.keyword', 'asc')->cursor();
 
-    expect($results)->toBeInstanceOf(Generator::class);
+    expect($results)->toBeInstanceOf(LazyCollection::class);
     foreach ($results as $i => $result) {
         expect($result['name'])->toBe($data[$i]['name']);
     }
+});
+
+it('chunks a query builder cursor directly, without iterating it', function () {
+    DB::table('items')->insert([
+        ['name' => 'fork'],
+        ['name' => 'spoon'],
+        ['name' => 'spork'],
+    ]);
+
+    // Chained straight off cursor() rather than iterated - the call shape that
+    // failed with "Call to undefined method Generator::chunk()".
+    $chunks = DB::table('items')->orderBy('name.keyword', 'asc')->cursor()->chunk(2);
+
+    expect($chunks->map->count()->all())->toBe([2, 1])
+        ->and($chunks->first()->pluck('name')->all())->toBe(['fork', 'spoon']);
+});
+
+it('cursors a query builder on a connection that has not run a query yet', function () {
+    DB::table('items')->insert([
+        ['name' => 'fork'],
+        ['name' => 'spoon'],
+    ]);
+
+    DB::purge('opensearch');
+
+    $names = DB::table('items')->orderBy('name.keyword', 'asc')->cursor()->pluck('name')->all();
+
+    expect($names)->toBe(['fork', 'spoon']);
 });
 
 it('increments each specified field by respective values', function () {
